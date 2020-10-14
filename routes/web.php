@@ -13,6 +13,47 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function () 
+{
     return view('welcome');
+});
+
+Route::get('matcher', function()
+{
+    echo "Vyhledavaci stranka";
+});
+
+Route::get('hunter', function()
+{
+    echo "Zobrazovani vysledku";
+});
+
+Route::get('uniprofil', function()
+{
+    echo "Profil univerzity";
+});
+
+Route::get('userprofil', function()
+{
+    echo "Profil studenta";
+});
+
+Route::get('rating', function()
+{
+    echo "Hodnoceni vyjezdu";
+});
+
+Route::get('admin',function()
+{
+    echo "Admin page";
+});
+
+Route::get('contacts', function()
+{
+    echo "Kontakty";
+});
+
+Route::get('error', function()
+{
+    echo "Error stránka";
 });
