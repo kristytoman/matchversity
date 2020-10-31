@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UniversityController;
+use App\Http\Controllers\MobilityController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,47 +16,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () 
+Route::get( '/', function () 
 {
-    return view('welcome');
+    return view( 'welcome' );
 });
 
-Route::get('matcher', function()
+Route::get( 'matcher', function()
 {
     echo "Vyhledavaci stranka";
 });
 
-Route::get('hunter', function()
-{
-    echo "Zobrazovani vysledku";
-});
+Route::get( 'hunter', [ UniversityController::class, 'index' ] );
 
-Route::get('uniprofil', function()
-{
-    echo "Profil univerzity";
-});
+Route::get( 'uniprofil', [ UniversityController::class, 'index' ] );
 
-Route::get('userprofil', function()
-{
-    echo "Profil studenta";
-});
+Route::get( 'userprofil', [ MobilityController::class, 'index' ] );
 
-Route::get('rating', function()
-{
-    echo "Hodnoceni vyjezdu";
-});
+Route::get( 'rating', [ MobilityController::class, 'index' ] );
 
-Route::get('admin',function()
-{
-    echo "Admin page";
-});
+Route::get( 'admin', [ AdminController::class, 'index' ] );
 
-Route::get('contacts', function()
+Route::get( 'contacts', function()
 {
     echo "Kontakty";
 });
 
-Route::get('error', function()
+Route::get( 'error', function()
 {
     echo "Error stránka";
 });
