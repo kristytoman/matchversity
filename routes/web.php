@@ -23,18 +23,17 @@ Route::get( '/', function ()
 
 Route::get( 'matcher', function()
 {
-    echo "Vyhledavaci stranka";
+    return view( 'universities.matcher' );
 });
 
-Route::get( 'hunter', [ UniversityController::class, 'index' ] );
+Route::resource( 'universities', MobilityController::class );
 
-Route::get( 'uniprofil', [ UniversityController::class, 'index' ] );
+Route::resource( 'mobilities', MobilityController::class );
 
-Route::get( 'userprofil', [ MobilityController::class, 'index' ] );
-
-Route::get( 'rating', [ MobilityController::class, 'index' ] );
-
-Route::get( 'admin', [ AdminController::class, 'index' ] );
+Route::get( 'admin',  function()
+{
+    return view( 'admin.index' );
+});
 
 Route::get( 'contacts', function()
 {

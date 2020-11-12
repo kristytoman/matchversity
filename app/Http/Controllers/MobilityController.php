@@ -13,7 +13,7 @@ class MobilityController extends Controller
      */
     public function index()
     {
-        //
+        return view('mobilities.getMobilities');
     }
 
     /**
@@ -23,7 +23,7 @@ class MobilityController extends Controller
      */
     public function create()
     {
-        //
+        return view('mobilities.addMobility');
     }
 
     /**
