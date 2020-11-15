@@ -15,3 +15,5 @@ mix.js('resources/js/app.js', 'public/js')
     .postCss('resources/css/app.css', 'public/css', [
         //
     ]);
+mix.scripts('resources/js/addMobility.js','public/js/mobility.js');
+mix.styles('resources/css/app.css','public/css/app.css')

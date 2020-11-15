@@ -1,48 +1,26 @@
-<!DOCTYPE html>
-<html lang="cs">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.app')
 
-        <title>Matchversity | Univerzita Tomáše Bati ve Zlíně</title>
+@include('include.header')
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
-        <style>
-            body {
-                font-family: 'Nunito';
-            }
-            .title {
-                text-align: center;
-            }
-            .about {
-                padding-left: 5vw;
-            }
-        </style>
-    </head>
-    <body>
-        @include('include.header')
-        <form method="post" action="{{ route('universities.index') }}">
-            @csrf
-            <label>Semestr:</label>
-            <select>
-                <option>Nezáleží</option>
-                <option>Zimní</option>
-                <option>Letní</option>
-            </select>
-            <br>
-            <fieldset>
-                <legend>Kontinent:</legend>
-                <input type="checkbox" checked>Afrika</input>
-                <input type="checkbox" checked>Asie</input>
-                <input type="checkbox" checked>Austrálie a oceánie</input>
-                <input type="checkbox" checked>Evropa</input>
-                <input type="checkbox" checked>Jižní Amerika</input>
-                <input type="checkbox" checked>Severní Amerika</input>
-            </fieldset>
-            <input type="submit" value="Vyhledat"/>
-        </form>
-        @include('include.footer')
-    </body>
-</html>
+@section('content')
+    <form method="post" action="{{ route('universities.index') }}">
+        @csrf
+        <label>Semestr:</label>
+        <select>
+            <option>Nezáleží</option>
+            <option>Zimní</option>
+            <option>Letní</option>
+        </select>
+        <br>
+        <fieldset>
+            <legend>Kontinent:</legend>
+            <input type="checkbox" value="Afrika" checked>
+            <input type="checkbox" value="Asie " checked>
+            <input type="checkbox" value="Austrálie a oceánie" checked>
+            <input type="checkbox" value="Evropa" checked>
+            <input type="checkbox" value="Jižní Amerika" checked>
+            <input type="checkbox" value="Severní Amerika" checked>
+        </fieldset>
+        <input type="submit" value="Vyhledat"/>
+    </form>
+@endsection

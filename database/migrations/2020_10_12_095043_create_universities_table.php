@@ -27,6 +27,7 @@ class CreateUniversitiesTable extends Migration
 
             $table->string('web', 250)
                   ->nullable;
+                  //add expiration and original name
         });
     }
 

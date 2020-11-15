@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\University;
+use App\Models\HomeCourse;
 use Illuminate\Http\Request;
 
 class MobilityController extends Controller
@@ -23,7 +25,13 @@ class MobilityController extends Controller
      */
     public function create()
     {
-        return view('mobilities.addMobility');
+        return view(
+                        'mobilities.addMobility', 
+                        [
+                            'universities' => University::with('location')->get(),
+                            'homeCourses' => HomeCourse::all()
+                        ]
+                    );
     }
 
     /**
@@ -34,7 +42,7 @@ class MobilityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        echo($request);
     }
 
     /**
