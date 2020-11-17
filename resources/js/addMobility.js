@@ -2,68 +2,108 @@ var homeCode = null;
 var homeName = null;
 var foreignCode = null;
 var foreignName = null;
-var num_pairings = 0;
 
 
 
-function appendPairing()
+//TODO: add cancel of adding uni
+function changeYear(semester)
 {
-    var in_homeCode = document.getElementById("in_homeCode");
-    var in_homeName = document.getElementById("in_homeName");
+    document.getElementById('chB_' + semester).value = document.getElementById(semester).value;
+    console.log(document.getElementById('chB_' + semester).value);
+}
 
-    var in_foreignCode = document.getElementById("in_foreignCode");
-    var in_foreignName = document.getElementById("in_foreignName");
 
-    // TODO: check if the foreign code is not already in the list
-    var sp_pairing = document.createElement("span");
-        sp_pairing.id = in_foreignCode.value;
-        sp_pairing.appendChild(document.createElement("br"));
-        var pairing = "pairing[" + num_pairings + "]";
-        
-        var li_homeCode = document.createElement("input");
-            li_homeCode.name = pairing + "[homeCode]";
-            li_homeCode.type = "text";
-            li_homeCode.value = in_homeCode.value;
-            li_homeCode.readOnly = true;
-            sp_pairing.appendChild(li_homeCode);
-        
-        var li_homeName = document.createElement("input");
-            li_homeName.name = pairing + "[homeName]";
-            li_homeName.type = "text";
-            li_homeName.value = in_homeName.value;
-            li_homeName.readOnly = true;
-            sp_pairing.appendChild(li_homeName);
-    
-        var li_foreignCode = document.createElement("input");
-            li_foreignCode.name = pairing + "[foreignCode]";
-            li_foreignCode.type = "text";
-            li_foreignCode.value = in_foreignCode.value;
-            li_foreignCode.readOnly = true;
-            sp_pairing.appendChild(li_foreignCode);
-        
-        var li_foreignName = document.createElement("input");
-            li_foreignName.name = pairing + "[foreignName]";
-            li_foreignName.type = "text";
-            li_foreignName.value = in_foreignName.value;
-            li_foreignName.readOnly = true;
-            sp_pairing.appendChild(li_foreignName);
 
-        
-        var b_edit = document.createElement("input");
-            b_edit.type = "button";
-            b_edit.name = "edit";
-            b_edit.value = "Upravit";
-            b_edit.onclick = function(){ editPairing(sp_pairing); };
-            sp_pairing.appendChild(b_edit);
+function displaySemester(semester)
+{
+    var checkbox = document.getElementById('chB_' + semester);
+    if (checkbox.checked)
+    {
+        document.getElementById('div_' + semester + 'Pairings').style.display = "inline";
+    } 
+    else 
+    {
+        var div = document.getElementById('div_added' + semester + 'Pairings');
+        if (div.children.length != 0)
+        {
+            if (confirm("Určitě chcete smazat semestr?"))
+            {
+                for (let i = 0; i < div.children.length; i++)
+                {
+                    div.children[i].remove();
+                }
+            }
+            else
+            {
+                checkbox.checked = true;
+                return;
+            }
+        }
+        document.getElementById('div_' + semester + 'Pairings').style.display = "none";
+    }
+}
 
-        var b_delete = document.createElement("input");
-            b_delete.type = "button";
-            b_delete.name = "delete";
-            b_delete.value = "Smazat";
-            b_delete.onclick = function(){ deletePairing(sp_pairing); };
-            sp_pairing.appendChild(b_delete);
 
-        document.getElementById("div_addedPairings").appendChild(sp_pairing);
+
+function appendPairing(semester)
+{
+    var in_homeCode = document.getElementById("in_" + semester + "HomeCode");
+    var in_homeName = document.getElementById("in_" + semester + "HomeName");
+
+    var in_foreignCode = document.getElementById("in_" + semester + "ForeignCode");
+    var in_foreignName = document.getElementById("in_" + semester + "ForeignName");
+
+    var div_pairings = document.getElementById("div_added" + semester + "Pairings");
+        // TODO: check if the foreign code is not already in the list
+        var sp_pairing = document.createElement("span");
+            sp_pairing.id = in_foreignCode.value;
+            sp_pairing.appendChild(document.createElement("br"));
+            var pairing = "pairing[" + semester + "][" + div_pairings.children.length + "]";
+            
+            var li_homeCode = document.createElement("input");
+                li_homeCode.name = pairing + "[homeCode]";
+                li_homeCode.type = "text";
+                li_homeCode.value = in_homeCode.value;
+                li_homeCode.readOnly = true;
+                sp_pairing.appendChild(li_homeCode);
+            
+            var li_homeName = document.createElement("input");
+                li_homeName.name = pairing + "[homeName]";
+                li_homeName.type = "text";
+                li_homeName.value = in_homeName.value;
+                li_homeName.readOnly = true;
+                sp_pairing.appendChild(li_homeName);
+
+            var li_foreignCode = document.createElement("input");
+                li_foreignCode.name = pairing + "[foreignCode]";
+                li_foreignCode.type = "text";
+                li_foreignCode.value = in_foreignCode.value;
+                li_foreignCode.readOnly = true;
+                sp_pairing.appendChild(li_foreignCode);
+            
+            var li_foreignName = document.createElement("input");
+                li_foreignName.name = pairing + "[foreignName]";
+                li_foreignName.type = "text";
+                li_foreignName.value = in_foreignName.value;
+                li_foreignName.readOnly = true;
+                sp_pairing.appendChild(li_foreignName);
+
+            
+            var b_edit = document.createElement("input");
+                b_edit.type = "button";
+                b_edit.name = "edit";
+                b_edit.value = "Upravit";
+                b_edit.onclick = function(){ editPairing(sp_pairing); };
+                sp_pairing.appendChild(b_edit);
+
+            var b_delete = document.createElement("input");
+                b_delete.type = "button";
+                b_delete.name = "delete";
+                b_delete.value = "Smazat";
+                b_delete.onclick = function(){ deletePairing(sp_pairing); };
+                sp_pairing.appendChild(b_delete);
+
+        div_pairings.appendChild(sp_pairing);
 
     in_homeCode.value = "";
     in_homeName.value = "";
@@ -211,16 +251,12 @@ function deletePairing(span)
     span.remove();
 }
 
-function uniset()
+
+
+function addUni()
 {
-    var uniname = document.getElementById("in_uniName").value;
-    var list = document.getElementById("dl_universities");
-    for ( let i = 0; i < list.children.length; i++ )
-    {
-        if (list.children[i].label == uniname)
-        {
-            return;
-        }
-    }
     document.getElementById('uniform').style.display = "inline";
+    document.getElementById('btn_addUni').style.display = "none";
+    document.getElementById('sel_uniID').style.display = "none";
+    document.getElementById('sel_uniID').value = null;
 }

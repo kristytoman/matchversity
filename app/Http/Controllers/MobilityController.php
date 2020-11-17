@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\University;
 use App\Models\HomeCourse;
+use App\Http\Requests\StoreMobility;
 use Illuminate\Http\Request;
+
 
 class MobilityController extends Controller
 {
@@ -29,7 +31,8 @@ class MobilityController extends Controller
                         'mobilities.addMobility', 
                         [
                             'universities' => University::with('location')->get(),
-                            'homeCourses' => HomeCourse::all()
+                            'homeCourses' => HomeCourse::all(),
+                            'years' => range(date('Y'), date('Y') -10, -1)
                         ]
                     );
     }
@@ -37,12 +40,13 @@ class MobilityController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreMobility  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreMobility $request)
     {
-        echo($request);
+        $validated = $request->validated();
+        echo(var_dump($validated));
     }
 
     /**

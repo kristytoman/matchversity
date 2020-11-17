@@ -1,8 +1,18 @@
+<label for="in_UniName">Název univerzity</label>
+    <input id="in_UniName" name="name"><br>
+
 <label for="in_origUniName">Oficiální název</label>
     <input id="in_origUniName" name="originalName"><br>
 
-<label for="in_uniContinent">Kontinent</label>
-    <input id="in_uniContent" name="continent"><br>
+<label for="sel_uniContinent">Kontinent</label>
+    <select id="sel_uniContent" name="continent">
+        <option value="Africa">Africa</option>
+        <option value="Asia">Asia</option>
+        <option value="Australia">Australia</option>
+        <option value="Europe">Europe</option>
+        <option value="North America">North America</option>
+        <option value="South America">South America</option>
+    </select><br>
 <label for="in_uniCountry">Země</label>
     <input id="in_uniCountry" name="country" list="dl_country">
         <datalist id="dl_country"></datalist><br>
