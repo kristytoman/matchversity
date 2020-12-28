@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\University;
 use App\Models\HomeCourse;
 use App\Models\ForeignCourse;
@@ -57,17 +58,12 @@ class MobilityController extends Controller
     {
         $validated = $request->validated();
         $mobility = new Mobility;
-        $mobility->student = "test";    // change when connected to system
-        $mobility->university()->associate(University::GetUniversity($validated));
+            $mobility->student = "test";    // change when connected to system
+            $mobility->university()->associate(University::GetUniversity($validated));
         $mobility->save();
         Pairing::SavePairings($mobility, $validated['semester'], $validated['pairing']);
-        return view(
-                        'mobilities.getMobilities',
-                        [
-                            'mobilities' => Mobility::with('university.location')
-                                                    ->with('pairings.foreignCourse')->get()
-                        ]
-                    );
+        return redirect('mobilities');
+                    
     }
 
     /**
@@ -78,7 +74,23 @@ class MobilityController extends Controller
      */
     public function show($id)
     {
-        //
+        $mobility = Mobility::find($id);
+        $durations = $mobility->pairings()->select('isSummer','year')->distinct()->orderBy('year','asc')->get();
+        $sem = $durations[0]->isSummer ? 'léto' : 'zima';
+        $duration = $sem . ' ' . $durations[0]->year;
+        if (count($durations) > 1)
+        {
+            $sem = $durations[count($durations) - 1]->isSummer ? 'léto' : 'zima';
+            $duration .= '–⁠' . $sem . ' ' . $durations[count($durations) - 1]->year;
+        }
+        return view(
+            'mobilities.getMobility', 
+            [
+                'mobility' => $mobility,
+                'duration' => $duration
+            ]
+        );
+
     }
 
     /**

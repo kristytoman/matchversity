@@ -21,6 +21,12 @@ class Pairing extends Model
     public $timestamps = false;
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['homeCourse','foreignCourse'];
+    /**
      * Gets home course of the pairing.
      */
     public function homeCourse()

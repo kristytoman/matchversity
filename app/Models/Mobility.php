@@ -20,6 +20,12 @@ class Mobility extends Model
     public $timestamps = false;
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['university', 'pairings'];
+    /**
      * Gets university of the mobility.
      */
     public function university()

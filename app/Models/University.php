@@ -44,6 +44,12 @@ class University extends Model
     }
     
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['location'];
+    /**
      * Finds an university profile in a database or create a new one.
      *
      * @param  Array  $data  validated request data
