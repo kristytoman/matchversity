@@ -6,10 +6,12 @@ var foreignName = null;
 
 
 //TODO: add cancel of adding uni
+
+
+
 function changeYear(semester)
 {
     document.getElementById('chB_' + semester).value = document.getElementById(semester).value;
-    console.log(document.getElementById('chB_' + semester).value);
 }
 
 
@@ -58,7 +60,7 @@ function appendPairing(semester)
         var sp_pairing = document.createElement("span");
             sp_pairing.id = in_foreignCode.value;
             sp_pairing.appendChild(document.createElement("br"));
-            var pairing = "pairing[" + semester + "][" + div_pairings.children.length + "]";
+            var pairing = semester + "[" + div_pairings.children.length + "]";
             
             var li_homeCode = document.createElement("input");
                 li_homeCode.name = pairing + "[homeCode]";

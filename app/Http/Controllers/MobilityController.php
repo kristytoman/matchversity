@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\University;
 use App\Models\HomeCourse;
+use App\Models\ForeignCourse;
+use App\Models\Pairing;
+use App\Models\Location;
+use App\Models\Mobility;
 use App\Http\Requests\StoreMobility;
 use Illuminate\Http\Request;
 
@@ -17,7 +21,13 @@ class MobilityController extends Controller
      */
     public function index()
     {
-        return view('mobilities.getMobilities');
+        return view(
+                        'mobilities.getMobilities',
+                        [
+                            'mobilities' => Mobility::with('university.location')
+                                                    ->with('pairings.foreignCourse')->get()
+                        ]
+                    );
     }
 
     /**
@@ -46,7 +56,18 @@ class MobilityController extends Controller
     public function store(StoreMobility $request)
     {
         $validated = $request->validated();
-        echo(var_dump($validated));
+        $mobility = new Mobility;
+        $mobility->student = "test";    // change when connected to system
+        $mobility->university()->associate(University::GetUniversity($validated));
+        $mobility->save();
+        Pairing::SavePairings($mobility, $validated['semester'], $validated['pairing']);
+        return view(
+                        'mobilities.getMobilities',
+                        [
+                            'mobilities' => Mobility::with('university.location')
+                                                    ->with('pairings.foreignCourse')->get()
+                        ]
+                    );
     }
 
     /**

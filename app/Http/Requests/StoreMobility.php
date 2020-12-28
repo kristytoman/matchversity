@@ -28,16 +28,21 @@ class StoreMobility extends FormRequest
     {
         // TODO: add regex to string
         // TODO: required at least one pairing
+        // TODO: test rules
+        // TODO: test unique web
+        // TODO: test unique exchange
+        // TODO: test unique homecourse in the mobility
+        // TODO: test unique foreigncourse in the mobility
         return [
             'uniID' => ['nullable', 'exists:universities,ID'],
-            'name' => ['required_without:uniID','max:100','unique:universities,name'],
-            'originalName' => ['required_without:uniID','string','max:100'],
-            'continent' => ['required_without:uniID','string', Rule::in(['Africa','Asia','Australia','Europe','North America','South America'])],
-            'country' => ['required_without:uniID', 'string', new isCountry($this->request->all()) ],
-            'city' => ['required_without:uniID','string', 'max:80'],
-            'web' => ['required_without:uniID', 'string', 'url','unique:universities,web'],
-            'xchange' => ['required_without:uniID','string','url','unique:universities,xchange'],
-            'expiration' => ['required_without:uniID', 'date_format:Y-m'],
+            'name' => ['nullable','required_without:uniID','max:100','unique:universities,name'],
+            'originalName' => ['nullable','required_without:uniID','string','max:100'],
+            'continent' => ['nullable','required_without:uniID','string', Rule::in(['Africa','Asia','Australia','Europe','North America','South America'])],
+            'country' => ['nullable','required_without:uniID', 'string', new isCountry($this->request->all()) ],
+            'city' => ['nullable','required_without:uniID','string', 'max:80'],
+            'web' => ['nullable','required_without:uniID', 'string', 'url','unique:universities,web'],
+            'xchange' => ['nullable','required_without:uniID','string','url','unique:universities,xchange'],
+            'expiration' => ['nullable','required_without:uniID', 'date_format:Y-m'],
             'semester' => ['required','array','min:1'],
             'semester.*' => ['date_format:Y'], 
             'pairing' => ['required','array','min:1'],
