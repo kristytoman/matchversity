@@ -9,7 +9,12 @@ class HomeCourse extends Model
 {
     use HasFactory;
 
-    protected $table = 'homeCourses';
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'home_courses';
 
     /**
      * Indicates if the model should be timestamped.
@@ -25,16 +30,20 @@ class HomeCourse extends Model
      */
     protected $guarded = [];
 
-    protected $attributes = array(
-        'notSoUniqueId' => null
-     );
-
-     protected $fillable = ['notSoUniqueId','code','name'];
     /**
      * Gets pairings of the course.
      */
     public function pairings()
     {
         return $this->hasMany(Pairing::class);
+    }
+
+    public static function getCourse($code, $name)
+    {
+        return self::firstOrCreate(
+        [
+            'code' => $code,
+            'name' => $name
+        ]);
     }
 }

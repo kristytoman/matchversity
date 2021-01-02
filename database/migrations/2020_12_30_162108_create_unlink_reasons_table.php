@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RenameForeignKeyUniversitiesTable extends Migration
+class CreateUnlinkReasonsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class RenameForeignKeyUniversitiesTable extends Migration
      */
     public function up()
     {
-        Schema::table('universities', function (Blueprint $table) {
-            $table->renameColumn('locationId', 'location_id');
+        Schema::create('unlink_reasons', function (Blueprint $table) 
+        {
+            $table->id();
+            $table->string('reason', 248);
+            $table->boolean('verified');
         });
     }
 
@@ -25,8 +28,6 @@ class RenameForeignKeyUniversitiesTable extends Migration
      */
     public function down()
     {
-        Schema::table('universities', function (Blueprint $table) {
-            $table->renameColumn('location_id','locationId');
-        });
+        Schema::dropIfExists('unlink_reasons');
     }
 }

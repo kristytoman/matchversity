@@ -13,16 +13,13 @@ class CreateHomeCoursesTable extends Migration
      */
     public function up()
     {
-        Schema::create('homeCourses', function (Blueprint $table) 
+        Schema::create('home_courses', function (Blueprint $table) 
         {
-            $table->id();
-            
-            $table->unsignedBigInteger('notSoUniqueId')
-                  ->nullable;
-            
-            $table->string('code', 10);
-
-            $table->string('name', 100);
+            $table->id();            
+            $table->unsignedBigInteger('non_unique_id')
+                  ->nullable()->default(null);            
+            $table->string('code', 64);
+            $table->string('name', 128);
         });
     }
 
@@ -33,6 +30,6 @@ class CreateHomeCoursesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('homeCourses');
+        Schema::dropIfExists('home_courses');
     }
 }

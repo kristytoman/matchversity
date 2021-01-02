@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RenameForeignKeyMobilitiesTable extends Migration
+class CreateCitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class RenameForeignKeyMobilitiesTable extends Migration
      */
     public function up()
     {
-        Schema::table('mobilities', function (Blueprint $table) {
-            $table->renameColumn('universityId','university_id');
+        Schema::create('cities', function (Blueprint $table) 
+        {
+            $table->id();
+            $table->string('name', 128);
+            $table->string('country', 64);
+            $table->string('continent', 64);
         });
     }
 
@@ -25,8 +29,6 @@ class RenameForeignKeyMobilitiesTable extends Migration
      */
     public function down()
     {
-        Schema::table('mobilities', function (Blueprint $table) {
-            $table->renameColumn('university_id', 'universityId');
-        });
+        Schema::dropIfExists('cities');
     }
 }

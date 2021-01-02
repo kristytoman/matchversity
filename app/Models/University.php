@@ -10,6 +10,11 @@ class University extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'universities';
 
     /**
@@ -19,6 +24,26 @@ class University extends Model
      */
     public $timestamps = false;
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['city'];
+
+    /**
+     * Model's date colums.
+     *
+     * @var string
+     */
+    protected $dates = ['expiration'];
+
+    /**
+     * The storage format of the model's date columns.
+     *
+     * @var string
+     */
+    protected $dateFormat = 'Y-m-t';
     /**
      * Gets mobilities of the university.
      */
@@ -38,35 +63,31 @@ class University extends Model
     /**
      * Gets university of the mobility.
      */
-    public function location()
+    public function city()
     {
-        return $this->belongsTo(Location::class);
+        return $this->belongsTo(City::class);
     }
     
-    /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['location'];
+
+
     /**
      * Finds an university profile in a database or create a new one.
      *
      * @param  Array  $data  validated request data
      * @return  University
      */
-    public static function GetUniversity($data)
+    public static function getUniversity($data)
     {
         if (!array_key_exists('uniID', $data))
         {
-            return self::CreateNewUniProfile(
-                        $data['name'],
-                        $data['originalName'],
-                        Location::GetLocation($data['city'], $data['country'], $data['continent']),
-                        $data['web'],
-                        $data['xchange'],
-                        date($data['expiration'] . "-01 00:00:00")
-                    );      
+            return self::createNewUniProfile(
+                $data['name'],
+                $data['originalName'],
+                City::getCity($data['city'], $data['country'], $data['continent']),
+                $data['web'],
+                $data['xchange'],
+                $data['expiration']
+            );      
         }
         else
         {
@@ -79,21 +100,21 @@ class University extends Model
      * 
      * @param   String  $name   University name in English
      * @param   String  $originalName   Original university name
-     * @param   Location    $location   University Location instance from datatabase
+     * @param   City    $location   University Location instance from datatabase
      * @param   String  $web    URL of university's web page
      * @param   String  $xchange    URL of university's progile on xchange portal
      * @param   String  $expiration Date of contract expiration
      * @return  University
      */
-    public static function CreateNewUniProfile($name, $originalName, $location, $web, $xchange, $expiration)
+    public static function createNewUniProfile($name, $originalName, $location, $web, $xchange, $expiration)
     {
         $uni = new University;
             $uni->name = $name;
-            $uni->originalName = $originalName;
+            $uni->original_name = $originalName;
             $uni->web = $web;
             $uni->xchange = $xchange;
             $uni->expiration = $expiration;
-            $uni->location()->associate($location);
+            $uni->city()->associate($location);
         $uni->save();
         return $uni;
     }

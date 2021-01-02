@@ -10,6 +10,13 @@ class Mobility extends Model
 {
     use HasFactory;
 
+    const SPRING_SEMESTER = "léto";
+    const AUTUMN_SEMESTER = "zima";
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'mobilities';
 
     /**
@@ -25,6 +32,7 @@ class Mobility extends Model
      * @var array
      */
     protected $with = ['university', 'pairings'];
+
     /**
      * Gets university of the mobility.
      */
@@ -39,5 +47,74 @@ class Mobility extends Model
     public function pairings()
     {
         return $this->hasMany(Pairing::class);
+    }
+
+    public static function saveMobility($data)
+    {
+        $mobility = new Mobility;
+            $mobility->student = "test";    // change when connected to system
+            $mobility->university()->associate(University::getUniversity($data));
+        $mobility->save();
+        Pairing::saveMobilityPairings($mobility, $data['semester'], $data['pairing']);
+    }
+
+    public function getDuration($id)
+    {
+        $courseTimes = Pairing::getSemestersOfMobility($id);
+        $duration = $this->getSemester($courseTimes[0]);
+        if (count($courseTimes) > 1)
+        {
+            $duration .= '–⁠' . $this->getSemester($courseTimes[count($courseTimes) - 1]);
+        }
+        return $duration;
+    }
+    private function getSemester($courseTime)
+    {
+        return $this->getTypeOfSemester($courseTime->is_summer) . ' ' . $courseTime->year;
+    }
+    private function getTypeOfSemester($type)
+    {
+        return $type ? $this->SPRING_SEMESTER : $this->AUTUMN_SEMESTER;
+    }
+    public function updateMobility($data)
+    {
+        $this->saveRatings($data->rate);
+        $this->unlinkCourses($data->unlinked, $data->new);
+    }
+
+    public function saveRatings($ratings)
+    {
+        foreach ($ratings as $pairID => $rating) 
+        {
+            $pair = $this->pairings->where('id', $pairID)->get();
+            if ($pair != null)
+            {
+                $pair->saveRating($rating);
+            }
+        }
+    }
+
+    public function unlinkCourses($unlinkedData, $new)
+    {
+        foreach($unlinkedData as $pairID => $unlinked)
+        {
+            $pair = Pairing::find($pairID);
+            if ($unlinked == 0)
+            {
+                if (array_key_exists($pairID, $new))
+                {
+                    $pair->unlink_reason = $new[$pairID];
+                }
+                else
+                {
+                    $pair->unlink_reason = "-";
+                }
+            }
+            else
+            {
+                $pair->unlink_reason = $unlinked;
+            }
+            $pair->save();
+        }
     }
 }

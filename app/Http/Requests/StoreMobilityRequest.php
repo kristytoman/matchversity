@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Rules\isCountry;
 
-class StoreMobility extends FormRequest
+class StoreMobilityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -48,8 +48,8 @@ class StoreMobility extends FormRequest
             'pairing' => ['required','array','min:1'],
             'pairing[winter]' => ['required_with:semester[winter]','array','min:2'],
             'pairing[summer]' => ['required_with:semester[summer]','array','min:2'],
-            'pairing.summer.*.foreignCode' => ['required_with:pairing[summer]','string','max:10','alpha_num'],
-            'pairing.winter.*.foreignCode' => ['required_with:pairing[winter]','string','max:10','alpha_num'],
+            'pairing.summer.*.foreignCode' => ['required_with:pairing[summer]','string','max:10'],
+            'pairing.winter.*.foreignCode' => ['required_with:pairing[winter]','string','max:10'],
             'pairing.*.*.foreignName' => ['required_with:pairing.*.*.foreignCode','string','max:100'],
             'pairing.*.*.homeCode' => ['required_with:pairing.*.*.foreignCode','string','max:10','alpha_num'],
             'pairing.*.*.homeName' => ['required_with:pairing.*.*.homeName','string','max:100']

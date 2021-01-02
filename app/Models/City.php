@@ -5,11 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Location extends Model
+class City extends Model
 {
     use HasFactory;
 
-    protected $table = 'locations';
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'cities';
 
     /**
      * Indicates if the model should be timestamped.
@@ -41,14 +46,13 @@ class Location extends Model
      * @param   String  $continent  Continent name
      * @return  Location    
      */
-    public static function GetLocation($city, $country, $continent)
+    public static function getCity($city, $country, $continent)
     {
-        return Location::firstOrCreate(
-                [
-                    'city' => $city,
-                    'country' => $country,
-                    'continent' => $continent
-                ]);
+        return self::firstOrCreate(
+        [
+            'name' => $city,
+            'country' => $country,
+            'continent' => $continent
+        ]);
     }
-
 }

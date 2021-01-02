@@ -16,31 +16,31 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::get( '/', function () 
+Route::get('/', function () 
 {
-    return view( 'welcome' );
+    return view('welcome');
 });
 
-Route::get( 'matcher', function()
+Route::get('matcher', function()
 {
-    return view( 'universities.matcher' );
+    return view('matcher' );
 });
 
-Route::resource( 'universities', MobilityController::class );
+Route::resource('universities', UniversityController::class);
 
-Route::resource( 'mobilities', MobilityController::class );
+Route::resource('mobilities', MobilityController::class);
 
-Route::get( 'admin',  function()
+Route::get('admin',  function()
 {
-    return view( 'admin.index' );
+    return view('admin.index');
 });
 
-Route::get( 'contacts', function()
+Route::get('contacts', function()
 {
     echo "Kontakty";
 });
 
-Route::get( 'error', function()
+Route::get('error', function()
 {
     echo "Error stránka";
 });

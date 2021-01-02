@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\HomeCourse;
@@ -11,6 +12,11 @@ class Pairing extends Model
 {
     use HasFactory;
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'pairings';
 
     /**
@@ -25,7 +31,17 @@ class Pairing extends Model
      *
      * @var array
      */
-    protected $with = ['homeCourse','foreignCourse'];
+    protected $with = ['homeCourse', 'foreignCourse'];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'unlink_reason_id' => null
+    ];
+
     /**
      * Gets home course of the pairing.
      */
@@ -57,11 +73,11 @@ class Pairing extends Model
      * @param   Array   $semester   Validated Array of Date years of the mobility
      * @param   Array   $pairings   Validated Array of the mobility's courses 
      */
-    public static function SavePairings($mobility, $semester, $pairings)
+    public static function saveMobilityPairings($mobility, $semester, $pairings)
     {
         foreach ($semester as $sem => $year) 
         {
-            if ($pairings[$sem] == null || count($pairings[$sem])==0)
+            if ($pairings[$sem] == null || count($pairings[$sem]) == 0)
             {
                 // error
                 return;
@@ -69,43 +85,55 @@ class Pairing extends Model
             foreach ($pairings[$sem] as $pairing) 
             {
                 $pair = new Pairing;
-                    $pair->isSummer = $sem === 'summer';
+                    $pair->is_summer = $sem === 'summer';
                     $pair->year = $year;
-                    $pair->foreignCourse()->associate(self::GetCourse($mobility->university, $pairing['foreignCode'], $pairing['foreignName']));
-                    $pair->homeCourse()->associate(self::GetCourse(null, $pairing['homeCode'], $pairing['homeName']));
-                    $pair->mobility()->associate($mobility);
+                    $pair->associateForeignCourse(
+                            $mobility->university->id, 
+                            $pairing['foreignCode'], 
+                            $pairing['foreignName']
+                    );
+                    $pair->associateHomeCourse(
+                            $pairing['homeCode'], 
+                            $pairing['homeName']
+                    );
+                    $pair->associateMobility($mobility);
                 $pair->save();
             }
         }
     }
 
-        /**
-     * Finds or creates course in the database.
-     * 
-     * @param   University  $university Instance of foreign course university, or null if it is a home course
-     * @param   String  $code   Course identification code
-     * @param   String  $name   Course name
-     * @return  mix ForeignCourse if university is set, else HomeCourse
-     */
-    private static function GetCourse($university, $code, $name)
+    public function associateForeignCourse($uniID, $code, $name)
     {
-        if ($university != null)
-        {
-            return ForeignCourse::firstOrCreate(
-                    [
-                        'code' => $code,
-                        'name' => $name,
-                        'university_id' => $university->id
-                    ]);
-        }
-        else
-        {
-            return HomeCourse::firstOrCreate(
-                    [
-                        'notSoUniqueId' => 0,
-                        'code' => $code,
-                        'name' => $name
-                    ]);
-        }
+        $this->foreignCourse()->associate(
+            ForeignCourse::getCourse(
+                $uniID, $code, $name
+        ));
+    } 
+
+    public function associateHomeCourse($code, $name)
+    {
+        $this->homeCourse()->associate(
+            HomeCourse::getCourse(
+                $code, $name
+        ));
     }
+
+    public function associateMobility($mobility)
+    {
+        $this->mobility()->associate($mobility);
+    }
+
+    public function saveRating($rating)
+    {
+        $this->rating = $rating;
+    }
+
+    public static function getSemestersOfMobility($mobilityID)
+    {
+        return DB::table('pairings')->select('is_summer','year')->distinct()
+                    ->where('mobility_id', $mobilityID)
+                    ->orderBy('year','asc')
+                    ->get();
+    }
+
 }

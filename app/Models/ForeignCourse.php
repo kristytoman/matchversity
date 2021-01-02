@@ -9,7 +9,12 @@ class ForeignCourse extends Model
 {
     use HasFactory;
 
-    protected $table = 'foreignCourses';
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'foreign_courses';
 
     /**
      * Indicates if the model should be timestamped.
@@ -39,5 +44,15 @@ class ForeignCourse extends Model
     public function pairings()
     {
         return $this->hasMany(Pairing::class);
+    }
+
+    public static function getCourse($uniId, $code, $name)
+    {
+        return self::firstOrCreate(
+        [
+            'code' => $code,
+            'name' => $name,
+            'university_id' => $uniId
+        ]);
     }
 }

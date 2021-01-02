@@ -5,16 +5,15 @@ namespace App\Http\Controllers;
 use DB;
 use App\Models\University;
 use App\Models\HomeCourse;
-use App\Models\ForeignCourse;
-use App\Models\Pairing;
-use App\Models\Location;
 use App\Models\Mobility;
-use App\Http\Requests\StoreMobility;
+use App\Http\Requests\StoreMobilityRequest;
+use App\Http\Requests\UpdateMobilityRequest;
 use Illuminate\Http\Request;
 
 
 class MobilityController extends Controller
 {
+    private $mobility;
     /**
      * Display a listing of the resource.
      *
@@ -23,12 +22,11 @@ class MobilityController extends Controller
     public function index()
     {
         return view(
-                        'mobilities.getMobilities',
-                        [
-                            'mobilities' => Mobility::with('university.location')
-                                                    ->with('pairings.foreignCourse')->get()
-                        ]
-                    );
+            'mobilities.get_mobilities',
+            [
+                'mobilities' => Mobility::all()
+            ]
+        );
     }
 
     /**
@@ -39,31 +37,30 @@ class MobilityController extends Controller
     public function create()
     {
         return view(
-                        'mobilities.addMobility', 
-                        [
-                            'universities' => University::with('location')->get(),
-                            'homeCourses' => HomeCourse::all(),
-                            'years' => range(date('Y'), date('Y') -10, -1)
-                        ]
-                    );
+            'mobilities.add_mobility', 
+            [
+                'universities' => University::all(),
+                'homeCourses' => HomeCourse::all(),
+                'years' => $this->getLastTenYears()
+            ]
+        );
     }
 
+    private function getLastTenYears()
+    {
+        return range(date('Y'), date('Y') - 10, -1);
+    }
+    
     /**
      * Store a newly created resource in storage.
      *
      * @param  StoreMobility  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreMobility $request)
+    public function store(StoreMobilityRequest $request)
     {
-        $validated = $request->validated();
-        $mobility = new Mobility;
-            $mobility->student = "test";    // change when connected to system
-            $mobility->university()->associate(University::GetUniversity($validated));
-        $mobility->save();
-        Pairing::SavePairings($mobility, $validated['semester'], $validated['pairing']);
+        Mobility::saveMobility($request->validated());
         return redirect('mobilities');
-                    
     }
 
     /**
@@ -75,19 +72,11 @@ class MobilityController extends Controller
     public function show($id)
     {
         $mobility = Mobility::find($id);
-        $durations = $mobility->pairings()->select('isSummer','year')->distinct()->orderBy('year','asc')->get();
-        $sem = $durations[0]->isSummer ? 'léto' : 'zima';
-        $duration = $sem . ' ' . $durations[0]->year;
-        if (count($durations) > 1)
-        {
-            $sem = $durations[count($durations) - 1]->isSummer ? 'léto' : 'zima';
-            $duration .= '–⁠' . $sem . ' ' . $durations[count($durations) - 1]->year;
-        }
         return view(
-            'mobilities.getMobility', 
+            'mobilities.show_mobility', 
             [
                 'mobility' => $mobility,
-                'duration' => $duration
+                'duration' => $mobility->getDuration($id)
             ]
         );
 
@@ -101,7 +90,14 @@ class MobilityController extends Controller
      */
     public function edit($id)
     {
-        //
+        $mobility = Mobility::find($id);
+        return view(
+            'mobilities.rate_mobility', 
+            [
+                'mobility' => $mobility,
+                'duration' => $mobility->getDuration($id)
+            ]
+        ); 
     }
 
     /**
@@ -111,9 +107,11 @@ class MobilityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateMobilityRequest $request, $id)
     {
-        //
+        $mobility = Mobility::find($id);
+        $mobility->updateMobility($request->validated());
+        return redirect('mobilities');
     }
 
     /**

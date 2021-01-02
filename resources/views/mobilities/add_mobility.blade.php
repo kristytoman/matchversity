@@ -19,10 +19,10 @@
                 <label for="sel_uniID" require>Univerzita</label>
                     <select id="sel_uniID" name="uniID">
                         @foreach ($universities as $uni)
-                            <option value="{{ $uni->id }}">{{ $uni->name }} | {{ $uni->location->city }}, {{ $uni->location->country }}</option>
+                            <option value="{{ $uni->id }}">{{ $uni->name }} | {{ $uni->city->name }}, {{ $uni->city->country }}</option>
                         @endforeach
                     </select>
-                    <input id="btn_addUni" type="button" onclick="addUni()" value="Přidat univerzitu"><br>
+                    <input id="btn_addUni" type="button" onclick="addUni()" value="Přidat novou univerzitu"><br>
                 <span id="uniform" style="display:none;">
                     @include('include.uniform')
                 </span>

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RenameForeignKeyForeignCoursesTable extends Migration
+class CreateMobilitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class RenameForeignKeyForeignCoursesTable extends Migration
      */
     public function up()
     {
-        Schema::table('foreignCourses', function (Blueprint $table) {
-            $table->renameColumn('universityId','university_id');
+        Schema::create('mobilities', function (Blueprint $table)
+        {
+            $table->id();
+            $table->foreignId('university_id')
+                  ->constrained('universities');
+            $table->string('student', 256);
         });
     }
 
@@ -25,8 +29,6 @@ class RenameForeignKeyForeignCoursesTable extends Migration
      */
     public function down()
     {
-        Schema::table('foreignCourses', function (Blueprint $table) {
-            $table->renameColumn('university_id', 'universityId');
-        });
+        Schema::dropIfExists('mobilities');
     }
 }

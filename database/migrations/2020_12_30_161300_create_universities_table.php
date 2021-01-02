@@ -16,17 +16,15 @@ class CreateUniversitiesTable extends Migration
         Schema::create('universities', function (Blueprint $table) 
         {
             $table->id();
-
-            $table->string('name', 100);
-
-            $table->foreignId('locationId')
-                  ->constrained('locations');
-
-            $table->string('xchange', 250)
-                  ->nullable;
-
-            $table->string('web', 250)
-                  ->nullable;
+            $table->string('name', 128);
+            $table->string('original_name', 128);
+            $table->foreignId('city_id')
+                  ->constrained('cities');
+            $table->string('xchange', 256)
+                  ->nullable();
+            $table->string('web', 256)
+                  ->nullable();
+            $table->date('expiration');
         });
     }
 
