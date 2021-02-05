@@ -6,6 +6,7 @@ use DB;
 use App\Models\University;
 use App\Models\HomeCourse;
 use App\Models\Mobility;
+use App\Models\UnlinkReason;
 use App\Http\Requests\StoreMobilityRequest;
 use App\Http\Requests\UpdateMobilityRequest;
 use Illuminate\Http\Request;
@@ -95,7 +96,8 @@ class MobilityController extends Controller
             'mobilities.rate_mobility', 
             [
                 'mobility' => $mobility,
-                'duration' => $mobility->getDuration($id)
+                'duration' => $mobility->getDuration($id),
+                'reasons' => UnlinkReason::all()
             ]
         ); 
     }

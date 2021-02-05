@@ -18,7 +18,7 @@
             </ul>
         </div>
     @endif
-    <form id="form_rateMobility" method="post" action="{{ route('mobilities.update', $mobility->id) }}">
+    <form id="form_rateMobility" method="patch" action="{{ route('mobilities.update', $mobility->id) }}">
         @csrf
         @foreach ($mobility->pairings as $pair)
             <div><span>{{ $pair->foreignCourse->code }}</span>
@@ -37,7 +37,9 @@
             </fieldset>
             <input type="checkbox" onclick="#"><label>Rozpojen</label>
             <select id="sel-{{ $pair->foreignCourse->code }}">
-                <option name="unlinked[{{ $pair->foreignCourse->code }}]" value="0" onselect="#">Jiný důvod</option>
+                @foreach ($reasons as $reason)
+                <option name="unlinked[{{ $pair->foreignCourse->code }}]" value="{{ $reason->id }}">{{ $reason->reason }}</option>
+                @endforeach
             </select>
             <input id="input-{{ $pair->foreignCourse->code }}" type="text" name="new[{{ $pair->foreignCourse->code }}]">
         @endforeach

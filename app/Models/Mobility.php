@@ -80,6 +80,7 @@ class Mobility extends Model
     {
         $this->saveRatings($data->rate);
         $this->unlinkCourses($data->unlinked, $data->new);
+        $this->save();
     }
 
     public function saveRatings($ratings)
@@ -98,21 +99,14 @@ class Mobility extends Model
     {
         foreach($unlinkedData as $pairID => $unlinked)
         {
-            $pair = Pairing::find($pairID);
-            if ($unlinked == 0)
+            $pair = $this->pairings->where('id', $pairID)->get();
+            if ($unlinked == 1 && array_key_exists($pairID, $new))
             {
-                if (array_key_exists($pairID, $new))
-                {
-                    $pair->unlink_reason = $new[$pairID];
-                }
-                else
-                {
-                    $pair->unlink_reason = "-";
-                }
+                $pair->unlink_reason()->associate(UnlinkReason::createNewReason($new));
             }
             else
             {
-                $pair->unlink_reason = $unlinked;
+                $pair->unlink_reason()->associate($unlinked);
             }
             $pair->save();
         }

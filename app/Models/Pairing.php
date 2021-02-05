@@ -65,6 +65,16 @@ class Pairing extends Model
     {
         return $this->belongsTo(Mobility::class);
     }
+
+    /**
+     * Gets reason of unlink.
+     */
+    public function unlinkReason()
+    {
+        return $this->belongsTo(UnlinkReason::class);
+    }
+
+
     
     /**
      * Saves mobility pairings in the database.
@@ -126,6 +136,7 @@ class Pairing extends Model
     public function saveRating($rating)
     {
         $this->rating = $rating;
+        $this->save();
     }
 
     public static function getSemestersOfMobility($mobilityID)
