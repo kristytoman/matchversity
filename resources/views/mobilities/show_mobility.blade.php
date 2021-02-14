@@ -16,7 +16,7 @@
             <span>{{ $pair->homeCourse->name }}</span>
         </div>
     @endforeach
-    <a href="{{ route('mobilities.edit', $mobility->id) }}">Ohodnotit</a>
+    <a href="{{ route('mobilities.edit', $mobility->id) }}">{{__('Rate mobility')}}</a>
 </div>
 <div>
 </div>

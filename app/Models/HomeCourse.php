@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DatabaseNames;
+
 
 class HomeCourse extends Model
 {
@@ -14,7 +16,7 @@ class HomeCourse extends Model
      *
      * @var string
      */
-    protected $table = 'home_courses';
+    protected $table = DatabaseNames::HOME_COURSES_TABLE;
 
     /**
      * Indicates if the model should be timestamped.
@@ -33,17 +35,16 @@ class HomeCourse extends Model
     /**
      * Gets pairings of the course.
      */
-    public function pairings()
+    public function pairings() 
     {
         return $this->hasMany(Pairing::class);
     }
 
-    public static function getCourse($code, $name)
+    public static function getCourse($code, $name) 
     {
-        return self::firstOrCreate(
-        [
-            'code' => $code,
-            'name' => $name
+        return self::firstOrCreate([
+            DatabaseNames::CODE_COLUMN => $code,
+            DatabaseNames::NAME_COLUMN => $name
         ]);
     }
 }

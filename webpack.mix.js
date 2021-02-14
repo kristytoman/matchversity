@@ -12,8 +12,5 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
-mix.scripts('resources/js/addMobility.js','public/js/mobility.js');
+   .vue();
 mix.styles('resources/css/app.css','public/css/app.css')

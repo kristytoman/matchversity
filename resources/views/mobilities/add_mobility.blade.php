@@ -3,7 +3,7 @@
 @include('include.header')
 
 @section('content')
-    <h2>Nový výjezd</h2>
+    <h2>{{ __('New mobility') }}</h2>
         @if ($errors->any())
             <div>
                 <ul>
@@ -16,45 +16,45 @@
         <form id="form_addMobility" method="post" action="{{ route('mobilities.store') }}">
             @csrf
             <div id="div_university">
-                <label for="sel_uniID" require>Univerzita</label>
+                <label for="sel_uniID" require>{{ __('University') }}</label>
                     <select id="sel_uniID" name="uniID">
                         @foreach ($universities as $uni)
                             <option value="{{ $uni->id }}">{{ $uni->name }} | {{ $uni->city->name }}, {{ $uni->city->country }}</option>
                         @endforeach
                     </select>
-                    <input id="btn_addUni" type="button" onclick="addUni()" value="Přidat novou univerzitu"><br>
+                    <input id="btn_addUni" type="button" onclick="addUni()" value="{{ __('Add new university') }}"><br>
                 <span id="uniform" style="display:none;">
                     @include('include.uniform')
                 </span>
             </div>
             <div id="div_mobility">
                 <fieldset>
-                    <legend>Semestr</legend>
+                    <legend>{{ __('Semester') }}</legend>
                     <input id="chB_summer" name="semester[summer]" type="checkbox" onclick="displaySemester('summer');" value="{{ $years[0] }}">
-                    <label for="chB_summer">Letní</label>
+                    <label for="chB_summer">{{ __('Summer') }}</label>
                     <input id="chB_winter" name="semester[winter]" type="checkbox" onclick="displaySemester('winter');" value="{{ $years[0] }}">
-                    <label for="chB_winter">Zimní</label>
+                    <label for="chB_winter">{{ __('Winter') }}</label>
                 </fieldset>
             
             <div id="div_winterPairings" style="display:none;">
-                <label>Rok<label>
+                <label>{{ __('Year') }}<label>
                     <select id="winter" name="winter" onchange="changeYear('winter')">
                         @foreach ($years as $year)
                             <option value="{{ $year }}">{{ $year }}</option>
                         @endforeach
                     </select><br>
-                <label>Párování</label>
-                <input type="button" onclick="appendPairing('winter')" value="Přidat párování"><br>
-                <label>Zahraniční předmět</label><br>
-                <label for="in_winterForeignCode">Kód</label>
+                <label>{{ __('Pairings') }}</label>
+                <input type="button" onclick="appendPairing('winter')" value="{{ __('Add pairing') }}"><br>
+                <label>{{ __('Foreign course') }}</label><br>
+                <label for="in_winterForeignCode">{{ __('Code') }}</label>
                 <input id="in_winterForeignCode" type="text"/><br>
-                <label for="in_winterForeignName">Název</label>
+                <label for="in_winterForeignName">{{ __('Name') }}</label>
                 <input id="in_winterForeignName" type="text"/><br>
                 
-                <label>Domácí předmět</label><br>
-                <label for="in_winterHomeCode">Kód</label>
+                <label>{{ __('Home course') }}</label><br>
+                <label for="in_winterHomeCode">{{ __('Code') }}</label>
                 <input id="in_winterHomeCode" type="text"/><br>
-                <label for="in_winterHomeName">Název</label>
+                <label for="in_winterHomeName">{{ __('Name') }}</label>
                 <input id="in_winterHomeName" type="text"/><br>
                 
                 <div id="div_addedwinterPairings"></div>

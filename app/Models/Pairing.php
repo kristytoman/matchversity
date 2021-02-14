@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\HomeCourse;
 use App\Models\ForeignCourse;
+use DatabaseNames;
+
 
 class Pairing extends Model
 {
@@ -17,7 +19,7 @@ class Pairing extends Model
      *
      * @var string
      */
-    protected $table = 'pairings';
+    protected $table = DatabaseNames::PAIRINGS_TABLE;
 
     /**
      * Indicates if the model should be timestamped.
@@ -39,7 +41,7 @@ class Pairing extends Model
      * @var array
      */
     protected $attributes = [
-        'unlink_reason_id' => null
+        DatabaseNames::REASON_ID_COLUMN => null
     ];
 
     /**
@@ -85,15 +87,12 @@ class Pairing extends Model
      */
     public static function saveMobilityPairings($mobility, $semester, $pairings)
     {
-        foreach ($semester as $sem => $year) 
-        {
-            if ($pairings[$sem] == null || count($pairings[$sem]) == 0)
-            {
+        foreach ($semester as $sem => $year) {
+            if (($pairings[$sem] == null) || (count($pairings[$sem]) == 0)) {
                 // error
                 return;
             }
-            foreach ($pairings[$sem] as $pairing) 
-            {
+            foreach ($pairings[$sem] as $pairing) {
                 $pair = new Pairing;
                     $pair->is_summer = $sem === 'summer';
                     $pair->year = $year;
@@ -115,17 +114,15 @@ class Pairing extends Model
     public function associateForeignCourse($uniID, $code, $name)
     {
         $this->foreignCourse()->associate(
-            ForeignCourse::getCourse(
-                $uniID, $code, $name
-        ));
+            ForeignCourse::getCourse($uniID, $code, $name)
+        );
     } 
 
     public function associateHomeCourse($code, $name)
     {
         $this->homeCourse()->associate(
-            HomeCourse::getCourse(
-                $code, $name
-        ));
+            HomeCourse::getCourse($code, $name)
+        );
     }
 
     public function associateMobility($mobility)
@@ -139,12 +136,21 @@ class Pairing extends Model
         $this->save();
     }
 
-    public static function getSemestersOfMobility($mobilityID)
+    public static function getSemestersOfMobility($mobilityID) 
     {
-        return DB::table('pairings')->select('is_summer','year')->distinct()
-                    ->where('mobility_id', $mobilityID)
-                    ->orderBy('year','asc')
-                    ->get();
+        return DB::table(DatabaseNames::PAIRINGS_TABLE)
+            ->select(DatabaseNames::IS_SUMMER_COLUMN, DatabaseNames::YEAR_COLUMN)
+                ->distinct()
+                ->where(DatabaseNames::MOBILITY_ID_COLUMN, $mobilityID)
+                ->orderBy(DatabaseNames::YEAR_COLUMN, 'asc')
+                ->get();
     }
 
+    public static function importPairings($file) 
+    {
+        foreach ($file->rows() as $row) {
+            $mobility = new Mobility;
+            $mobility->student = hash("sha256", $row[0], false);
+        }
+    }
 }

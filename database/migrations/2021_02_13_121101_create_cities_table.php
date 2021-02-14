@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMobilitiesTable extends Migration
+class CreateCitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateMobilitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('mobilities', function (Blueprint $table)
-        {
+        Schema::create(DatabaseNames::CITIES_TABLE, function (Blueprint $table) {
             $table->id();
-            $table->foreignId('university_id')
-                  ->constrained('universities');
-            $table->string('student', 256);
+            $table->string(DatabaseNames::NAME_COLUMN, 126);
+            $table->foreignId(DatabaseNames::COUNTRY_ID_COLUMN);
         });
     }
 
@@ -29,6 +27,6 @@ class CreateMobilitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mobilities');
+        Schema::dropIfExists(DatabaseNames::CITIES_TABLE);
     }
 }

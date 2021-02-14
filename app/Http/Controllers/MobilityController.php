@@ -9,19 +9,20 @@ use App\Models\Mobility;
 use App\Models\UnlinkReason;
 use App\Http\Requests\StoreMobilityRequest;
 use App\Http\Requests\UpdateMobilityRequest;
+use App\Http\Requests\ImportMobilitiesRequest;
 use Illuminate\Http\Request;
-
+use SimpleXLSX;
 
 class MobilityController extends Controller
 {
     private $mobility;
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
         return view(
             'mobilities.get_mobilities',
             [
@@ -35,8 +36,7 @@ class MobilityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
+    public function create() {
         return view(
             'mobilities.add_mobility', 
             [
@@ -47,8 +47,7 @@ class MobilityController extends Controller
         );
     }
 
-    private function getLastTenYears()
-    {
+    private function getLastTenYears() {
         return range(date('Y'), date('Y') - 10, -1);
     }
     
@@ -58,8 +57,7 @@ class MobilityController extends Controller
      * @param  StoreMobility  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreMobilityRequest $request)
-    {
+    public function store(StoreMobilityRequest $request) {
         Mobility::saveMobility($request->validated());
         return redirect('mobilities');
     }
@@ -70,8 +68,7 @@ class MobilityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show($id) {
         $mobility = Mobility::find($id);
         return view(
             'mobilities.show_mobility', 
@@ -89,8 +86,7 @@ class MobilityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $mobility = Mobility::find($id);
         return view(
             'mobilities.rate_mobility', 
@@ -109,8 +105,7 @@ class MobilityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateMobilityRequest $request, $id)
-    {
+    public function update(UpdateMobilityRequest $request, $id) {
         $mobility = Mobility::find($id);
         $mobility->updateMobility($request->validated());
         return redirect('mobilities');
@@ -122,8 +117,18 @@ class MobilityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
+    public function destroy($id) {
         //
+    }
+
+    public function upload() {
+        return view('admin.index');
+    }
+
+    public function import(ImportMobilitiesRequest $request) {
+        $validated = $request->validated();
+        //Pairing::importPairings(SimpleXLSX::parse($validated['file']));
+        echo SimpleXLSX::parse($validated['file'])->toHtml();
+        // přesměrovat
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DatabaseNames;
 
 class City extends Model
 {
@@ -14,7 +15,7 @@ class City extends Model
      *
      * @var string
      */
-    protected $table = 'cities';
+    protected $table = DatabaseNames::CITIES_TABLE;
 
     /**
      * Indicates if the model should be timestamped.
@@ -48,11 +49,10 @@ class City extends Model
      */
     public static function getCity($city, $country, $continent)
     {
-        return self::firstOrCreate(
-        [
-            'name' => $city,
-            'country' => $country,
-            'continent' => $continent
+        return self::firstOrCreate([
+            DatabaseNames::NAME_COLUMN => $city,
+            DatabaseNames::COUNTRY_COLUMN => $country,
+            DatabaseNames::CONTINENT_COLUMN => $continent
         ]);
     }
 }

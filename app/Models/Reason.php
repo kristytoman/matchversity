@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DatabaseNames;
 
-class UnlinkReason extends Model
+
+class Reason extends Model
 {
     use HasFactory;
 
@@ -14,7 +16,7 @@ class UnlinkReason extends Model
      *
      * @var string
      */
-    protected $table = 'unlink_reasons';
+    protected $table = DatabaseNames::REASONS_TABLE;
 
     /**
      * The model's default values for attributes.
@@ -22,7 +24,7 @@ class UnlinkReason extends Model
      * @var array
      */
     protected $attributes = [
-        'verified' => false
+        DatabaseNames::IS_VERIFIED_COLUMN => false
     ];
 
     /**
@@ -42,10 +44,9 @@ class UnlinkReason extends Model
 
     public static function createNewReason($answer)
     {
-        $reason = new UnlinkReason;
-            $reason->reason = $answer;
-        $reason->save();
+        $reason = new Reason;
+            $reason->description = $answer;
+            $reason->save();
         return $reason->id;
     }
-
 }

@@ -5,11 +5,11 @@
 @section('content')
     <form method="post" action="{{ route('universities.index') }}">
         @csrf
-        <label>Semestr:</label>
+        <label>{{ __('Semester') }}:</label>
         <select>
-            <option>Nezáleží</option>
-            <option>Zimní</option>
-            <option>Letní</option>
+            <option>{{ __('Doesn\'t matter') }}</option>
+            <option>{{ __('Winter') }}</option>
+            <option>{{ __('Summer') }}</option>
         </select>
         <br>
         <fieldset>
@@ -21,6 +21,6 @@
             <input type="checkbox" value="Jižní Amerika" checked>
             <input type="checkbox" value="Severní Amerika" checked>
         </fieldset>
-        <input type="submit" value="Vyhledat"/>
+        <input type="submit" value="{{ __('Search') }}"/>
     </form>
 @endsection

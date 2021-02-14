@@ -16,31 +16,23 @@ use App\Http\Controllers\AdminController;
 |
 */
 
-Route::get('/', function () 
-{
+Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('matcher', function()
-{
-    return view('matcher' );
+Route::get('matcher', function() {
+    return view('matcher');
 });
 
 Route::resource('universities', UniversityController::class);
 
+Route::post('import', [MobilityController::class, 'import'])
+    ->name('import');
+
+Route::get('admin', [MobilityController::class, 'upload']);
+
 Route::resource('mobilities', MobilityController::class);
 
-Route::get('admin',  function()
-{
-    return view('admin.index');
-});
-
-Route::get('contacts', function()
-{
+Route::get('contacts', function() {
     echo "Kontakty";
-});
-
-Route::get('error', function()
-{
-    echo "Error stránka";
 });

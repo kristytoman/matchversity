@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DatabaseNames;
+
 
 
 class Mobility extends Model
@@ -12,12 +14,13 @@ class Mobility extends Model
 
     const SPRING_SEMESTER = "léto";
     const AUTUMN_SEMESTER = "zima";
+    
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'mobilities';
+    protected $table = DatabaseNames::MOBILITIES_TABLE;
 
     /**
      * Indicates if the model should be timestamped.
@@ -53,29 +56,36 @@ class Mobility extends Model
     {
         $mobility = new Mobility;
             $mobility->student = "test";    // change when connected to system
-            $mobility->university()->associate(University::getUniversity($data));
+            $mobility->university()
+                     ->associate(University::getUniversity($data));
         $mobility->save();
-        Pairing::saveMobilityPairings($mobility, $data['semester'], $data['pairing']);
+        Pairing::saveMobilityPairings(
+            $mobility, 
+            $data['semester'], 
+            $data['pairing']
+        );
     }
 
     public function getDuration($id)
     {
         $courseTimes = Pairing::getSemestersOfMobility($id);
         $duration = $this->getSemester($courseTimes[0]);
-        if (count($courseTimes) > 1)
-        {
+        if (count($courseTimes) > 1) {
             $duration .= '–⁠' . $this->getSemester($courseTimes[count($courseTimes) - 1]);
         }
         return $duration;
     }
+
     private function getSemester($courseTime)
     {
         return $this->getTypeOfSemester($courseTime->is_summer) . ' ' . $courseTime->year;
     }
+
     private function getTypeOfSemester($type)
     {
         return $type ? $this->SPRING_SEMESTER : $this->AUTUMN_SEMESTER;
     }
+
     public function updateMobility($data)
     {
         $this->saveRatings($data->rate);
@@ -85,8 +95,7 @@ class Mobility extends Model
 
     public function saveRatings($ratings)
     {
-        foreach ($ratings as $pairID => $rating) 
-        {
+        foreach ($ratings as $pairID => $rating) {
             $pair = $this->pairings->where('id', $pairID)->get();
             if ($pair != null)
             {
@@ -99,16 +108,24 @@ class Mobility extends Model
     {
         foreach($unlinkedData as $pairID => $unlinked)
         {
-            $pair = $this->pairings->where('id', $pairID)->get();
-            if ($unlinked == 1 && array_key_exists($pairID, $new))
-            {
-                $pair->unlink_reason()->associate(UnlinkReason::createNewReason($new));
+            $pair = $this->pairings
+                         ->where('id', $pairID)
+                         ->get();
+            if (($unlinked == 1) && (array_key_exists($pairID, $new))) {
+                $pair->unlink_reason()
+                     ->associate(UnlinkReason::createNewReason($new));
             }
-            else
-            {
-                $pair->unlink_reason()->associate($unlinked);
+            else {
+                $pair->unlink_reason()
+                     ->associate($unlinked);
             }
             $pair->save();
         }
+    }
+
+    public static function getMobility($student, $start, $universityName) 
+    {
+        return self::firstOrCreate([
+        ]);
     }
 }

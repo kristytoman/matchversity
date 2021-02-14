@@ -3,9 +3,9 @@
 @include('include.header')
 
 @section('content')
-    <a href="{{ route('mobilities.create') }}">Přidat výjezd</a>
+    <a href="{{ route('mobilities.create') }}">{{ __('Add mobility')}}</a>
     @if ($mobilities == null || count($mobilities) == 0)
-        <div>Nenalezen žádný výjezd.</div>
+        <div>{{__('We haven\'t found any mobility.')}}</div>
     @else
         @foreach($mobilities as $mobility)
         <a href="{{ route('mobilities.show', $mobility->id )}}"><div id="mob-{{ $mobility->id }}">

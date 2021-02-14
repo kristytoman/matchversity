@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Location;
+use DatabaseNames;
 
 class University extends Model
 {
@@ -15,7 +16,7 @@ class University extends Model
      *
      * @var string
      */
-    protected $table = 'universities';
+    protected $table = DatabaseNames::UNIVERSITIES_TABLE;
 
     /**
      * Indicates if the model should be timestamped.
@@ -36,7 +37,7 @@ class University extends Model
      *
      * @var string
      */
-    protected $dates = ['expiration'];
+    protected $dates = [DatabaseNames::EXPIRATION_COLUMN];
 
     /**
      * The storage format of the model's date columns.
@@ -67,8 +68,6 @@ class University extends Model
     {
         return $this->belongsTo(City::class);
     }
-    
-
 
     /**
      * Finds an university profile in a database or create a new one.
@@ -78,8 +77,7 @@ class University extends Model
      */
     public static function getUniversity($data)
     {
-        if (!array_key_exists('uniID', $data))
-        {
+        if (!array_key_exists('uniID', $data)) {
             return self::createNewUniProfile(
                 $data['name'],
                 $data['originalName'],
@@ -89,8 +87,7 @@ class University extends Model
                 $data['expiration']
             );      
         }
-        else
-        {
+        else {
             return self::find($data['uniID']);
         }
     }
@@ -118,5 +115,4 @@ class University extends Model
         $uni->save();
         return $uni;
     }
-
 }

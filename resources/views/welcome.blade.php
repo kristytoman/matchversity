@@ -3,9 +3,8 @@
 @section('content')
     <div class="title">
         <h1>Matchversity</h1>
-        <div>Pomocník při vyhledávání zahraniční univerzity.</div>
-        <a href="matcher" role="button">Vyhledat univerzity</a>
-        <a href="{{ route('mobilities.index') }}" role="button">Ohodnotit výjezd</a>
+        <a href="matcher" role="button">{{ __('Search for universities') }}</a>
+        <a href="{{ route('mobilities.index') }}" role="button">{{ __('Rate mobility') }}</a>
     </div>
     <div class="about">
         <h2>O Matchversity</h2>

@@ -35,7 +35,7 @@
                 <input type="radio" name="rate[{{ $pair->foreignCourse->code }}]" value="4">
                 <input type="radio" name="rate[{{ $pair->foreignCourse->code }}]" value="5">
             </fieldset>
-            <input type="checkbox" onclick="#"><label>Rozpojen</label>
+            <input type="checkbox" onclick="#"><label>{{ __('Deleted') }}</label>
             <select id="sel-{{ $pair->foreignCourse->code }}">
                 @foreach ($reasons as $reason)
                 <option name="unlinked[{{ $pair->foreignCourse->code }}]" value="{{ $reason->id }}">{{ $reason->reason }}</option>
@@ -43,6 +43,6 @@
             </select>
             <input id="input-{{ $pair->foreignCourse->code }}" type="text" name="new[{{ $pair->foreignCourse->code }}]">
         @endforeach
-        <input type="submit" value="Uložit hodnocení">
+        <input type="submit" value="{{ __('Save my rating') }}">
     </form>
 @endsection

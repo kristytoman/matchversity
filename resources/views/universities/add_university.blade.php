@@ -3,12 +3,10 @@
 @include('include.header')
 
 @section('content')
-    <h1>Nový profil univerzity</h1>
+    <h1>{{ __('New university profile') }}</h1>
     <form id="form_addUni">
         @csrf
-        <label for="in_uniName">Název univerzity</label>
-            <input id="in_uniName" type="text"><br>
         @include('include.uniform')
-        <input type="submit" value="Vytvořit profil">
+        <input type="submit" value="{{ __('Create new university') }}">
     </form>
 @endsection
