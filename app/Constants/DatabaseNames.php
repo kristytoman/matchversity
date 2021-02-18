@@ -24,6 +24,7 @@ class DatabaseNames
           const MOBILITY_ID_COLUMN = 'mobility_id';
           const STUDENT_COLUMN = 'student';
           const ARRIVAL_COLUMN = 'arrival';
+          const DEPARTURE_COLUMN = 'departure';
      const PAIRINGS_TABLE = 'pairings';
           const PAIRING_ID_COLUMN = 'pairing_id';
           const IS_SUMMER_COLUMN = 'is_summer';

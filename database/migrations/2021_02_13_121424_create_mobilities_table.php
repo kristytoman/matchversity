@@ -19,6 +19,7 @@ class CreateMobilitiesTable extends Migration
                   ->constrained(DatabaseNames::UNIVERSITIES_TABLE);
             $table->string(DatabaseNames::STUDENT_COLUMN, 256);
             $table->date(DatabaseNames::ARRIVAL_COLUMN);
+            $table->date(DatabaseNames::DEPARTURE_COLUMN);
             $table->year(DatabaseNames::YEAR_COLUMN);
             $table->boolean(DatabaseNames::IS_SUMMER_COLUMN);
         });
