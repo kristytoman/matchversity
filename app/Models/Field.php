@@ -4,10 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use DatabaseNames;
 
-
-class ForeignCourse extends Model
+class Field extends Model
 {
     use HasFactory;
 
@@ -16,7 +14,7 @@ class ForeignCourse extends Model
      *
      * @var string
      */
-    protected $table = 'foreign_courses';
+    protected $table = 'fields';
 
     /**
      * Indicates if the model should be timestamped.
@@ -35,24 +33,25 @@ class ForeignCourse extends Model
     /**
      * Gets university of the course.
      */
-    public function university() 
+    public function faculty() 
     {
-        return $this->belongsTo(University::class);
+        return $this->belongsTo(Faculty::class);
     }
 
     /**
      * Gets pairings of the course.
      */
-    public function pairings() 
+    public function homeCourses() 
     {
-        return $this->hasMany(Pairing::class);
+        return $this->belongsToMany(HomeCourse::class, 'field_courses');
     }
 
-    public static function getCourse($uniId, $name) 
+
+    public static function getFieldById($fieldID, $facultyId)
     {
         return self::firstOrCreate([
-            'name' => $name,
-            'university_id' => $uniId
+            'id' => $fieldID,
+            'faculty_id' => $facultyId
         ]);
     }
 }

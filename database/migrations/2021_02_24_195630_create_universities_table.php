@@ -13,24 +13,23 @@ class CreateUniversitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create(DatabaseNames::UNIVERSITIES_TABLE, function (Blueprint $table) 
-        {
+        Schema::create('universities', function (Blueprint $table) {
             $table->id();
-            $table->string(DatabaseNames::NAME_COLUMN, 128)
+            $table->string('name', 128)
                   ->nullable()
                   ->default(null);            
-            $table->string(DatabaseNames::NATIVE_NAME_COLUMN, 128)
+            $table->string('native_name', 128)
                   ->nullable()
                   ->default(null);            
-            $table->string(DatabaseNames::ORIGINAL_NAME_COLUMN, 128);
-            $table->foreignId(DatabaseNames::CITY_ID_COLUMN)
+            $table->string('original_name', 128);
+            $table->foreignId('city_id')
                   ->nullable()
                   ->default(null)           
-                  ->constrained(DatabaseNames::CITIES_TABLE);
-            $table->string(DatabaseNames::XCHANGE_COLUMN, 256)
+                  ->constrained('cities');
+            $table->string('xchange', 256)
                   ->nullable()
                   ->default(null);            
-            $table->string(DatabaseNames::WEB_COLUMN, 256)
+            $table->string('web', 256)
                   ->nullable()
                   ->default(null);                  
         });
@@ -43,6 +42,6 @@ class CreateUniversitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(DatabaseNames::UNIVERSITIES_TABLE);
+        Schema::dropIfExists('universities');
     }
 }

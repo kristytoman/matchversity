@@ -22,7 +22,8 @@ class MobilityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index() 
+    {
         return view(
             'mobilities.get_mobilities',
             [
@@ -36,7 +37,8 @@ class MobilityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create() {
+    public function create() 
+    {
         return view(
             'mobilities.add_mobility', 
             [
@@ -47,7 +49,8 @@ class MobilityController extends Controller
         );
     }
 
-    private function getLastTenYears() {
+    private function getLastTenYears() 
+    {
         return range(date('Y'), date('Y') - 10, -1);
     }
     
@@ -57,7 +60,8 @@ class MobilityController extends Controller
      * @param  StoreMobility  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreMobilityRequest $request) {
+    public function store(StoreMobilityRequest $request) 
+    {
         Mobility::saveMobility($request->validated());
         return redirect('mobilities');
     }
@@ -68,7 +72,8 @@ class MobilityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id) {
+    public function show($id) 
+    {
         $mobility = Mobility::find($id);
         return view(
             'mobilities.show_mobility', 
@@ -86,7 +91,8 @@ class MobilityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id) {
+    public function edit($id) 
+    {
         $mobility = Mobility::find($id);
         return view(
             'mobilities.rate_mobility', 
@@ -105,7 +111,8 @@ class MobilityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateMobilityRequest $request, $id) {
+    public function update(UpdateMobilityRequest $request, $id) 
+    {
         $mobility = Mobility::find($id);
         $mobility->updateMobility($request->validated());
         return redirect('mobilities');
@@ -117,18 +124,57 @@ class MobilityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id) 
+    {
         //
     }
 
-    public function upload() {
+    public function upload() 
+    {
         return view('admin.index');
     }
 
-    public function import(ImportMobilitiesRequest $request) {
+    public function import(ImportMobilitiesRequest $request) 
+    {
         $validated = $request->validated();
-        //Pairing::importPairings(SimpleXLSX::parse($validated['file']));
-        echo SimpleXLSX::parse($validated['file'])->toHtml();
-        // přesměrovat
+        if ($data = $this->getData($validated['file'])) {
+            Pairing::importPairings($data);
+        }
     }
+
+    private function getData($file) 
+    {
+        if ( $data = SimpleXLSX::parse($file)) {
+            $header = $rows = [];
+            foreach ( $data->rows() as $index => $row ) {
+                if ( $index === 0 ) {
+                    if ($this->isRightHeader($row)) {
+                        $header = $row;
+                        continue;
+                    }
+                    return null;
+                }
+                $rows[] = array_combine( $header, $row );
+            }
+            return $rows;
+        }
+        return null;
+    }
+
+    private function isRightHeader($row) {
+        return in_array(ImportColumns::STUDENT_ID) &&
+               in_array(ImportColumns::FACULTY) &&
+               in_array(ImportColumns::YEAR) &&
+               in_array(ImportColumns::SEMESTER) &&
+               in_array(ImportColumns::DEGREE) &&
+               in_array(ImportColumns::START) &&
+               in_array(ImportColumns::END) &&
+               in_array(ImportColumns::UNIVERSITY) &&
+               in_array(ImportColumns::CITY) &&
+               in_array(ImportColumns::COUNTRY) &&
+               in_array(ImportColumns::FIELD) &&
+               in_array(ImportColumns::FOREIGN_COURSE) &&
+               in_array(ImportColumns::HOME_COURSE) &&
+               in_array(ImportColumns::PAIRING_TYPE);
+    }   
 }

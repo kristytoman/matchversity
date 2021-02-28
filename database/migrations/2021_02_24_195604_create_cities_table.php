@@ -13,10 +13,15 @@ class CreateCitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create(DatabaseNames::CITIES_TABLE, function (Blueprint $table) {
+        Schema::create('cities', function (Blueprint $table) {
             $table->id();
-            $table->string(DatabaseNames::NAME_COLUMN, 126);
-            $table->foreignId(DatabaseNames::COUNTRY_ID_COLUMN);
+            $table->string('name', 126);
+            $table->string('country_id', 2)
+                  ->nullable()
+                  ->default(null);
+            $table->foreign('country_id')
+                  ->references('id')
+                  ->on('countries');;
         });
     }
 
@@ -27,6 +32,6 @@ class CreateCitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(DatabaseNames::CITIES_TABLE);
+        Schema::dropIfExists('cities');
     }
 }

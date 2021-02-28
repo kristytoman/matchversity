@@ -12,15 +12,15 @@ class Mobility extends Model
 {
     use HasFactory;
 
-    const SPRING_SEMESTER = "léto";
-    const AUTUMN_SEMESTER = "zima";
+    const SPRING_SEMESTER = "summer";
+    const AUTUMN_SEMESTER = "winter";
     
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = DatabaseNames::MOBILITIES_TABLE;
+    protected $table = 'mobilities';
 
     /**
      * Indicates if the model should be timestamped.
@@ -37,6 +37,13 @@ class Mobility extends Model
     protected $with = ['university', 'pairings'];
 
     /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * Gets university of the mobility.
      */
     public function university()
@@ -51,6 +58,8 @@ class Mobility extends Model
     {
         return $this->hasMany(Pairing::class);
     }
+
+    public boolean $isValid;
 
     public static function saveMobility($data)
     {
@@ -97,8 +106,7 @@ class Mobility extends Model
     {
         foreach ($ratings as $pairID => $rating) {
             $pair = $this->pairings->where('id', $pairID)->get();
-            if ($pair != null)
-            {
+            if ($pair != null) {
                 $pair->saveRating($rating);
             }
         }
@@ -106,8 +114,7 @@ class Mobility extends Model
 
     public function unlinkCourses($unlinkedData, $new)
     {
-        foreach($unlinkedData as $pairID => $unlinked)
-        {
+        foreach($unlinkedData as $pairID => $unlinked) {
             $pair = $this->pairings
                          ->where('id', $pairID)
                          ->get();
@@ -123,9 +130,38 @@ class Mobility extends Model
         }
     }
 
-    public static function getMobility($student, $start, $universityName) 
+    public static function getMobility($data) 
     {
-        return self::firstOrCreate([
+        $mobility = self::firstOrCreate([
+            'student' => self::getStudent($data[ImportColumns::STUDENT_ID]),
+            'arrival' => $data[ImportColumns::START],
+            'departure' => $data[ImportColumns::END],
+            'is_summer' => self::isSummerSemester($data[ImportColumns::SEMESTER]),
+            'year' => self::getYear($data)
         ]);
+        if (!$mobility->university()) {
+            $mobility->university()->associate(University::getUniversityByName([ImportColumns::UNIVERSITY]));
+        }
+        return $mobility;
+    }
+
+    public static function getYear($data) 
+    {
+        if ($data[ImportColumns::SEMESTER] === "ZS") {
+            return $data[ImportColums::YEAR];
+        }
+        else {
+            return $data[ImportColums::YEAR] + 1;
+        }
+    }
+
+    public static function isSummerSemester($semester) 
+    {
+        return $semester === "LS";
+    }
+
+    public static function getStudent($id) 
+    {
+        return hash("sha256", $id, false);
     }
 }

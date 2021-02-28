@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use DatabaseNames;
-
 
 class Reason extends Model
 {
@@ -16,7 +14,7 @@ class Reason extends Model
      *
      * @var string
      */
-    protected $table = DatabaseNames::REASONS_TABLE;
+    protected $table = 'reasons';
 
     /**
      * The model's default values for attributes.
@@ -24,7 +22,7 @@ class Reason extends Model
      * @var array
      */
     protected $attributes = [
-        DatabaseNames::IS_VERIFIED_COLUMN => false
+        'is_verified' => false
     ];
 
     /**

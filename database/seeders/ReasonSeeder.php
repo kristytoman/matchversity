@@ -15,34 +15,34 @@ class ReasonSeeder extends Seeder
      */
     public function run()
     {
-        DB::table(DatabaseNames::REASONS_TABLE)->insert([
+        DB::table('reasons')->insert([
             [
-                DatabaseNames::DESCRIPTION_COLUMN => 'Jiný důvod', 
-                DatabaseNames::IS_VERIFIED_COLUMN => true 
+                'description' => 'Jiný důvod', 
+                'is_verified' => true 
             ],
             [ 
-                DatabaseNames::DESCRIPTION_COLUMN => 'Předmět byl zrušen univerzitou', 
-                DatabaseNames::IS_VERIFIED_COLUMN => true 
+                'description' => 'Předmět byl zrušen univerzitou', 
+                'is_verified' => true 
             ],
             [ 
-                DatabaseNames::DESCRIPTION_COLUMN => 'Předmět byl určen pro magisterské studium', 
-                DatabaseNames::IS_VERIFIED_COLUMN => true 
+                'description' => 'Předmět byl určen pro magisterské studium', 
+                'is_verified' => true 
             ],
             [ 
-                DatabaseNames::DESCRIPTION_COLUMN => 'Student nesplňoval prerekvizity předmětu', 
-                DatabaseNames::IS_VERIFIED_COLUMN => true 
+                'description' => 'Student nesplňoval prerekvizity předmětu', 
+                'is_verified' => true 
             ],
             [ 
-                DatabaseNames::DESCRIPTION_COLUMN => 'Předmět byl moc obtížný', 
-                DatabaseNames::IS_VERIFIED_COLUMN => true
+                'description' => 'Předmět byl moc obtížný', 
+                'is_verified' => true
             ],
             [ 
-                DatabaseNames::DESCRIPTION_COLUMN => 'Předmět neseděl do studentova rozvrhu',
-                DatabaseNames::IS_VERIFIED_COLUMN => true 
+                'description' => 'Předmět neseděl do studentova rozvrhu',
+                'is_verified' => true 
             ],
             [ 
-                DatabaseNames::DESCRIPTION_COLUMN => 'Předmět neodpovídal popisu', 
-                DatabaseNames::IS_VERIFIED_COLUMN => true 
+                'description' => 'Předmět neodpovídal popisu', 
+                'is_verified' => true 
             ]
         ]);
     }

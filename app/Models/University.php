@@ -16,7 +16,7 @@ class University extends Model
      *
      * @var string
      */
-    protected $table = DatabaseNames::UNIVERSITIES_TABLE;
+    protected $table = 'universities';
 
     /**
      * Indicates if the model should be timestamped.
@@ -32,19 +32,6 @@ class University extends Model
      */
     protected $with = ['city'];
 
-    /**
-     * Model's date colums.
-     *
-     * @var string
-     */
-    protected $dates = [DatabaseNames::EXPIRATION_COLUMN];
-
-    /**
-     * The storage format of the model's date columns.
-     *
-     * @var string
-     */
-    protected $dateFormat = 'Y-m-t';
     /**
      * Gets mobilities of the university.
      */
@@ -114,5 +101,12 @@ class University extends Model
             $uni->city()->associate($location);
         $uni->save();
         return $uni;
+    }
+
+    public static function getUniversityByName($name)
+    {
+        return self::firstOrCreate([
+            'original_name' => $name
+        ]);
     }
 }

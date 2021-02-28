@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReasonsTable extends Migration
+class CreateForeignCoursesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateReasonsTable extends Migration
      */
     public function up()
     {
-        Schema::create(DatabaseNames::REASONS_TABLE, function (Blueprint $table) 
-        {
+        Schema::create('foreign_courses', function (Blueprint $table) {
             $table->id();
-            $table->string(DatabaseNames::DESCRIPTION_COLUMN, 248);
-            $table->boolean(DatabaseNames::IS_VERIFIED_COLUMN);
+            $table->string('name', 128);
+            $table->foreignId('university_id')
+                  ->constrained('universities');
         });
     }
 
@@ -28,6 +28,6 @@ class CreateReasonsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(DatabaseNames::REASONS_TABLE);
+        Schema::dropIfExists('foreign_courses');
     }
 }

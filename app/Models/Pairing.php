@@ -19,7 +19,7 @@ class Pairing extends Model
      *
      * @var string
      */
-    protected $table = DatabaseNames::PAIRINGS_TABLE;
+    protected $table = 'pairings';
 
     /**
      * Indicates if the model should be timestamped.
@@ -41,7 +41,7 @@ class Pairing extends Model
      * @var array
      */
     protected $attributes = [
-        DatabaseNames::REASON_ID_COLUMN => null
+        'reason_id' => null
     ];
 
     /**
@@ -111,17 +111,17 @@ class Pairing extends Model
         }
     }
 
-    public function associateForeignCourse($uniID, $code, $name)
+    public function associateForeignCourse($uniID, $name)
     {
         $this->foreignCourse()->associate(
-            ForeignCourse::getCourse($uniID, $code, $name)
+            ForeignCourse::getCourse($uniID, $name)
         );
     } 
 
-    public function associateHomeCourse($code, $name)
+    public function associateHomeCourse($data)
     {
         $this->homeCourse()->associate(
-            HomeCourse::getCourse($code, $name)
+            HomeCourse::getCourse($data)
         );
     }
 
@@ -138,19 +138,41 @@ class Pairing extends Model
 
     public static function getSemestersOfMobility($mobilityID) 
     {
-        return DB::table(DatabaseNames::PAIRINGS_TABLE)
-            ->select(DatabaseNames::IS_SUMMER_COLUMN, DatabaseNames::YEAR_COLUMN)
+        return DB::table('pairings')
+            ->select('is_summer', 'year')
                 ->distinct()
-                ->where(DatabaseNames::MOBILITY_ID_COLUMN, $mobilityID)
-                ->orderBy(DatabaseNames::YEAR_COLUMN, 'asc')
+                ->where('mobility_id', $mobilityID)
+                ->orderBy('year', 'asc')
                 ->get();
     }
 
     public static function importPairings($file) 
     {
+        $mobilities = [];
         foreach ($file->rows() as $row) {
-            $mobility = new Mobility;
-            $mobility->student = hash("sha256", $row[0], false);
+            if ((row[ImportColumns::DEGREE] !== 'doktorský') && (!empty(row[ImportColumns::HOME_COURSE]))) {
+                $mobility = Mobility::getMobility($row);
+                $courses = HomeCourse::getCourses($row);
+                foreach ($courses as $course) {
+                    $pair = new Pairing;
+                    $pair->associateForeignCourse(
+                        $mobility->university()->id,
+                        $row[ImportColumns::FOREIGN_COURSE]
+                    );
+                    $pair->homeCourse()->associate($course);
+                    $pair->setState(ImportColumns::PAIRING_TYPE);
+                }
+                array_push($mobilities, $mobility);
+            }
+        }
+        return $mobilities;
+    }
+
+
+    public function setState($state)
+    {
+        if ($state == 'Smazaný') {
+            $this->reason_id = 1;
         }
     }
 }

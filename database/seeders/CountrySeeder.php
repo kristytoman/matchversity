@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
-use DatabaseNames;
 
 class CountrySeeder extends Seeder
 {
@@ -21,12 +20,12 @@ class CountrySeeder extends Seeder
                 $countries = [];
                 foreach ($region->countries as $country) {
                     array_push($countries, [ 
-                        DatabaseNames::COUNTRY_ID_COLUMN => $country->code,
-                        DatabaseNames::REGION_COLUMN => $region->name,
-                        DatabaseNames::CONTINENT_COLUMN => $continent->name
+                        'id' => $country->code,
+                        'region' => $region->name,
+                        'continent' => $continent->name
                     ]);
                 }
-                DB::table(DatabaseNames::COUNTRIES_TABLE)->insert($countries);
+                DB::table('countries')->insert($countries);
             }
         }
     }

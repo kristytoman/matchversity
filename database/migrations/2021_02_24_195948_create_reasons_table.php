@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFieldsTable extends Migration
+class CreateReasonsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateFieldsTable extends Migration
      */
     public function up()
     {
-        Schema::create(DatabaseNames::FIELDS_TABLE, function (Blueprint $table) {
-            $table->string(DatabaseNames::FIELD_ID_COLUMN, 64);
-            $table->primary(DatabaseNames::FIELD_ID_COLUMN);
-            $table->string(DatabaseNames::NAME_COLUMN, 128);
+        Schema::create('reasons', function (Blueprint $table) {
+            $table->id();
+            $table->string('description', 248);
+            $table->boolean('is_verified')
+                  ->default(false);
         });
     }
 
@@ -27,6 +28,6 @@ class CreateFieldsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(DatabaseNames::FIELDS_TABLE);
+        Schema::dropIfExists('reasons');
     }
 }

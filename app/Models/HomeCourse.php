@@ -16,7 +16,7 @@ class HomeCourse extends Model
      *
      * @var string
      */
-    protected $table = DatabaseNames::HOME_COURSES_TABLE;
+    protected $table = 'home_courses';
 
     /**
      * Indicates if the model should be timestamped.
@@ -40,11 +40,29 @@ class HomeCourse extends Model
         return $this->hasMany(Pairing::class);
     }
 
-    public static function getCourse($code, $name) 
+    public function fields()
+    {
+        return $this->belongsToMany(Field::class, 'field_courses');
+    }
+
+    public static function getCourses($data)
+    {
+        $courses = [];
+        $courseList = explode(", ", $data[ImportColumns::HOME_COURSE]);
+        $field = Field::getFieldById($data[ImportColumns::FIELD], $data[ImportColumns::FACULTY]);
+        foreach ($courseList as $code) {
+            $course = getCourse($code);
+            $course->fields()->attach($field);
+            array_push($courses);
+        }
+        return $courses;
+    }
+
+
+    public static function getCourse($code) 
     {
         return self::firstOrCreate([
-            DatabaseNames::CODE_COLUMN => $code,
-            DatabaseNames::NAME_COLUMN => $name
+            'code' => $code
         ]);
     }
 }

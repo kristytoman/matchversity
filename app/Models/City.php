@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use DatabaseNames;
 
 class City extends Model
 {
@@ -15,7 +14,7 @@ class City extends Model
      *
      * @var string
      */
-    protected $table = DatabaseNames::CITIES_TABLE;
+    protected $table = 'cities';
 
     /**
      * Indicates if the model should be timestamped.
@@ -32,6 +31,13 @@ class City extends Model
     protected $guarded = [];
 
     /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['country'];
+
+    /**
      * Gets universities of the location.
      */
     public function universities()
@@ -39,20 +45,24 @@ class City extends Model
         return $this->hasMany(University::class);
     }
 
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
+    }
+
+
     /**
      * Creates or finds an instance of University location in the database.
      * 
      * @param   String  $city   City name
      * @param   String  $country    Country name
-     * @param   String  $continent  Continent name
-     * @return  Location    
+     * @return  City    
      */
-    public static function getCity($city, $country, $continent)
+    public static function getCity($city, $country)
     {
         return self::firstOrCreate([
-            DatabaseNames::NAME_COLUMN => $city,
-            DatabaseNames::COUNTRY_COLUMN => $country,
-            DatabaseNames::CONTINENT_COLUMN => $continent
+            'name' => $city,
+            'country_id' => $country
         ]);
     }
 }

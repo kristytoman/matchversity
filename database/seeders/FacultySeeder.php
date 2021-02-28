@@ -15,30 +15,30 @@ class FacultySeeder extends Seeder
      */
     public function run()
     {
-        DB::table(DatabaseNames::FACULTIES_TABLE)->insert([
+        DB::table('faculties')->insert([
             [
-                DatabaseNames::FACULTY_ID_COLUMN => 'FAI',
-                DatabaseNames::NAME_COLUMN => 'Faculty of Applied Informatics'
+                'id' => 'FAI',
+                'name' => 'Faculty of Applied Informatics'
             ],
             [
-                DatabaseNames::FACULTY_ID_COLUMN => 'FAM',
-                DatabaseNames::NAME_COLUMN => 'Faculty of Management and Economics'
+                'id' => 'FAM',
+                'name' => 'Faculty of Management and Economics'
             ],
             [
-                DatabaseNames::FACULTY_ID_COLUMN => 'FHS',
-                DatabaseNames::NAME_COLUMN => 'Faculty of Humanities'
+                'id' => 'FHS',
+                'name' => 'Faculty of Humanities'
             ],
             [
-                DatabaseNames::FACULTY_ID_COLUMN => 'FLK',
-                DatabaseNames::NAME_COLUMN => 'Faculty of Logistics and Crisis Management'
+                'id' => 'FLK',
+                'name' => 'Faculty of Logistics and Crisis Management'
             ],
             [
-                DatabaseNames::FACULTY_ID_COLUMN => 'FMK',
-                DatabaseNames::NAME_COLUMN => 'Faculty of Multimedia Communications'
+                'id' => 'FMK',
+                'name' => 'Faculty of Multimedia Communications'
             ],
             [
-                DatabaseNames::FACULTY_ID_COLUMN => 'FT',
-                DatabaseNames::NAME_COLUMN => 'Faculty of Technology'
+                'id' => 'FT',
+                'name' => 'Faculty of Technology'
             ]
         ]);
     }

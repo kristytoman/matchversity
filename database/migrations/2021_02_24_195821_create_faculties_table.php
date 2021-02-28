@@ -13,10 +13,10 @@ class CreateFacultiesTable extends Migration
      */
     public function up()
     {
-        Schema::create(DatabaseNames::FACULTIES_TABLE, function (Blueprint $table) {
-            $table->string(DatabaseNames::FACULTY_ID_COLUMN, 3);
-            $table->primary(DatabaseNames::FACULTY_ID_COLUMN);
-            $table->string(DatabaseNames::NAME_COLUMN, 128);
+        Schema::create('faculties', function (Blueprint $table) {
+            $table->string('id', 3);
+            $table->primary('id');
+            $table->string('name', 128);
         });
     }
 
@@ -27,6 +27,6 @@ class CreateFacultiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(DatabaseNames::FACULTIES_TABLE);
+        Schema::dropIfExists('faculties');
     }
 }

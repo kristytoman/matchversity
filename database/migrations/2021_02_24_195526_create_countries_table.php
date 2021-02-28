@@ -13,11 +13,11 @@ class CreateCountriesTable extends Migration
      */
     public function up()
     {
-        Schema::create(DatabaseNames::COUNTRIES_TABLE, function (Blueprint $table) {
-            $table->string(DatabaseNames::COUNTRY_ID_COLUMN, 2);
-            $table->primary(DatabaseNames::COUNTRY_ID_COLUMN);
-            $table->string(DatabaseNames::REGION_COLUMN, 20);
-            $table->string(DatabaseNames::CONTINENT_COLUMN, 10);
+        Schema::create('countries', function (Blueprint $table) {
+            $table->string('id', 2);
+            $table->primary('id');
+            $table->string('region', 20);
+            $table->string('continent', 10);
         });
     }
 
@@ -28,6 +28,6 @@ class CreateCountriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(DatabaseNames::COUNTRIES_TABLE);
+        Schema::dropIfExists('countries');
     }
 }
