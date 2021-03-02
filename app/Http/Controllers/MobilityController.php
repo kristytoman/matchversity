@@ -7,11 +7,13 @@ use App\Models\University;
 use App\Models\HomeCourse;
 use App\Models\Mobility;
 use App\Models\UnlinkReason;
+use App\Models\Pairing;
 use App\Http\Requests\StoreMobilityRequest;
 use App\Http\Requests\UpdateMobilityRequest;
 use App\Http\Requests\ImportMobilitiesRequest;
 use Illuminate\Http\Request;
-use SimpleXLSX;
+use App\Models\Validation\FileValidator;
+use ImportColumns;
 
 class MobilityController extends Controller
 {
@@ -25,8 +27,7 @@ class MobilityController extends Controller
     public function index() 
     {
         return view(
-            'mobilities.get_mobilities',
-            [
+            'mobilities.get_mobilities', [
                 'mobilities' => Mobility::all()
             ]
         );
@@ -40,8 +41,7 @@ class MobilityController extends Controller
     public function create() 
     {
         return view(
-            'mobilities.add_mobility', 
-            [
+            'mobilities.add_mobility', [
                 'universities' => University::all(),
                 'homeCourses' => HomeCourse::all(),
                 'years' => $this->getLastTenYears()
@@ -76,8 +76,7 @@ class MobilityController extends Controller
     {
         $mobility = Mobility::find($id);
         return view(
-            'mobilities.show_mobility', 
-            [
+            'mobilities.show_mobility', [
                 'mobility' => $mobility,
                 'duration' => $mobility->getDuration($id)
             ]
@@ -95,8 +94,7 @@ class MobilityController extends Controller
     {
         $mobility = Mobility::find($id);
         return view(
-            'mobilities.rate_mobility', 
-            [
+            'mobilities.rate_mobility', [
                 'mobility' => $mobility,
                 'duration' => $mobility->getDuration($id),
                 'reasons' => UnlinkReason::all()
@@ -137,44 +135,13 @@ class MobilityController extends Controller
     public function import(ImportMobilitiesRequest $request) 
     {
         $validated = $request->validated();
-        if ($data = $this->getData($validated['file'])) {
-            Pairing::importPairings($data);
+        $file = new FileValidator($validated['file']);
+        if ($mobilities = $file->getData()) {
+            return view('admin.data_check', [
+                'count' => count($mobilities),
+                'mobilities' => $mobilities
+            ]);
         }
+        // error
     }
-
-    private function getData($file) 
-    {
-        if ( $data = SimpleXLSX::parse($file)) {
-            $header = $rows = [];
-            foreach ( $data->rows() as $index => $row ) {
-                if ( $index === 0 ) {
-                    if ($this->isRightHeader($row)) {
-                        $header = $row;
-                        continue;
-                    }
-                    return null;
-                }
-                $rows[] = array_combine( $header, $row );
-            }
-            return $rows;
-        }
-        return null;
-    }
-
-    private function isRightHeader($row) {
-        return in_array(ImportColumns::STUDENT_ID) &&
-               in_array(ImportColumns::FACULTY) &&
-               in_array(ImportColumns::YEAR) &&
-               in_array(ImportColumns::SEMESTER) &&
-               in_array(ImportColumns::DEGREE) &&
-               in_array(ImportColumns::START) &&
-               in_array(ImportColumns::END) &&
-               in_array(ImportColumns::UNIVERSITY) &&
-               in_array(ImportColumns::CITY) &&
-               in_array(ImportColumns::COUNTRY) &&
-               in_array(ImportColumns::FIELD) &&
-               in_array(ImportColumns::FOREIGN_COURSE) &&
-               in_array(ImportColumns::HOME_COURSE) &&
-               in_array(ImportColumns::PAIRING_TYPE);
-    }   
 }

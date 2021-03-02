@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\HomeCourse;
 use App\Models\ForeignCourse;
-use DatabaseNames;
+use ImportColumns;
 
 
 class Pairing extends Model
@@ -149,8 +149,8 @@ class Pairing extends Model
     public static function importPairings($file) 
     {
         $mobilities = [];
-        foreach ($file->rows() as $row) {
-            if ((row[ImportColumns::DEGREE] !== 'doktorský') && (!empty(row[ImportColumns::HOME_COURSE]))) {
+        foreach ($file as $row) {
+            if (($row[ImportColumns::DEGREE] !== 'doktorský') && (!empty($row[ImportColumns::HOME_COURSE]))) {
                 $mobility = Mobility::getMobility($row);
                 $courses = HomeCourse::getCourses($row);
                 foreach ($courses as $course) {
@@ -161,6 +161,7 @@ class Pairing extends Model
                     );
                     $pair->homeCourse()->associate($course);
                     $pair->setState(ImportColumns::PAIRING_TYPE);
+                    $pair->mobility()->associate($mobility);
                 }
                 array_push($mobilities, $mobility);
             }

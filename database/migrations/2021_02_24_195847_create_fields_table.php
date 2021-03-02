@@ -19,6 +19,9 @@ class CreateFieldsTable extends Migration
             $table->string('name', 128)
                   ->nullable()
                   ->default(null);
+            $table->string('degree', 10)
+                  ->nullable()
+                  ->default(null);
             $table->string('faculty_id', 3);
             $table->foreign('faculty_id')
                   ->references('id')

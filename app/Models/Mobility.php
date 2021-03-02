@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use DatabaseNames;
+use ImportColumns;
 
 
 
@@ -132,10 +132,11 @@ class Mobility extends Model
 
     public static function getMobility($data) 
     {
+        $end = empty($data[ImportColumns::END]) ? null : $data[ImportColumns::END];
         $mobility = self::firstOrCreate([
             'student' => self::getStudent($data[ImportColumns::STUDENT_ID]),
             'arrival' => $data[ImportColumns::START],
-            'departure' => $data[ImportColumns::END],
+            'departure' => $end,
             'is_summer' => self::isSummerSemester($data[ImportColumns::SEMESTER]),
             'year' => self::getYear($data)
         ]);
@@ -148,10 +149,10 @@ class Mobility extends Model
     public static function getYear($data) 
     {
         if ($data[ImportColumns::SEMESTER] === "ZS") {
-            return $data[ImportColums::YEAR];
+            return $data[ImportColumns::YEAR];
         }
         else {
-            return $data[ImportColums::YEAR] + 1;
+            return $data[ImportColumns::YEAR] + 1;
         }
     }
 
