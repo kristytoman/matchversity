@@ -19,11 +19,7 @@ class MobilityValidator
 
     public $university;
 
-    public $field;
-
-    public $faculty;
-
-    public $degree;
+    public $city;
 
     public $pairings;
 
@@ -34,23 +30,14 @@ class MobilityValidator
         $this->student = new StudentValidator($data[ImportColumns::STUDENT_ID]);
         $this->arrival = new ArrivalValidator($data[ImportColumns::START]);
         $this->departure = new DepartureValidator($data[ImportColumns::END], $this->arrival->data);
-        $this->year = new YearValidator($data[ImportColumns::YEAR]);
-        $this->semester = new SemesterValidator($data[ImportColumns::SEMESTER]);
+        $this->semester = new SemesterValidator($data[ImportColumns::SEMESTER], $this->arrival);
+        $this->year = new YearValidator($data[ImportColumns::YEAR],$this->arrival,$this->semester);
         $this->university = new UniversityValidator($data[ImportColumns::UNIVERSITY]);
-        $this->field = new FieldValidator($data[ImportColumns::FIELD]);
-        $this->faculty = new FacultyValidator($data[ImportColumns::FACULTY]);
-        $this->degree = new DegreeValidator($data[ImportColumns::DEGREE]);
+        $this->city = $data[ImportColumns::CITY];
         $courseList = $this->getCourses($data[ImportColumns::HOME_COURSE]);
         foreach ($courseList as $course) {
-            $this->pairings = [
-                new PairingValidator(
-                    $course, 
-                    $data[ImportColumns::FOREIGN_COURSE],
-                    $data[ImportColumns::PAIRING_TYPE]
-                )
-            ];
+            $this->pairings = [new PairingValidator($course, $data, $this->year)];
         }
-        
     }
 
     public static function getCourses($courses)
@@ -62,18 +49,23 @@ class MobilityValidator
     {
         $courseList = $this->getCourses($data[ImportColumns::HOME_COURSE]);
         foreach ($courseList as $course) {
-            array_push($this->pairings, 
-                new PairingValidator(
-                    $course, 
-                    $data[ImportColumns::FOREIGN_COURSE],
-                    $data[ImportColumns::PAIRING_TYPE]
-                )
-            );
+            array_push($this->pairings, new PairingValidator($course, $data));
         }
     }
 
     public function validate()
     {
-        return true;
+        $valid = true;
+        $this->student->validate();
+            $this->arrival->validate();
+            $this->departure->validate();
+            $this->semester->validate();
+            $this->year->validate();
+            $this->university->validate();
+        foreach ($this->pairings as $pairing) {
+            $pairing->validate();
+        }
+        $this->isValid = $valid;
+        return $valid;
     }
 }

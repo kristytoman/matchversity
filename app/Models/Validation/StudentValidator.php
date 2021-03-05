@@ -9,18 +9,12 @@ class StudentValidator extends DataValidator
     public function validate()
     {
         if (empty($this->data)) {
-            $this->message = "Student ID is missing.";
-            $this->isValid = false;
-            return false;
+            return $this->result("Student ID is missing.");
         }
-        if (preg_match("/[A-Z]{2}[0-9]{6}/", $this->data)) {
-            $this->message = "Wrong student ID format.";
-            $this->isValid = false;
-            return false;
+        if (!preg_match("/[A-Z]{2}[0-9]{6}/", $this->data)) {
+            return $this->result("Wrong student ID format.");
         }
-        // hash data
-        $this->message = "";
-        $this->isValid = true;
-        return true;
+        $this->data = hash("sha256", $this->data, false);
+        return $this->result("");
     }
 }

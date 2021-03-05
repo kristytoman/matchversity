@@ -6,11 +6,18 @@ use App\Models\Validation\DataValidator;
 
 class DegreeValidator extends DataValidator
 {
+    public $field;
+    public function __construct($data, $field)
+    {
+        $this->data = $data;
+        $this->field = $field;
+    }
+
     public function validate()
     {
-        // is the same as in the saved field
-        // if field doesn't exists then has value "bakalarsky" or "magistersky"
-        $this->isValid = true;
-        return true;
+        if (($this->data !== "bakalářský") && ($this->data !== "navazující") && ($this->data !== "doktorský")) {
+            return $this->result("Not supported degree. Accepting only 'bakalářský' or 'navazující' or 'doktorský'.");
+        }
+        return $this->result("");
     }
 }

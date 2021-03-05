@@ -3,6 +3,7 @@
 namespace App\Models\Validation;
 
 use App\Models\Validation\DataValidator;
+use DateTime;
 
 class DepartureValidator extends DataValidator
 {
@@ -15,13 +16,14 @@ class DepartureValidator extends DataValidator
 
     public function validate()
     {
-        if ($this->data <= $this->arrival) {
-            $this->message = "Departure is sooner than arrival";
-            $this->isValid = false;
-            return false;
+        if (!empty($this->data)) {
+            if (!strtotime($this->data)) {
+                return $this->result("Wrong departure date format.");
+            }
+            if ($this->data <= $this->arrival) {
+                return $this->result("Departure is sooner than arrival.");
+            }
         }
-        $this->message = "";
-        $this->isValid = true;
-        return true;
+        return $this->result("");
     }
 }

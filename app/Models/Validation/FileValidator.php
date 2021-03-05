@@ -69,6 +69,7 @@ class FileValidator
                     $this->addMobility($mobilities, $row);
                 }
             }
+            $this->validateMobilities($mobilities);
             return $mobilities;
         }
         return null;
@@ -85,5 +86,12 @@ class FileValidator
             }
         }
         array_push($mobilities, new MobilityValidator($data));
+    }
+
+    public function validateMobilities(&$mobilities)
+    {
+        foreach($mobilities as $mobility) {
+            $mobility->validate();
+        }
     }
 }

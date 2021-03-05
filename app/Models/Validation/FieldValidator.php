@@ -2,16 +2,16 @@
 
 namespace App\Models\Validation;
 
+use App\Models\Field;
 use App\Models\Validation\DataValidator;
 
 class FieldValidator extends DataValidator
 {
     public function validate()
     {
-        // field is not in the database
-        // field has different faculty
-        $this->message = "";
-        $this->isValid = true;
-        return true;
+        if (empty($this->data)) {
+            return $this->result("Course is missing field.");
+        }
+        return $this->result("");
     }
 }

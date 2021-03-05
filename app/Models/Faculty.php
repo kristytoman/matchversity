@@ -38,4 +38,8 @@ class Faculty extends Model
         return $this->hasMany(Field::class);
     }
 
+    public static function getById($id)
+    {
+        return self::find($id);
+    }
 }

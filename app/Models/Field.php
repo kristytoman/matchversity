@@ -46,11 +46,16 @@ class Field extends Model
         return $this->belongsToMany(HomeCourse::class, 'field_courses');
     }
 
+    public static function getFieldById($id)
+    {
+        return self::find($id);
+    }
 
-    public static function getFieldById($fieldID, $facultyId)
+    public static function getField($fieldID, $degree, $facultyId)
     {
         return self::firstOrCreate([
             'id' => $fieldID,
+            'degree' => $degree,
             'faculty_id' => $facultyId
         ]);
     }

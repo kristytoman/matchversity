@@ -8,8 +8,9 @@ class UniversityValidator extends DataValidator
 {
     public function validate()
     {
-        // not empty
-        // prvni velke pismeno
-        return true;
+        if (empty($this->data)) {
+            return $this->result("Missing university name.");
+        }
+        return $this->result("");
     }
 }
