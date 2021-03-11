@@ -24,13 +24,15 @@ class SemesterValidator extends DataValidator
         }
         if ($this->arrival->isValid) {
             $month = $this->arrival->getMonth();
-            if (($this->data === "ZS") && ($month > 7) && ($month < 12)) {
-                return $this->result("");
+            if (($this->data === "ZS") && (($month < 5) || ($month === 12))) {
+                $this->data = "LS";
+                return $this->result("Semester was changed to fit the arrival");
             }
-            if (($this->data === "LS") && (($month < 5) || ($month === 12))) {
-                return $this->result("");
+            if (($this->data === "LS") && (($month > 7) && ($month < 12))) {
+                $this->data = "ZS";
+                return $this->result("Semester was changed to fit the arrival");
             }
-            return $this->result("The semester does not fit with the arrival.");
+            return $this->result("");
         }
         return $this->result("");
     }

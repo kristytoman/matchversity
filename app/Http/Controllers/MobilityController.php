@@ -11,6 +11,7 @@ use App\Models\Pairing;
 use App\Http\Requests\StoreMobilityRequest;
 use App\Http\Requests\UpdateMobilityRequest;
 use App\Http\Requests\ImportMobilitiesRequest;
+use App\Http\Requests\StoreMobilitiesRequest;
 use Illuminate\Http\Request;
 use App\Models\Validation\FileValidator;
 use ImportColumns;
@@ -143,5 +144,11 @@ class MobilityController extends Controller
             ]);
         }
         // error
+    }
+
+    public function save(StoreMobilitiesRequest $request)
+    {
+        Mobility::import($request->validated());
+        return redirect('/');
     }
 }

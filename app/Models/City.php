@@ -58,11 +58,10 @@ class City extends Model
      * @param   String  $country    Country name
      * @return  City    
      */
-    public static function getCity($city, $country)
+    public static function getCity($city)
     {
         return self::firstOrCreate([
-            'name' => $city,
-            'country_id' => $country
+            'name' => $city
         ]);
     }
 }

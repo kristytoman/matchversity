@@ -3,6 +3,7 @@
 namespace App\Models\Validation;
 
 use ImportColumns;
+use App\Models\Validation\HomeCourseValidator;
 use SimpleXLSX;
 
 class FileValidator
@@ -65,7 +66,8 @@ class FileValidator
         if ($this->data) {
             $mobilities = [];
             foreach ($this->data as $row) {
-                if (($row[ImportColumns::DEGREE] !== 'doktorský') && (!empty($row[ImportColumns::HOME_COURSE]))) {
+                if (($row[ImportColumns::DEGREE] !== 'doktorský') && (!empty($row[ImportColumns::HOME_COURSE])) &&
+                !empty($row[ImportColumns::STUDENT_ID])) {
                     $this->addMobility($mobilities, $row);
                 }
             }

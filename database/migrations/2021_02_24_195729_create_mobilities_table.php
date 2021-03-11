@@ -17,7 +17,7 @@ class CreateMobilitiesTable extends Migration
             $table->id();
             $table->foreignId('university_id')
                   ->constrained('universities');
-            $table->string('student', 256);
+            $table->string('student', 64);
             $table->date('arrival');
             $table->date('departure')
                   ->nullable()

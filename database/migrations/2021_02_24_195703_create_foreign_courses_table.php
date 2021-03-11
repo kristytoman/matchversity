@@ -15,7 +15,7 @@ class CreateForeignCoursesTable extends Migration
     {
         Schema::create('foreign_courses', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 128);
+            $table->string('name', 128)->nullable()->default(null);
             $table->foreignId('university_id')
                   ->constrained('universities');
         });

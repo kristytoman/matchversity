@@ -59,7 +59,6 @@ class Mobility extends Model
         return $this->hasMany(Pairing::class);
     }
 
-    public boolean $isValid;
 
     public static function saveMobility($data)
     {
@@ -161,8 +160,21 @@ class Mobility extends Model
         return $semester === "LS";
     }
 
-    public static function getStudent($id) 
+    public static function import($file)
     {
-        return hash("sha256", $id, false);
+        foreach ($file['mobility'] as $mobility) {
+            $toSave = new Mobility;
+            $toSave->student = $mobility['student'];
+            $toSave->arrival = $mobility['arrival'];
+            $toSave->departure = $mobility['departure'];
+            $toSave->year = $mobility['year'];
+            $toSave->is_summer = self::isSummerSemester($mobility['semester']);
+            $toSave->university()->associate(University::get($mobility['university'], $mobility['city']));
+            $toSave->save();
+            foreach ($mobility['pairing'] as $pairing) {
+                Pairing::import($toSave, $pairing, $toSave->university->id);
+            }
+        }
     }
+
 }

@@ -146,27 +146,14 @@ class Pairing extends Model
                 ->get();
     }
 
-    public static function importPairings($file) 
+    public static function import($mobility, $data, $uni) 
     {
-        $mobilities = [];
-        foreach ($file as $row) {
-            if (($row[ImportColumns::DEGREE] !== 'doktorský') && (!empty($row[ImportColumns::HOME_COURSE]))) {
-                $mobility = Mobility::getMobility($row);
-                $courses = HomeCourse::getCourses($row);
-                foreach ($courses as $course) {
-                    $pair = new Pairing;
-                    $pair->associateForeignCourse(
-                        $mobility->university()->id,
-                        $row[ImportColumns::FOREIGN_COURSE]
-                    );
-                    $pair->homeCourse()->associate($course);
-                    $pair->setState(ImportColumns::PAIRING_TYPE);
-                    $pair->mobility()->associate($mobility);
-                }
-                array_push($mobilities, $mobility);
-            }
-        }
-        return $mobilities;
+        $pairing = new Pairing;
+        $pairing->foreignCourse()->associate(ForeignCourse::get($uni, $data['foreignCourse']));
+        $pairing->homeCourse()->associate(HomeCourse::get($data['homeCourse']));
+        $pairing->setState($data['type']);
+        $pairing->mobility()->associate($mobility);
+        $pairing->save();
     }
 
 

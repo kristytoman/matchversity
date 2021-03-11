@@ -8,10 +8,10 @@ class ForeignCourseValidator extends DataValidator
 {
     public function validate()
     {
+        $this->toFirstUpperCase();
         if (empty($this->data)) {
             return $this->result("Missing foreign course name.");
         }
-        $this->toFirstUpperCase();
         return $this->result("");
     }
 
@@ -20,7 +20,8 @@ class ForeignCourseValidator extends DataValidator
         $this->data = trim(preg_replace('/\s+/', ' ', $this->data));
         $this->data = strtolower($this->data);
         $this->data = ucwords($this->data, " \t\r\n\f\v(\"'.-");
-        $words = array('A', 'An', 'The', 'And', 'Of', 'But', 'Or', 'For', 'Nor', 'With', 'On', 'In', 'At', 'To', 'From', 'By', '\'S');
+        $words = array('A', 'An', 'The', 'And', 'Of', 'But', 'Or', 'For', 'Nor', 'With', 
+                       'On', 'In', 'At', 'To', 'From', 'By', '\'S');
         $regex = '/\b(' . implode( '|', $words) . ')\b/i';
         if ($first = strstr($this->data, " ", true)) {
             $this->data = $first . preg_replace_callback($regex, function($matches) {

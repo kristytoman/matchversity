@@ -32,6 +32,8 @@ class University extends Model
      */
     protected $with = ['city'];
 
+    protected $guarded = [];
+
     /**
      * Gets mobilities of the university.
      */
@@ -103,10 +105,12 @@ class University extends Model
         return $uni;
     }
 
-    public static function getUniversityByName($name)
+    public static function get($name, $city)
     {
-        return self::firstOrCreate([
+        $uni = self::firstOrCreate([
             'original_name' => $name
         ]);
+        $uni->city()->associate(City::getCity($city));
+        return $uni;
     }
 }

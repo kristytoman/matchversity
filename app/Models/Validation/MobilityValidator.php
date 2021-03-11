@@ -49,7 +49,7 @@ class MobilityValidator
     {
         $courseList = $this->getCourses($data[ImportColumns::HOME_COURSE]);
         foreach ($courseList as $course) {
-            array_push($this->pairings, new PairingValidator($course, $data));
+            array_push($this->pairings, new PairingValidator($course, $data, $this->year));
         }
     }
 

@@ -14,7 +14,6 @@ class HomeCourseValidator extends DataValidator
         $this->data = $course;
         $this->year = $year;
     }
-
     public function validate()
     {
         if (empty($this->data)) {
@@ -23,25 +22,38 @@ class HomeCourseValidator extends DataValidator
         if (!preg_match("/^[A-Z0-9]*\/[A-Z0-9]*$/", $this->data)) {
             return $this->result("Wrong home course code format.");
         }
-        if (!$this->getName()) {
+        if (!$this->getName($this->year->data) && !$this->getName($this->year->data-1)) {
             return $this->result("Name import not succesful.");
         }
         return $this->result("");
     }
 
 
-    public function getName()
+    public function getName($year)
     {
+        static $courses = [];
+        if (!empty($courses) && key_exists($this->data . $year, $courses)) {
+            $this->name = $courses[$this->data . $year];
+            return true;
+        }
         $code = explode("/", $this->data);
-        $res = file_get_contents('https://stag-ws.utb.cz/ws/services/rest2/predmety/getPredmetInfo?katedra='.$code[0].
-        '&zkratka='.$code[1].'&rok='.$this->year->data.'&outputFormat=JSON');
+        if ($this->name = $this->fetchName($code[0],$code[1],$year)) {
+            $courses[$this->data . $year] = $this->name;
+            return true;
+        }
+        return false;
+    }
+
+    public function fetchName($unit, $course, $year)
+    {
+        $res = file_get_contents('https://stag-ws.utb.cz/ws/services/rest2/predmety/getPredmetInfo?katedra='.$unit.
+        '&zkratka='.$course.'&rok='.$year.'&outputFormat=JSON');
         if ($res !== false && (strpos($res, "faultstring") !== false || substr($res, 0, 6) == '<html>')) {
-            return false;
+            return null;
         }
         if ($res === false || strlen($res) == 0) {
-            return false;
+            return null;
         }
-        $this->name = json_decode($res)->nazev;
-        return true;
+        return json_decode($res)->nazev;
     }
 }

@@ -29,6 +29,9 @@ Route::resource('universities', UniversityController::class);
 Route::post('import', [MobilityController::class, 'import'])
     ->name('import');
 
+Route::post('save', [MobilityController::class, 'save'])
+     ->name('save');
+
 Route::get('admin', [MobilityController::class, 'upload']);
 
 Route::resource('mobilities', MobilityController::class);

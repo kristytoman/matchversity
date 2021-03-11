@@ -48,7 +48,7 @@ class ForeignCourse extends Model
         return $this->hasMany(Pairing::class);
     }
 
-    public static function getCourse($uniId, $name) 
+    public static function get($uniId, $name) 
     {
         return self::firstOrCreate([
             'name' => $name,
