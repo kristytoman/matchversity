@@ -26,7 +26,7 @@ class CreateUniversitiesTable extends Migration
                   ->nullable()
                   ->default(null)           
                   ->constrained('cities');
-            $table->string('xchange', 256)
+            $table->bigInteger('xchange')
                   ->nullable()
                   ->default(null);            
             $table->string('web', 256)

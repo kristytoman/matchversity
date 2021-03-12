@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Location;
 use DatabaseNames;
+use DB;
 
 class University extends Model
 {
-    use HasFactory;
 
+    public $xchangeLink;
+    public $rating;
     /**
      * The table associated with the model.
      *
@@ -92,15 +93,15 @@ class University extends Model
      * @param   String  $expiration Date of contract expiration
      * @return  University
      */
-    public static function createNewUniProfile($name, $originalName, $location, $web, $xchange, $expiration)
+    public static function createProfile($englishName, $originalName, $nativeName, $xchange, $web, $city)
     {
         $uni = new University;
-            $uni->name = $name;
+            $uni->name = $englishName;
             $uni->original_name = $originalName;
+            $uni->native_name = $nativeName;
             $uni->web = $web;
             $uni->xchange = $xchange;
-            $uni->expiration = $expiration;
-            $uni->city()->associate($location);
+            $uni->city()->associate($city);
         $uni->save();
         return $uni;
     }
@@ -112,5 +113,21 @@ class University extends Model
         ]);
         $uni->city()->associate(City::getCity($city));
         return $uni;
+    }
+
+    public static function getAll()
+    {
+        $unis = self::all();
+        foreach($unis as $uni) {
+            $uni->getXchange();
+        }
+        return $unis;
+    }
+
+    private function getXchange()
+    {
+        $this->xchangeLink = 'https://xchange.utb.cz/instituce/' . $this->xchange . '-' .
+            DB::connection('xchange')->table('institutions')->select('url')->where('id', $this->xchange)->first();
+        $this->rating = DB::connection('xchange')->table('reviews')->where('institution_id',$this->xchange)->avg();
     }
 }

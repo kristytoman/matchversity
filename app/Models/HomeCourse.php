@@ -9,7 +9,6 @@ use ImportColumns;
 
 class HomeCourse extends Model
 {
-    use HasFactory;
 
     /**
      * The table associated with the model.

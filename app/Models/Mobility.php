@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use ImportColumns;
 
@@ -10,7 +9,6 @@ use ImportColumns;
 
 class Mobility extends Model
 {
-    use HasFactory;
 
     const SPRING_SEMESTER = "summer";
     const AUTUMN_SEMESTER = "winter";

@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
-    use HasFactory;
 
     /**
      * The table associated with the model.
@@ -62,6 +60,14 @@ class City extends Model
     {
         return self::firstOrCreate([
             'name' => $city
+        ]);
+    }
+
+    public static function add($city, $country)
+    {
+        return self::firstOrCreate([
+            'name' => $city,
+            'country_id' => $country
         ]);
     }
 }
