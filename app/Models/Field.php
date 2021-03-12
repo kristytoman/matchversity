@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Field extends Model
 {
-    use HasFactory;
+     * @var string
 
     /**
      * The table associated with the model.
