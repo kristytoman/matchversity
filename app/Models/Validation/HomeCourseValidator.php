@@ -3,17 +3,36 @@
 namespace App\Models\Validation;
 
 use App\Models\Validation\DataValidator;
+use App\Models\HomeCourse;
 
 class HomeCourseValidator extends DataValidator
 {
     public $name;
     public $year;
+    private static $courses;
 
-    public function __construct($course, $year)
+
+    public function __construct()
     {
-        $this->data = $course;
-        $this->year = $year;
+
     }
+
+    public static function fromFile($course, $year)
+    {
+        $new = new HomeCourseValidator;
+        $new->data = $course;
+        $new->year = $year;
+        return $new;
+    }
+
+    public static function fromForm($homeCourse)
+    {
+        $new = new HomeCourseValidator;
+        $new->data = $homeCourse['code'];
+        $new->name = $homeCourse['name'];
+        return $new;
+    }
+
     public function validate()
     {
         if (empty($this->data)) {
@@ -28,17 +47,27 @@ class HomeCourseValidator extends DataValidator
         return $this->result("");
     }
 
+    public static function refreshField()
+    {
+        self::$courses = [];
+    }
 
     public function getName($year)
     {
-        static $courses = [];
-        if (!empty($courses) && key_exists($this->data . $year, $courses)) {
-            $this->name = $courses[$this->data . $year];
+        if ($this->name) {
+            return true;
+        }
+        // if ($savedCourse = HomeCourse::find($this->data)) {
+        //     $this->name = $savedCourse->name;
+        //     return true;
+        // }
+        if (!empty(self::$courses) && key_exists($this->data . $year, self::$courses)) {
+            $this->name = self::$courses[$this->data . $year];
             return true;
         }
         $code = explode("/", $this->data);
-        if ($this->name = $this->fetchName($code[0],$code[1],$year)) {
-            $courses[$this->data . $year] = $this->name;
+        if ($this->name = $this->fetchName($code[0], $code[1], $year)) {
+            self::$courses[$this->data . $year] = $this->name;
             return true;
         }
         return false;
@@ -54,6 +83,6 @@ class HomeCourseValidator extends DataValidator
         if ($res === false || strlen($res) == 0) {
             return null;
         }
-        return json_decode($res)->nazev;
+        return json_decode($res)->nazevDlouhy;
     }
 }

@@ -179,5 +179,85 @@ class UniversitySeeder extends Seeder
             'https://www.uclm.es/?sc_lang=en',
             City::add('Ciudad Real', 'ES')
         );
+        University::createProfile(
+            'Karadeniz Technical University',
+            'Karadeniz Teknik Universitesi',
+            'Karadeniz Teknik Üniversitesi',
+            80,
+            'https://www.ktu.edu.tr/en',
+            City::add('Trabzon', 'TR')
+        );
+        University::createProfile(
+            'Chemnitz University of Technology',
+            'TECHNISCHE UNIVERSITÄT CHEMNITZ',
+            'Technische Universität Chemnitz',
+            58,
+            'https://www.tu-chemnitz.de/index.html.en',
+            City::add('Chemnitz', 'DE')
+        );
+        University::createProfile(
+            'Institute of Technology Carlow',
+            'INSTITUTE OF TECHNOLOGY CARLOW',
+            'Institiúid Teicneolaíochta Cheatharlach',
+            397,
+            'https://www.itcarlow.ie',
+            City::add('Carlow', 'IE')
+        );
+        University::createProfile(
+            'Institute of Technology Tralee',
+            'INSTITUTE OF TECHNOLOGY TRALEE',
+            'Institiúid Teicneolaíochta Thrá Lí',
+            62,
+            'https://www.ittralee.ie/en/',
+            City::add('Tralee', 'IE')
+        );
+        University::createProfile(
+            'Dortmund University of Applied Sciences and Arts',
+            'FACHHOCHSCHULE DORTMUND',
+            'Fachhochschule Dortmund',
+            41,
+            'https://www.fh-dortmund.de/en/index.php',
+            City::add('Dortmund', 'DE')
+        );
+        University::createProfile(
+            'The Academy of Fine Arts and Design',
+            'VYSOKA SKOLA VYTVARNYCH UMENI V BRATISLAVE',
+            'Vysoká škola výtvarných umení v Bratislave',
+            224,
+            'https://www.vsvu.sk/en/',
+            City::add('Bratislava', 'SK')
+        );
+        University::createProfile(
+            'Polytechnic University of Milan',
+            'POLITECNICO DI MILANO',
+            'Politecnico di Milano',
+            111,
+            'https://www.polimi.it/en/',
+            City::add('Milan', 'IT')
+        );
+        University::createProfile(
+            'St. Pölten University of Applied Sciences',
+            'St. Pölten University of Applied Sciences',
+            'Fachhochschule St. Pölten',
+            126,
+            'https://www.fhstp.ac.at/en?set_language=en',
+            City::add('Sankt Pölten', 'AT')
+        );
+        University::createProfile(
+            'West Pomeranian University of Technology',
+            'West Pomeranian University of Technology',
+            'Zachodniopomorski Uniwersytet Technologiczny w Szczecinie',
+            230,
+            'https://www.zut.edu.pl/EN/university.html',
+            City::add('Szczecin', 'PL')
+        );
+        University::createProfile(
+            'University of Ljubljana',
+            'UNIVERZA V LJUBLJANI',
+            'Univerza v Ljubljani',
+            7,
+            'https://www.uni-lj.si/eng/',
+            City::add('Ljubljana', 'Slovenia')
+        );
     }
 }

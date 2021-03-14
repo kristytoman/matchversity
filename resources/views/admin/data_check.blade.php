@@ -39,8 +39,9 @@
                         <span style="color: red">{{ $pairing->foreignCourse->message }}</span>
                         <span style="color: red">{{ $pairing->homeCourse->message }}</span>
                         <span style="color: red">{{ $pairing->message }}</span><br>
-                </div>
-                @endforeach
+                    </div>
+                    @endforeach
+                <span style="color: red">{{ $mobility->message }}</span><br>
             </div>
             <br>
         @endforeach

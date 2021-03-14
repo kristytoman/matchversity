@@ -14,6 +14,7 @@ class CreatePairingsTable extends Migration
     public function up()
     {
         Schema::create('pairings', function (Blueprint $table) {
+            $table->timestamps();
             $table->id();
             $table->foreignId('foreign_course_id')
                   ->constrained('foreign_courses');            

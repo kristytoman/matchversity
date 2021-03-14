@@ -14,6 +14,7 @@ class CreateMobilitiesTable extends Migration
     public function up()
     {
         Schema::create('mobilities', function (Blueprint $table) {
+            $table->timestamps();
             $table->id();
             $table->foreignId('university_id')
                   ->constrained('universities');

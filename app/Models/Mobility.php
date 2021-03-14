@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use ImportColumns;
+use DB;
 
 
 
@@ -25,7 +26,7 @@ class Mobility extends Model
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * The relationships that should always be loaded.
@@ -158,21 +159,28 @@ class Mobility extends Model
         return $semester === "LS";
     }
 
-    public static function import($file)
+    public static function import($transaction)
     {
-        foreach ($file['mobility'] as $mobility) {
-            $toSave = new Mobility;
-            $toSave->student = $mobility['student'];
-            $toSave->arrival = $mobility['arrival'];
-            $toSave->departure = $mobility['departure'];
-            $toSave->year = $mobility['year'];
-            $toSave->is_summer = self::isSummerSemester($mobility['semester']);
-            $toSave->university()->associate(University::get($mobility['university'], $mobility['city']));
-            $toSave->save();
-            foreach ($mobility['pairing'] as $pairing) {
-                Pairing::import($toSave, $pairing, $toSave->university->id);
-            }
+        foreach ($transaction as $mobility) {
+            self::createNew($mobility);
         }
+    }
+    private static function createNew($mobility)
+    {
+        $toSave = new Mobility;
+            $toSave->student = $mobility->student->data;
+            $toSave->arrival = $mobility->arrival->data;
+            if (!empty($mobility->departure->data)) {
+                $toSave->departure = $mobility->departure->data;
+            }
+            $toSave->year = $mobility->year->data;
+            $toSave->is_summer = self::isSummerSemester($mobility->semester->data);
+            $toSave->university()->associate(University::get(
+                $mobility->university->data, 
+                $mobility->city
+            ));
+        $toSave->save();
+        Pairing::import($toSave, $mobility->pairings, $toSave->university->id);
     }
 
 }

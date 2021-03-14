@@ -14,12 +14,12 @@ use App\Http\Requests\ImportMobilitiesRequest;
 use App\Http\Requests\StoreMobilitiesRequest;
 use Illuminate\Http\Request;
 use App\Models\Validation\FileValidator;
+use App\Models\Validation\MobilityValidator;
 use ImportColumns;
 
 class MobilityController extends Controller
 {
-    private $mobility;
-
+    
     /**
      * Display a listing of the resource.
      *
@@ -27,6 +27,7 @@ class MobilityController extends Controller
      */
     public function index() 
     {
+        // update view
         return view(
             'mobilities.get_mobilities', [
                 'mobilities' => Mobility::all()
@@ -41,6 +42,7 @@ class MobilityController extends Controller
      */
     public function create() 
     {
+        // TODO: delete or update
         return view(
             'mobilities.add_mobility', [
                 'universities' => University::all(),
@@ -63,6 +65,7 @@ class MobilityController extends Controller
      */
     public function store(StoreMobilityRequest $request) 
     {
+        // TODO: delete or update
         Mobility::saveMobility($request->validated());
         return redirect('mobilities');
     }
@@ -75,6 +78,7 @@ class MobilityController extends Controller
      */
     public function show($id) 
     {
+        // update
         $mobility = Mobility::find($id);
         return view(
             'mobilities.show_mobility', [
@@ -82,7 +86,6 @@ class MobilityController extends Controller
                 'duration' => $mobility->getDuration($id)
             ]
         );
-
     }
 
     /**
@@ -93,6 +96,7 @@ class MobilityController extends Controller
      */
     public function edit($id) 
     {
+        // update
         $mobility = Mobility::find($id);
         return view(
             'mobilities.rate_mobility', [
@@ -133,22 +137,28 @@ class MobilityController extends Controller
         return view('admin.index');
     }
 
+
     public function import(ImportMobilitiesRequest $request) 
     {
         $validated = $request->validated();
-        $file = new FileValidator($validated['file']);
-        if ($mobilities = $file->getData()) {
+        $fileValidator = new FileValidator;
+        if ($mobilities = $fileValidator->getData($validated['file'])) {
+            Mobility::import($mobilities);
+        }
+        if ($fileValidator->toCheck) {
             return view('admin.data_check', [
-                'count' => count($mobilities),
-                'mobilities' => $mobilities
+                'count' => $fileValidator->getCount(),
+                'mobilities' => $fileValidator->toCheck
             ]);
         }
-        // error
+        else {
+            return redirect('mobilities');
+        }
     }
 
     public function save(StoreMobilitiesRequest $request)
     {
-        Mobility::import($request->validated());
-        return redirect('/');
+        Mobility::import(MobilityValidator::fromForm($request->validated()));
+        return redirect('mobilities');
     }
 }

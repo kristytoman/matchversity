@@ -24,7 +24,7 @@ class Pairing extends Model
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * The relationships that should always be loaded.
@@ -144,13 +144,23 @@ class Pairing extends Model
                 ->get();
     }
 
-    public static function import($mobility, $data, $uni) 
+    public static function import($mobility, $pairings, $uni) 
+    {
+        foreach ($pairings as $pairing) {
+            self::createNew($mobility, $pairing, $uni);
+        }
+    }
+
+    private static function createNew($mobility, $data, $uni)
     {
         $pairing = new Pairing;
-        $pairing->foreignCourse()->associate(ForeignCourse::get($uni, $data['foreignCourse']));
-        $pairing->homeCourse()->associate(HomeCourse::get($data['homeCourse']));
-        $pairing->setState($data['type']);
-        $pairing->mobility()->associate($mobility);
+            $pairing->foreignCourse()->associate(ForeignCourse::get(
+                $uni, 
+                $data->foreignCourse->data
+            ));
+            $pairing->homeCourse()->associate(HomeCourse::get($data->homeCourse));
+            $pairing->setState($data->data);
+            $pairing->mobility()->associate($mobility);
         $pairing->save();
     }
 

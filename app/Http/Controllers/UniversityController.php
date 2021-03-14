@@ -14,6 +14,7 @@ class UniversityController extends Controller
      */
     public function index()
     {
+        // admin create view to handle universities
         var_dump(University::getAll());
     }
 
@@ -24,7 +25,7 @@ class UniversityController extends Controller
      */
     public function create()
     {
-        //
+        // admin form for creating 
     }
 
     /**
@@ -35,7 +36,7 @@ class UniversityController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // admin form for storing
     }
 
     /**
@@ -46,7 +47,7 @@ class UniversityController extends Controller
      */
     public function show($id)
     {
-        //
+        // user results
     }
 
     /**
@@ -57,7 +58,7 @@ class UniversityController extends Controller
      */
     public function edit($id)
     {
-        //
+        // admin edit form
     }
 
     /**
@@ -69,7 +70,7 @@ class UniversityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // admin update form
     }
 
     /**
@@ -80,6 +81,6 @@ class UniversityController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // admin destroy
     }
 }

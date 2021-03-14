@@ -12,11 +12,14 @@ class FileValidator
 
     private $file;
 
-    public function __construct($file)
-    {
-        $this->file = $file;
-    }
+    public $validated;
 
+    public $toCheck;
+
+    public function getCount()
+    {
+        return count($this->validated) + count($this->toCheck);
+    }
     private function isRightHeader($row)
     {
         return in_array(ImportColumns::STUDENT_ID, $row) &&
@@ -60,8 +63,10 @@ class FileValidator
         }
     }
 
-    public function getData()
+    public function getData($file)
     {
+        $this->file = $file;
+        HomeCourseValidator::refreshField();
         $this->parseData();
         if ($this->data) {
             $mobilities = [];
@@ -72,7 +77,8 @@ class FileValidator
                 }
             }
             $this->validateMobilities($mobilities);
-            return $mobilities;
+            HomeCourseValidator::refreshField();
+            return $this->validated;
         }
         return null;
     }
@@ -87,13 +93,21 @@ class FileValidator
                     return;
             }
         }
-        array_push($mobilities, new MobilityValidator($data));
+        array_push($mobilities, MobilityValidator::fromFile($data));
     }
 
     public function validateMobilities(&$mobilities)
     {
+        $this->toCheck = [];
+        $this->validated = [];
         foreach($mobilities as $mobility) {
-            $mobility->validate();
+            if ($mobility->validate()) {
+                array_push($this->validated, $mobility);
+            }
+            else {
+                array_push($this->toCheck, $mobility);
+            }
         }
     }
+
 }

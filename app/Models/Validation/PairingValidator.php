@@ -11,38 +11,42 @@ class PairingValidator extends DataValidator
 
     public $foreignCourse;
 
-    public $field;
-
-    public $faculty;
-
-    public $degree;
-
-    public function __construct($course, $data, $year)
+    public function __construct()
     {
-        $this->homeCourse = new HomeCourseValidator($course, $year);
-        $this->foreignCourse = new ForeignCourseValidator($data[ImportColumns::FOREIGN_COURSE]);
-        $this->field = new FieldValidator($data[ImportColumns::FIELD]);
-        $this->faculty = new FacultyValidator($data[ImportColumns::FACULTY]);
-        $this->degree = new DegreeValidator($data[ImportColumns::DEGREE], $this->field);
-        $this->data = $data[ImportColumns::PAIRING_TYPE];
+
+    }
+
+    public static function fromFile($course, $data, $year)
+    {
+        $toSave = new PairingValidator;
+        $toSave->homeCourse = HomeCourseValidator::fromFile($course, $year);
+        $toSave->foreignCourse = new ForeignCourseValidator($data[ImportColumns::FOREIGN_COURSE]);
+        $toSave->data = $data[ImportColumns::PAIRING_TYPE];
+        return $toSave;
+    }
+
+    public static function fromForm($pairing) 
+    {
+        $toSave = new PairingValidator;
+        $toSave->homeCourse = HomeCourseValidator::fromForm($pairing['homeCourse']);
+        $toSave->foreignCourse = new ForeignCourseValidator($pairing['foreignCourse']);
+        $toSave->data = $pairing['type'];
+        return $toSave;
     }
 
     public function validate()
     {
-        $valid = true;
-        $this->homeCourse->validate();
-        $this->foreignCourse->validate();
-        $this->field->validate();
-        $this->faculty->validate();
-        $this->degree->validate();
+        $validations = [
+            $this->homeCourse->validate(),
+            $this->foreignCourse->validate()
+        ];
         if (($this->data === "Přidaný") || ($this->data === "Normální") || ($this->data === "Smazaný")) {
-            $this->message = "";
+            $this->isValid = !in_array(false, $validations);
         }
         else {
+            $this->isValid = false;
             $this->message = "Wrong pairing type. Accepting 'Přidaný' or 'Normální' or 'Smazaný'.";
-            $valid = false;
         }
-        $this->isValid = $valid;
-        return $valid;
+        return $this->isValid;
     }
 }

@@ -24,7 +24,7 @@ class University extends Model
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * The relationships that should always be loaded.
@@ -111,7 +111,9 @@ class University extends Model
         $uni = self::firstOrCreate([
             'original_name' => $name
         ]);
-        $uni->city()->associate(City::getCity($city));
+        if(!$uni->city()) {
+            $uni->city()->associate(City::getCity($city));
+        }
         return $uni;
     }
 

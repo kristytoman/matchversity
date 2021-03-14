@@ -22,7 +22,7 @@ class HomeCourse extends Model
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = true;
 
     /**
      * The attributes that aren't mass assignable.
@@ -44,11 +44,16 @@ class HomeCourse extends Model
         return $this->belongsToMany(Field::class, 'field_courses');
     }
 
+    public static function find($code)
+    {
+        return self::where('code', $code)->first();
+    }
+
     public static function get($homeCourse) 
     {
         return self::firstOrCreate([
-            'code' => $homeCourse['code'],
-            'name' => $homeCourse['name']
+            'code' => $homeCourse->data,
+            'name' => $homeCourse->name
         ]);
     }
 }
