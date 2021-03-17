@@ -120,9 +120,9 @@ class University extends Model
     public static function getAll()
     {
         $unis = self::all();
-        foreach($unis as $uni) {
-            $uni->getXchange();
-        }
+        // foreach($unis as $uni) {
+        //     $uni->getXchange();
+        // }
         return $unis;
     }
 
@@ -131,5 +131,30 @@ class University extends Model
         $this->xchangeLink = 'https://xchange.utb.cz/instituce/' . $this->xchange . '-' .
             DB::connection('xchange')->table('institutions')->select('url')->where('id', $this->xchange)->first();
         $this->rating = DB::connection('xchange')->table('reviews')->where('institution_id',$this->xchange)->avg();
+    }
+    
+    public static function getCount()
+    {
+        return self::all()->count();
+    }
+
+    public static function getFavorites()
+    {
+        $all = self::getAll();
+        $top3 = [];
+        foreach($all as $i => $uni)
+        {
+            if ($i < 3) {
+                $top3[] = $uni;
+            }
+            else {
+                return $top3;
+            }
+        }
+    }
+
+    public static function getById($id)
+    {
+        return University::find($id);
     }
 }

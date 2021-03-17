@@ -53,4 +53,9 @@ class ForeignCourse extends Model
             'university_id' => $uniId
         ]);
     }
+
+    public static function getCount()
+    {
+        return self::all()->count();
+    }
 }

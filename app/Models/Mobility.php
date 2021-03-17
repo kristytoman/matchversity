@@ -183,4 +183,9 @@ class Mobility extends Model
         Pairing::import($toSave, $mobility->pairings, $toSave->university->id);
     }
 
+    public static function getCount()
+    {
+        return self::all()->count();
+    }
+
 }

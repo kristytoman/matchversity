@@ -15,7 +15,10 @@ class UniversityController extends Controller
     public function index()
     {
         // admin create view to handle universities
-        var_dump(University::getAll());
+        return view('universities.hunter', [
+            'top3' => University::getFavorites(),
+            'universities' => University::with('foreignCourses')->with('city')->get()
+        ]);
     }
 
     /**
@@ -47,7 +50,9 @@ class UniversityController extends Controller
      */
     public function show($id)
     {
-        // user results
+        return view('universities.university', [
+            'university' => University::getById($id)
+        ]);
     }
 
     /**

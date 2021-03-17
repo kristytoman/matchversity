@@ -1,23 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="title">
-        <h1>Matchversity</h1>
-        <a href="matcher" role="button">{{ __('Search for universities') }}</a>
-        <a href="{{ route('mobilities.index') }}" role="button">{{ __('Rate mobility') }}</a>
+    <span>
+        <h1>{{ __('Find the right course for you and go study abroad') }}</h1>
+        <div>{{ __('Do you want to explore the world and get a lifetime exprience?') }}</div>
+        <div>{{ __('Check the battles of your ancestors that can help you with your decisions.') }}</div>
+        <a class="btn" href="/search" role="button">{{ __('Search for universities') }}</a>
+    </span>
+    <span>
+        <img src="{{ asset('img/default.png') }}">
+    </span>
+
+    <div>
+        <span>{{ $countUni }} {{ __('universities')}}</span>
+        <span>{{ $countMobility }} {{ __('mobilities')}}</span>
+        <span>{{ $countCourse }} {{ __('courses')}}</span>
     </div>
-    <div class="about">
-        <h2>O Matchversity</h2>
-        <span>
-            <p>
-                Aplikace umožňuje studentům UTB prohlížet uskutečněné výjezdy na zahraniční studijní pobyt.
-                Abychom usnadnili proces vyhledávávání zahraničních předmětů ke spárování s předměty domácími,
-                zpřístupnili jsme pro vás informace o předchozích spárování. 
-            </p>
-            <p>
-                Studenti, kteří se již výjezdu účastnili, mají možnost poskytnout feedback k absolvovaným
-                předmětům, a tím pomoct s rozhodováním zájemcům.
-            </p>
-        </span>
-    </div>
+@endsection
+
+@section('scripts')
+    <script src="{{ mix('js/app.js') }}" type="javascript"></script>
 @endsection

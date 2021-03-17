@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\MobilityController;
 use App\Http\Controllers\AdminController;
+use App\Models\Mobility;
+use App\Models\University;
+use App\Models\ForeignCourse;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +20,18 @@ use App\Http\Controllers\AdminController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome', [
+        'countMobility' => Mobility::getCount(),
+        'countUni' => University::getCount(),
+        'countCourse' => ForeignCourse::getCount()
+    ]);
 });
 
-Route::get('matcher', function() {
-    return view('matcher');
+
+Route::get('search', function() {
+    return view('matcher', [
+        'geography' => json_decode(Storage::disk('local')->get('json/countries.json'), false)
+    ]);
 });
 
 Route::resource('universities', UniversityController::class);
@@ -39,3 +49,7 @@ Route::resource('mobilities', MobilityController::class);
 Route::get('contacts', function() {
     echo "Kontakty";
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

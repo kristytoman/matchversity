@@ -259,5 +259,158 @@ class UniversitySeeder extends Seeder
             'https://www.uni-lj.si/eng/',
             City::add('Ljubljana', 'Slovenia')
         );
+        University::createProfile(
+            'Dania Academy',
+            'Dania Academy, University of Higher Education/University of Applied Sciences',
+            'Erhvervsakademi Dania',
+            28,
+            'https://eadania.com',
+            City::add('Randers', 'DK')
+        );
+        University::createProfile(
+            'IDRAC Business School',
+            'IDRAC - International School of Management',
+            'Institut pour le Développement et la Recherche d\'Action Commerciale',
+            59,
+            'https://www.idrac-business-school.com',
+            City::add('Lyon', 'FR')
+        );
+        University::createProfile(
+            'Design School Kolding',
+            'DESIGNSKOLEN KOLDING',
+            'Designskolen Kolding',
+            86,
+            'https://www.designskolenkolding.dk/en',
+            City::add('Kolding', 'DK')
+        );
+        University::createProfile(
+            'Academy of Fine Arts In Łódź',
+            'Academy of Fine Arts in Lodz (ASP)',
+            'Akademia Sztuk Pięknych im. Władysława Strzemińskiego',
+            128,
+            'https://www.asp.lodz.pl/index.php/pl/',
+            City::add('Łódź', 'PL')
+        );
+        University::createProfile(
+            'University of Applied Sciences Technikum Wien',
+            'TECHNIKUM WIEN',
+            'Fachhochschule Technikum Wien',
+            163,
+            'https://www.technikum-wien.at/en/',
+            City::add('Wien', 'AT')
+        );
+        University::createProfile(
+            'Tampere University of Applied Sciences',
+            'PIRKANMAAN AMMATTIKORKEAKOULU',
+            'Tampereen ammattikorkeakoulu',
+            132,
+            'https://www.tuni.fi/en',
+            City::add('Tampere', 'FI')
+        );
+        University::createProfile(
+            'University of Klagenfurt',
+            'UNIVERSITÄT KLAGENFURT',
+            'Universität Klagenfurt',
+            12,
+            'https://www.aau.at/en/',
+            City::add('Klagenfurt', 'AT')
+        );
+        University::createProfile(
+            'Tallinn University',
+            'TALLINNA ÜLIKOOL',
+            'Tallinna Ülikool',
+            130,
+            'https://www.tlu.ee/en',
+            City::add('Tallinn', 'EE')
+        );
+        University::createProfile(
+            'Vilnius Art Academy',
+            'VILNIAUS DAILES AKADEMIJA',
+            'Vilniaus dailės akademija',
+            272,
+            'https://www.vda.lt/en/',
+            City::add('Vilnius', 'LT')
+        );
+        University::createProfile(
+            'University of Maribor',
+            'UNIVERZA V MARIBORU',
+            'Univerza v Mariboru',
+            187,
+            'https://www.um.si/en/Pages/default.aspx',
+            City::add('Maribor', 'SI')
+        );
+        University::createProfile(
+            'Vilnius Gediminas Technical University',
+            'VILNIAUS GEDIMINO TECHNIKOS UNIVERSITETAS (VGTU)',
+            'Vilniaus Gedimino technikos universitetas',
+            220,
+            'https://vilniustech.lt/index.php?lang=2',
+            City::add('Vilnius', 'LT')
+        );
+        University::createProfile(
+            'European University Cyprus',
+            'European University Cyprus',
+            'European University Cyprus',
+            40,
+            'https://euc.ac.cy/en/',
+            City::add('Nicosia', 'CY')
+        );
+        University::createProfile(
+            'University of Vaasa',
+            'VAASAN YLIOPISTO',
+            'Vaasan yliopisto',
+            208,
+            'https://www.univaasa.fi/en',
+            City::add('Vaasa', 'FI')
+        );
+        University::createProfile(
+            'Polytechnical Institute of Beja',
+            'INSTITUTO POLITÉCNICO DE BEJA',
+            'Instituto Politécnico de Beja',
+            64,
+            'https://www.ipbeja.pt/en/Pages/default.aspx',
+            City::add('Beja', 'PT')
+        );
+        University::createProfile(
+            'Volda University College',
+            'HOGSKULEN I VOLDA',
+            'Høgskulen i Volda',
+            221,
+            'https://www.hivolda.no/en',
+            City::add('Volda', 'NO')
+        );
+        University::createProfile(
+            'Technical University of Madrid',
+            'UNIVERSIDAD POLITÉCNICA DE MADRID',
+            'Universidad Politécnica de Madrid',
+            287,
+            'https://www.upm.es/internacional',
+            City::add('Madrid', 'ES')
+        );
+        University::createProfile(
+            'University of Lille',
+            'UNIVERSITE CHARLES DE GAULLE - LILLE III',
+            'Université de Lille',
+            158,
+            'https://www.univ-lille.fr/home/',
+            City::add('Lille', 'FR')
+        );
+        University::createProfile(
+            'Pontifical University of Salamanca',
+            'UNIVERSIDAD PONTIFICIA DE SALAMANCA',
+            'Universidad Pontificia de Salamanca',
+            149,
+            'https://www.upsa.es',
+            City::add('Salamanca', 'ES')
+        );
+        University::createProfile(
+            'Catholic University of Portugal',
+            'UNIVERSIDADE CATÓLICA PORTUGUESA',
+            'Universidade Católica Portuguesa',
+            23,
+            'https://www.ucp.pt/?set_language=en',
+            City::add('Lisbon', 'PT')
+        );
+        
     }
 }
