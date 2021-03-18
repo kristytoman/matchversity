@@ -1,12 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UniversityController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MobilityController;
-use App\Http\Controllers\AdminController;
-use App\Models\Mobility;
-use App\Models\University;
-use App\Models\ForeignCourse;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\UniversityController;
+use App\Http\Controllers\Admin\UniversityController as AdminUniversityController;
+use App\Http\Controllers\Admin\MobilityController as AdminMobilityController;
+use App\Http\Controllers\Admin\ForeignCourseController;
+use App\Http\Controllers\Admin\HomeCourseController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,37 +24,26 @@ use App\Models\ForeignCourse;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome', [
-        'countMobility' => Mobility::getCount(),
-        'countUni' => University::getCount(),
-        'countCourse' => ForeignCourse::getCount()
-    ]);
+Route::get('/', HomeController::class);
+
+Route::prefix('admin')->name('admin.')->group(function(){
+    Route::get('/', [AdminMobilityController::class, 'index']);
+    Route::resource('foreignCourses', ForeignCourseController::class);
+    Route::resource('homeCourses', HomeCourseController::class);
+    Route::resource('mobilities', AdminMobilityController::class);
+    Route::resource('universities', AdminUniversityController::class);
 });
 
+Route::get('search', SearchController::class);
 
-Route::get('search', function() {
-    return view('matcher', [
-        'geography' => json_decode(Storage::disk('local')->get('json/countries.json'), false)
-    ]);
-});
+Route::resource('universities', UniversityController::class)
+    ->only(['index', 'show']);
 
-Route::resource('universities', UniversityController::class);
-
-Route::post('import', [MobilityController::class, 'import'])
-    ->name('import');
-
-Route::post('save', [MobilityController::class, 'save'])
-     ->name('save');
-
-Route::get('admin', [MobilityController::class, 'upload']);
-
-Route::resource('mobilities', MobilityController::class);
+Route::resource('mobilities', MobilityController::class)
+    ->except(['create', 'destroy']);
 
 Route::get('contacts', function() {
     echo "Kontakty";
 });
 
 Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

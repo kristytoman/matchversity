@@ -6,16 +6,11 @@ use DB;
 use App\Models\University;
 use App\Models\HomeCourse;
 use App\Models\Mobility;
-use App\Models\UnlinkReason;
-use App\Models\Pairing;
+use App\Models\Reason;
 use App\Http\Requests\StoreMobilityRequest;
 use App\Http\Requests\UpdateMobilityRequest;
-use App\Http\Requests\ImportMobilitiesRequest;
-use App\Http\Requests\StoreMobilitiesRequest;
 use Illuminate\Http\Request;
-use App\Models\Validation\FileValidator;
-use App\Models\Validation\MobilityValidator;
-use ImportColumns;
+
 
 class MobilityController extends Controller
 {
@@ -28,11 +23,6 @@ class MobilityController extends Controller
     public function index() 
     {
         // update view
-        return view(
-            'mobilities.get_mobilities', [
-                'mobilities' => Mobility::all()
-            ]
-        );
     }
 
     /**
@@ -102,7 +92,7 @@ class MobilityController extends Controller
             'mobilities.rate_mobility', [
                 'mobility' => $mobility,
                 'duration' => $mobility->getDuration($id),
-                'reasons' => UnlinkReason::all()
+                'reasons' => Reason::all()
             ]
         ); 
     }
@@ -118,47 +108,6 @@ class MobilityController extends Controller
     {
         $mobility = Mobility::find($id);
         $mobility->updateMobility($request->validated());
-        return redirect('mobilities');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id) 
-    {
-        //
-    }
-
-    public function upload() 
-    {
-        return view('admin.index');
-    }
-
-
-    public function import(ImportMobilitiesRequest $request) 
-    {
-        $validated = $request->validated();
-        $fileValidator = new FileValidator;
-        if ($mobilities = $fileValidator->getData($validated['file'])) {
-            Mobility::import($mobilities);
-        }
-        if ($fileValidator->toCheck) {
-            return view('admin.data_check', [
-                'count' => $fileValidator->getCount(),
-                'mobilities' => $fileValidator->toCheck
-            ]);
-        }
-        else {
-            return redirect('mobilities');
-        }
-    }
-
-    public function save(StoreMobilitiesRequest $request)
-    {
-        Mobility::import(MobilityValidator::fromForm($request->validated()));
         return redirect('mobilities');
     }
 }

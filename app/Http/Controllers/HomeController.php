@@ -2,35 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ForeignCourse;
+use App\Models\Mobility;
+use App\Models\University;
 use Illuminate\Http\Request;
-use Storage;
 
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Handle the incoming request.
      *
-     * @return void
+     * @return \Illuminate\Http\Response
      */
-    public function __construct()
+    public function __invoke()
     {
-        //$this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
-    {
-        return view('home');
-    }
-
-    public function search()
-    {
-        return view('matcher', [
-            'geography' => json_decode(Storage::disk('local')->get('json/countries.json'), false)
+        return view('welcome', [
+            'countMobility' => Mobility::getCount(),
+            'countUni' => University::getCount(),
+            'countCourse' => ForeignCourse::getCount()
         ]);
     }
 }
