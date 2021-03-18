@@ -14,7 +14,7 @@ class CountrySeeder extends Seeder
      */
     public function run()
     {
-        $json = json_decode(file_get_contents("resources\json\countries.json"), false);
+        $json = json_decode(file_get_contents('storage\app\json\countries.json'), false);
         foreach ($json->continents as $continent) {
             foreach ($continent->regions as $region) {
                 $countries = [];
