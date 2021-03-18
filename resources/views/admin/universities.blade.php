@@ -10,7 +10,7 @@
             <span>{{ $university->native_name }}</span>
             <span>{{ $university->city }}</span>
             @if($university->city)
-            <span>{{ __('countries.' . $university->city->country_id) }}</span>
+                <span>{{ __('countries.' . $university->city->country_id) }}</span>
             @endif
             <span>{{ $university->xchange }}</span>
             <span>{{ $university->web }}</span>

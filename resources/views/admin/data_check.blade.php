@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-@include('include.header')
-
 @section('content')
     <h2>Importing {{ $count }} mobilities</h2>
     @if ($errors->any())
