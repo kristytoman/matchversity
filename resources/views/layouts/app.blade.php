@@ -21,7 +21,6 @@
 </head>
 <body>
     <div id="app">
-        @include('include.header')
 
         <main class="py-4">
             @yield('content')

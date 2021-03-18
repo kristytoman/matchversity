@@ -22,7 +22,7 @@ class MobilityController extends Controller
      */
     public function index() 
     {
-        // update view
+        return view( 'mobilities.get_mobilities', ['mobilities' => [Mobility::find(1)]]);
     }
 
     /**
