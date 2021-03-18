@@ -411,6 +411,85 @@ class UniversitySeeder extends Seeder
             'https://www.ucp.pt/?set_language=en',
             City::add('Lisbon', 'PT')
         );
-        
+        University::createProfile(
+            'Letterkenny Institute of Technology',
+            'LETTERKENNY INSTITUTE OF TECHNOLOGY',
+            'Institiúid Teicneolaíochta Leitir Ceanainn',
+            89,
+            'https://www.lyit.ie/Home',
+            City::add('Letterkenny', 'IE')
+        );
+        University::createProfile(
+            'Ionian University',
+            'IONIO PANEPISTIMIO',
+            'Ionio Panepistimio',
+            69,
+            'https://ionio.gr/en/',
+            City::add('Corfu', 'GR')
+        );
+        University::createProfile(
+            'BINUS University',
+            'Binus University, Jl. Kebon Jeruk Raya No. 27',
+            'Universitas Bina Nusantara',
+            258,
+            'https://binus.ac.id',
+            City::add('Jakarta', 'ID')
+        );
+        University::createProfile(
+            'Nottingham Trent University',
+            'THE NOTTINGHAM TRENT UNIVERSITY',
+            'Nottingham Trent University',
+            102,
+            'https://www.ntu.ac.uk',
+            City::add('Nottingham', 'GB')
+        );
+        University::createProfile(
+            'Frankfurt University of Applied Sciences',
+            'FACHHOCHSCHULE FRANKFURT AM MAIN - UNIVERSITY OF APPLIED SCIENCES',
+            'Frankfurt University of Applied Sciences',
+            165,
+            'https://www.frankfurt-university.de/en/',
+            City::add('Frankfurt am Main', 'DE')
+        );
+        University::createProfile(
+            'University of Zagreb',
+            'University of Zagreb',
+            'Sveučilište u Zagrebu',
+            211,
+            'http://www.unizg.hr/homepage/',
+            City::add('Zagreb', 'HR')
+        );
+        University::createProfile(
+            'University Colleges Leuven-Limburg',
+            'KATHOLIEKE HOGESCHOOL LIMBURG',
+            'University Colleges Leuven-Limburg',
+            92,
+            'https://www.ucll.be/international',
+            City::add('Diepenbeek', 'BE')
+        );
+        University::createProfile(
+            'Alexander Dubcek University in Trenčín',
+            'TRENCIANSKA UNIVERZITA ALEXANDRA DUBCEKA V TRENCINE',
+            'Trenčianska univerzita Alexandra Dubčeka v Trenčíne',
+            10,
+            'https://tnuni.sk/',
+            City::add('Trenčín', 'SK')
+        );
+        University::createProfile(
+            'Athens University of Economics and Business',
+            'IKONOMIKO PANEPISTIMIO ATHINON',
+            'Oikonomiko Panepistimio Athinon',
+            15,
+            'https://www.aueb.gr/en',
+            City::add('Athens', 'GR')
+        );
+        University::createProfile(
+            'Deggendorf Institute of Technology',
+            'Deggendorf Institute of Technlogy',
+            'Deggendorf Institute of Technology',
+            284,
+            'https://www.th-deg.de/en',
+            City::add('Deggendorf', 'DE')
+        );
     }
 }
