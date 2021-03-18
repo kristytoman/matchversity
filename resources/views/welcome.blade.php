@@ -17,7 +17,3 @@
         <span>{{ $countCourse }} {{ __('courses')}}</span>
     </div>
 @endsection
-
-@section('scripts')
-    <script src="{{ mix('js/app.js') }}" type="javascript"></script>
-@endsection
