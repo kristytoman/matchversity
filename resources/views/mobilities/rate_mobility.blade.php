@@ -5,9 +5,14 @@
 @section('content')
     <div>
         <span>{{ $mobility->university->name }}</span>
-        <span>{{ $mobility->university->originalName }}</span>
-        <span>{{ $mobility->university->city->name }}, {{$mobility->university->city->country }}</span>
-        <span>{{ $duration }}</span>
+        <span>{{ $mobility->university->native_name }}</span>
+        <span>{{ $mobility->university->city->name }}, {{ __('countries.'.$mobility->university->city->country_id) }}</span>
+        @if ($mobility->is_summer)
+        <span>{{ __('Summer') }}</span>
+        @else
+        <span>{{ __('Winter') }}</span>
+        @endif
+        <span>{{ $mobility->year }}</span>
     </div>
     @if ($errors->any())
         <div>

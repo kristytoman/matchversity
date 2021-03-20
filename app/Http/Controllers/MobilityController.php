@@ -69,11 +69,10 @@ class MobilityController extends Controller
     public function show($id) 
     {
         // update
-        $mobility = Mobility::find($id);
+        $mobility = Mobility::findById($id);
         return view(
             'mobilities.show_mobility', [
-                'mobility' => $mobility,
-                'duration' => $mobility->getDuration($id)
+                'mobility' => $mobility
             ]
         );
     }
@@ -91,7 +90,6 @@ class MobilityController extends Controller
         return view(
             'mobilities.rate_mobility', [
                 'mobility' => $mobility,
-                'duration' => $mobility->getDuration($id),
                 'reasons' => Reason::all()
             ]
         ); 

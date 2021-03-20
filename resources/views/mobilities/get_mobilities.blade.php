@@ -7,7 +7,7 @@
         <div>{{__('We haven\'t found any mobility.')}}</div>
     @else
         @foreach($mobilities as $mobility)
-            <my-mobility :mobility="{{ $mobility }}"></my-mobility>
+            <my-mobility :mobility="{{ $mobility }}" :show-route="'{{ route('mobilities.show', $mobility->id) }}'"></my-mobility>
         @endforeach
     @endif
 @endsection

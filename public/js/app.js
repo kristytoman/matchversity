@@ -2008,6 +2008,10 @@ __webpack_require__.r(__webpack_exports__);
     mobility: {
       type: Object,
       required: true
+    },
+    showRoute: {
+      type: String,
+      requried: true
     }
   }
 });
@@ -37674,7 +37678,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("a", { attrs: { href: "/mobilities/show/" + _vm.mobility.id } }, [
+  return _c("a", { attrs: { href: _vm.showRoute } }, [
     _c("div", { attrs: { id: _vm.mobility.id } }, [
       _c("span", [_vm._v(_vm._s(_vm.mobility.id))]),
       _vm._v(" "),

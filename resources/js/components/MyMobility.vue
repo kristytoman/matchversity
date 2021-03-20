@@ -1,5 +1,5 @@
 <template>
-   <a :href="'/mobilities/show/' + mobility.id">
+   <a :href="showRoute">
         <div :id="mobility.id">
             <span>{{ mobility.id }}</span>
             <span>{{ mobility.arrival }}</span>
@@ -19,6 +19,10 @@
             mobility : {
                 type: Object,
                 required: true
+            },
+            showRoute : {
+                type: String,
+                requried: true
             }
         }
         

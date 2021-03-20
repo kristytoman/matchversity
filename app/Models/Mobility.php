@@ -14,6 +14,7 @@ class Mobility extends Model
     const SPRING_SEMESTER = "summer";
     const AUTUMN_SEMESTER = "winter";
     
+
     /**
      * The table associated with the model.
      *
@@ -188,4 +189,12 @@ class Mobility extends Model
         return self::all()->count();
     }
 
+    public static function findById($id)
+    {
+        $mobility = Mobility::find($id);
+        if ($mobility) {
+            $mobility->semester = $mobility->getTypeOfSemester($mobility->is_summer);
+        }
+        return $mobility;
+    }
 }
