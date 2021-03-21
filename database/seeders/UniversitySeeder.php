@@ -257,7 +257,7 @@ class UniversitySeeder extends Seeder
             'Univerza v Ljubljani',
             7,
             'https://www.uni-lj.si/eng/',
-            City::add('Ljubljana', 'Slovenia')
+            City::add('Ljubljana', 'SI')
         );
         University::createProfile(
             'Dania Academy',

@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             FacultySeeder::class,
             ReasonSeeder::class,
-            UniversitySeeder::class
+            UniversitySeeder::class,
+            UserSeeder::class
         ]);
     }
 }

@@ -32,18 +32,13 @@ class MobilityController extends Controller
     public function index()
     {
         return view(
-            'mobilities.get_mobilities', [
+            'admin.mobilities', [
                 'mobilities' => Mobility::all()
             ]
         );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(ImportMobilitiesRequest $request)
+    public function import(ImportMobilitiesRequest $request)
     {
         $validated = $request->validated();
         $fileValidator = new FileValidator;
@@ -57,8 +52,18 @@ class MobilityController extends Controller
             ]);
         }
         else {
-            return redirect('mobilities');
+            return redirect('admin.mobilities');
         }
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create(ImportMobilitiesRequest $request)
+    {
+        
     }
 
     /**
@@ -70,7 +75,7 @@ class MobilityController extends Controller
     public function store(StoreMobilitiesRequest $request)
     {
         Mobility::import(MobilityValidator::fromForm($request->validated()));
-        return redirect('mobilities');
+        return redirect('admin.mobilities');
     }
 
     /**

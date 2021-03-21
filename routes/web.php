@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\UniversityController as AdminUniversityController
 use App\Http\Controllers\Admin\MobilityController as AdminMobilityController;
 use App\Http\Controllers\Admin\ForeignCourseController;
 use App\Http\Controllers\Admin\HomeCourseController;
+use App\Http\Controllers\Admin\ReasonController;
 
 
 
@@ -27,11 +28,13 @@ use App\Http\Controllers\Admin\HomeCourseController;
 Route::get('/', HomeController::class);
 
 Route::prefix('admin')->name('admin.')->group(function(){
+    Route::post('import', [AdminMobilityController::class, 'import'])->name('import');
     Route::get('/', [AdminMobilityController::class, 'index']);
-    Route::resource('foreignCourses', ForeignCourseController::class);
-    Route::resource('homeCourses', HomeCourseController::class);
+    Route::resource('foreign-courses', ForeignCourseController::class);
+    Route::resource('home-courses', HomeCourseController::class);
     Route::resource('mobilities', AdminMobilityController::class);
     Route::resource('universities', AdminUniversityController::class);
+    Route::resource('reasons', ReasonController::class);
 });
 
 Route::get('search', SearchController::class);

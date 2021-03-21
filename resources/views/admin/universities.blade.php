@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@include('include.admin')
+
 @section('content')
     <a href="#">{{ __('Rollback last transaction') }}</a>
     @foreach($universities as $university)

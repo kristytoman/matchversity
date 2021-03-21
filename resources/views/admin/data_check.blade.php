@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@include('include.admin')
+
 @section('content')
     <h2>Importing {{ $count }} mobilities</h2>
     @if ($errors->any())
@@ -11,7 +13,7 @@
         </ul>
     </div>
     @endif
-    <form method="post" action="{{ route('save') }}">
+    <form method="post" action="{{ route('admin.mobilities.store') }}">
         @csrf
         @foreach ($mobilities as $key => $mobility)
             <div>

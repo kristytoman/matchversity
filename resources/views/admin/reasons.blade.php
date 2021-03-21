@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@include('include.admin')
+
 @section('content')
     @foreach ($reasons as $reason)
         <div>

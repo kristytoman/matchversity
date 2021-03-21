@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@include('include.admin')
+
 @section('content')
     <h1>{{ __('New university profile') }}</h1>
     <form id="form_addUni">
