@@ -3,32 +3,50 @@
 @include('include.admin')
 
 @section('content')
-    <h1>{{ __('New university profile') }}</h1>
-    <form id="form_addUni">
+    <h1>{{ __('University profile for') }} {{ $university->original_name }}</h1>
+    @if ($errors->any())
+    <div>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+    <form id="add-university" method="POST" action="{{ route('admin.universities.update', $university) }}">
+        @method('PUT')
         @csrf
-        <label for="in_UniName">{{ __('University name') }}</label>
-            <input id="in_UniName" name="name"><br>
+        <label for="university-name">{{ __('University name') }}</label>
+            <input id="university-name" name="name" value="{{ $university->name }}"><br>
 
-        <label for="in_origUniName">{{ __('Native name') }}</label>
-            <input id="in_origUniName" name="originalName"><br>
+        <label for="native-name">{{ __('Native name') }}</label>
+            <input id="native-name" name="native_name" value="{{ $university->native_name }}"><br>
 
-        <label for="sel_uniContinent">{{ __('Continent') }}</label>
-            <select id="sel_uniContent" name="continent">
-            </select><br>
-        <label for="in_uniCountry">{{ __('Country') }}</label>
-            <input id="in_uniCountry" name="country" list="dl_country">
-                <datalist id="dl_country"></datalist><br>
-        <label for="in_uniCity">{{ __('City') }}</label>
-            <input id="in_uniCity" name="city" list="dl_city">
+        <label for="country">{{ __('Country') }}</label>
+            <input id="country" name="country" list="dl-country" value="{{ $university->city ? $university->city->country_id : '' }}">
+                <datalist id="dl-country"></datalist><br>
+
+        <label for="city">{{ __('City') }}</label>
+            <input id="city" name="city" list="dl_city" value="{{ $university->city ? $university->city->name : '' }}">
                 <datalist id="dl_city"></datalist><br>
 
-        <label for="in_link">{{ __('Web page')}}</label>
-            <input id="in_link" name="web" type="text"/><br>
-        <label for="in_xchange"></label>
-            <input id="in_xchange" name="xchange" type="text"/><br>
+        <label for="web-link">{{ __('Web page')}}</label>
+            <input id="web-link" name="web" type="text" value="{{ $university->web }}"><br>
+
+
+        <label for="xchange">xchange ID</label>
+            <input id="xchange" name="xchange" type="text" value="{{ $university->xchange }}"/><br>
             
-        <label for="in_expires">{{ __('Contract expiration') }}</label>
-            <input for="in_expires" name="expiration" type="month"/><br>
-        <input type="submit" value="{{ __('Create new university') }}">
+       
+        <label>{{ __('Or connect with another profile')}}</label>
+        <select name='connect_university'>
+            <option value=""></option>
+            @foreach ($universities as $uni)
+            @if($uni->name)
+                <option value="{{ $uni->id }}">{{ $uni->name }}, {{ $uni->city ? $uni->city->name : '' }}, {{ $uni->city? __('countries.'.$uni->city->country_id):''}}</option>
+            @endif
+            @endforeach
+        </select>
+        <input type="submit" value="{{ __('Save profile') }}">
     </form>
 @endsection

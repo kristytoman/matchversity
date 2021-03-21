@@ -9,23 +9,34 @@
         <input type="file" name="file" accept=".xlsx"/>
         <input type="submit" />
     </form>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>{{ __('Arrival') }}</th>
+            <th>{{ __('Departure') }}</th>
+            <th>{{ __('Student') }}</th>
+            <th>{{ __('University') }}</th>
+            <th>{{ __('Semester') }}</th>
+            <th>{{ __('Year') }}</th>
+        </tr>
     @foreach ($mobilities as $mobility)
-        <div>
-            <span>{{ $mobility->id }}</span>
-            <span>{{ $mobility->arrival }}</span>
-            <span>{{ $mobility->departure }}</span>
-            <span>{{ $mobility->student }}</span>
-            <span>{{ $mobility->university->original_name }}</span>
-            <span>{{ $mobility->semester }}</span>
-            <span>{{ $mobility->year }}</span>
-            @foreach ($mobility->pairings as $pairing)
-                <div>
-                    <span>{{ $pairing->id }}</span>
-                    <span>{{ $pairing->foreignCourse->name }}</span>
-                    <span>{{ $pairing->homeCourse->code }}</span>
-                    <span>{{ $pairing->reason_id }}</span>
-                </div>
-            @endforeach
-        </div>
+        <tr>
+            <td>{{ $mobility->id }}</td>
+            <td>{{ $mobility->arrival }}</td>
+            <td>{{ $mobility->departure }}</td>
+            <td>{{ $mobility->student }}</td>
+            @if ($mobility->university->name)
+            <td><a href="{{ route('admin.universities.edit', $mobility->university) }}">{{ $mobility->university->name }}<a></td>
+            @else
+                <td><a href="{{ route('admin.universities.edit', $mobility->university) }}">{{ __('Create profile') }}<a></td>
+            @endif
+            @if ($mobility->is_summer)
+                <td>{{ __('Summer') }}</td>
+            @else
+                <td>{{ __('Winter') }}</td>
+            @endif
+            <td>{{ $mobility->year }}</td>
+        </tr>
     @endforeach
+    </table>
 @endsection

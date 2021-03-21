@@ -9,9 +9,6 @@ use DB;
 
 class University extends Model
 {
-
-    public $xchangeLink;
-    public $rating;
     /**
      * The table associated with the model.
      *
@@ -104,6 +101,41 @@ class University extends Model
             $uni->city()->associate($city);
         $uni->save();
         return $uni;
+    }
+
+    public static function updateProfile($uniID, $data)
+    {
+        $uni = University::find($uniID);
+            $uni->name = $data['name'];
+            $uni->native_name = $data['native_name'];
+            $uni->web = $data['web'];
+            $uni->xchange = $data['xchange'];
+            $uni->associateCity($data);
+        $uni->save();
+    }
+    public static function getForeignCourses($id)
+    {
+        return ForeignCourse::where('university_id', '=', $id)->get();
+    }
+    
+    public static function getMobilities($id)
+    {
+        return Mobility::where('university_id', '=', $id)->get();
+    }
+
+    public static function connectProfiles($connect, $connectTo)
+    {
+        foreach (University::getForeignCourses($connect) as $course) {
+            $course->changeUniversity($connectTo);
+        }
+        foreach (University::getMobilities($connect) as $mobility) {
+            $mobility->changeUniversity($connectTo);
+        }
+        University::destroy($connect);
+    }
+    public function associateCity($data)
+    {
+        $this->city()->associate(City::add($data['city'], $data['country']));
     }
 
     public static function get($name, $city)

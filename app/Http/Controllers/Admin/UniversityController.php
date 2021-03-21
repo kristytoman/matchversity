@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\University;
 use Illuminate\Http\Request;
+use App\Http\Requests\AddUniversityProfileRequest;
 
 class UniversityController extends Controller
 {
@@ -25,7 +26,7 @@ class UniversityController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.universities', ['universities'=> University::all()]);
     }
 
     /**
@@ -68,8 +69,10 @@ class UniversityController extends Controller
      */
     public function edit(University $university)
     {
-        //
-    }
+        return view('admin.add_university', ['university' => $university,
+        'universities'=>University::all()]);
+    }        
+
 
     /**
      * Update the specified resource in storage.
@@ -78,9 +81,16 @@ class UniversityController extends Controller
      * @param  \App\Models\University  $university
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, University $university)
+    public function update(AddUniversityProfileRequest $request, University $university)
     {
-        //
+        $validated = $request->validated();
+        if ($validated['connect_university']) {
+            University::connectProfiles($university->id, $validated['connect_university']);
+        }
+        else {
+            University::updateProfile($university->id, $validated);
+        }
+        return redirect('admin/universities');
     }
 
     /**

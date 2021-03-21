@@ -58,4 +58,10 @@ class ForeignCourse extends Model
     {
         return self::all()->count();
     }
+
+    public function changeUniversity($uniID)
+    {
+        $this->university()->associate(University::find($uniID));
+        $this->save();
+    }
 }

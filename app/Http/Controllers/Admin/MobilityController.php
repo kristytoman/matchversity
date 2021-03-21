@@ -52,7 +52,7 @@ class MobilityController extends Controller
             ]);
         }
         else {
-            return redirect('admin.mobilities');
+            return redirect('admin/mobilities');
         }
     }
 
@@ -75,7 +75,7 @@ class MobilityController extends Controller
     public function store(StoreMobilitiesRequest $request)
     {
         Mobility::import(MobilityValidator::fromForm($request->validated()));
-        return redirect('admin.mobilities');
+        return redirect('admin/mobilities');
     }
 
     /**

@@ -44,6 +44,15 @@ class Mobility extends Model
     protected $guarded = [];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_summer' => 'boolean',
+    ];
+
+    /**
      * Gets university of the mobility.
      */
     public function university()
@@ -196,5 +205,11 @@ class Mobility extends Model
             $mobility->semester = $mobility->getTypeOfSemester($mobility->is_summer);
         }
         return $mobility;
+    }
+
+    public function changeUniversity($uniID)
+    {
+        $this->university()->associate(University::find($uniID));
+        $this->save();
     }
 }
