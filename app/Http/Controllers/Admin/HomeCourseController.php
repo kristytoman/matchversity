@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\HomeCourse;
 use Illuminate\Http\Request;
+use App\Http\Requests\GroupHomeCourseRequest;
 
 class HomeCourseController extends Controller
 {
@@ -25,7 +26,9 @@ class HomeCourseController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.home_courses', [
+            'courses' => HomeCourse::select()->orderBy('name')->get()
+        ]);
     }
 
     /**
@@ -46,7 +49,7 @@ class HomeCourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -78,9 +81,15 @@ class HomeCourseController extends Controller
      * @param  \App\Models\HomeCourse  $homeCourse
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, HomeCourse $homeCourse)
+    public function update(GroupHomeCourseRequest $request, HomeCourse $homeCourse)
     {
-        //
+        $validated = $request->validated();
+        foreach ($validated['group'] as $key => $value) {
+            $course = HomeCourse::find($key);
+            $course->group = $value;
+            $course->save();
+        }
+       return redirect()->route('admin.home-courses.index');   
     }
 
     /**

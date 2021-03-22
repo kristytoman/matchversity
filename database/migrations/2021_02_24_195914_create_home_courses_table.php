@@ -16,7 +16,7 @@ class CreateHomeCoursesTable extends Migration
         Schema::create('home_courses', function (Blueprint $table) {
             $table->timestamps();
             $table->id();            
-            $table->unsignedBigInteger('course_group')
+            $table->unsignedBigInteger('group')
                   ->nullable()
                   ->default(null);            
             $table->string('code', 64);

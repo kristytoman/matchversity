@@ -44,7 +44,7 @@ class HomeCourse extends Model
         return $this->belongsToMany(Field::class, 'field_courses');
     }
 
-    public static function find($code)
+    public static function findByCode($code)
     {
         return self::where('code', $code)->first();
     }
