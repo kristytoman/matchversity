@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddUniversityProfileRequest;
 use App\Models\University;
 use Illuminate\Http\Request;
-use App\Http\Requests\AddUniversityProfileRequest;
 
 class UniversityController extends Controller
 {
@@ -26,28 +26,9 @@ class UniversityController extends Controller
      */
     public function index()
     {
-        return view('admin.universities', ['universities'=> University::all()]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        return view('admin.universities', [
+            'universities'=> University::all()
+        ]);
     }
 
     /**
@@ -69,15 +50,16 @@ class UniversityController extends Controller
      */
     public function edit(University $university)
     {
-        return view('admin.add_university', ['university' => $university,
-        'universities'=>University::all()]);
+        return view('admin.add_university', [
+            'university' => $university,
+            'universities' => University::all()
+        ]);
     }        
-
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\AddUniversityProfileRequest  $request
      * @param  \App\Models\University  $university
      * @return \Illuminate\Http\Response
      */
@@ -90,17 +72,6 @@ class UniversityController extends Controller
         else {
             University::updateProfile($university->id, $validated);
         }
-        return redirect('admin/universities');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\University  $university
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(University $university)
-    {
-        //
+        return redirect()->route('admin.universities.index');
     }
 }

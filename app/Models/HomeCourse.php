@@ -56,4 +56,23 @@ class HomeCourse extends Model
             'name' => $homeCourse->name
         ]);
     }
+
+    public static function allOrderedByName()
+    {
+        return self::select()->orderBy('name')->get();
+    }
+
+    public static function changeGroups($data)
+    {
+        foreach ($data['group'] as $key => $value) {
+            HomeCourse::addtToGroup($key, $value);
+        }
+    }
+
+    public static function addToGroup($id, $group)
+    {
+        $course = HomeCourse::find($id);
+        $course->group = $group;
+        $course->save();
+    }
 }

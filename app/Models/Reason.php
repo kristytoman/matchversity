@@ -44,7 +44,7 @@ class Reason extends Model
         $reason = new Reason;
             $reason->description_cz = $answerCZ;
             $reason->description_en = $answerEN;
-            //$reason->is_verified = $isAdmin;
+            $reason->is_verified = $isAdmin;
         $reason->save();
         return $reason->id;
     }

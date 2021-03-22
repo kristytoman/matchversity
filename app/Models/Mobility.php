@@ -171,8 +171,10 @@ class Mobility extends Model
 
     public static function import($transaction)
     {
-        foreach ($transaction as $mobility) {
-            self::createNew($mobility);
+        if ($transaction) {
+            foreach ($transaction as $mobility) {
+                self::createNew($mobility);
+            }
         }
     }
     private static function createNew($mobility)

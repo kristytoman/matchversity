@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\VerifyReasonRequest;
 use App\Http\Requests\AddNewReasonRequest;
 use App\Models\Reason;
+use Illuminate\Http\Request;
 
 class ReasonController extends Controller
 {
@@ -27,13 +27,15 @@ class ReasonController extends Controller
      */
     public function index()
     {
-        return view('admin.reasons', ['reasons'=> Reason::all()]);
+        return view('admin.reasons', [
+            'reasons'=> Reason::all()
+        ]);
     }
 
-       /**
+    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\AddNewReasonRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(AddNewReasonRequest $request)
@@ -43,23 +45,21 @@ class ReasonController extends Controller
         return redirect()->route('admin.reasons.index');
     }
 
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\VerifyReasonRequest  $request
      * @param  \App\Models\Reason  $reason
      * @return \Illuminate\Http\Response
      */
     public function update(VerifyReasonRequest $request, Reason $reason)
     {
-        $validate = $request->validated();
-        if ($validate['connect'])
-        {
-            Reason::change($reason->id, $validate['connect']);
+        $validated = $request->validated();
+        if ($validated['connect']) {
+            Reason::change($reason->id, $validated['connect']);
         }
         else {
-            Reason::verify($reason->id, $request->validated());
+            Reason::verify($reason->id, $validated);
         }
         return redirect()->route('admin.reasons.index');
     }
@@ -75,10 +75,5 @@ class ReasonController extends Controller
         // authorize
         Reason::deleteSafely($reason->id);
         return redirect()->route('admin.reasons.index');
-    }
-
-    public function show(Reason $reason)
-    {
-
     }
 }

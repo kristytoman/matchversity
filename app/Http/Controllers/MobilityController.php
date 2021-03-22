@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use App\Models\University;
-use App\Models\HomeCourse;
+use App\Http\Requests\UpdateMobilityRequest;
 use App\Models\Mobility;
 use App\Models\Reason;
-use App\Http\Requests\StoreMobilityRequest;
-use App\Http\Requests\UpdateMobilityRequest;
 use Illuminate\Http\Request;
 
 
@@ -22,42 +18,9 @@ class MobilityController extends Controller
      */
     public function index() 
     {
-        return view( 'mobilities.get_mobilities', ['mobilities' => [Mobility::find(1)]]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create() 
-    {
-        // TODO: delete or update
-        return view(
-            'mobilities.add_mobility', [
-                'universities' => University::all(),
-                'homeCourses' => HomeCourse::all(),
-                'years' => $this->getLastTenYears()
-            ]
-        );
-    }
-
-    private function getLastTenYears() 
-    {
-        return range(date('Y'), date('Y') - 10, -1);
-    }
-    
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  StoreMobility  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreMobilityRequest $request) 
-    {
-        // TODO: delete or update
-        Mobility::saveMobility($request->validated());
-        return redirect('mobilities');
+        return view('mobilities.get_mobilities', [
+            'mobilities' => User::getStudentsMobilities('hash')
+        ]);
     }
 
     /**
@@ -68,13 +31,9 @@ class MobilityController extends Controller
      */
     public function show($id) 
     {
-        // update
-        $mobility = Mobility::findById($id);
-        return view(
-            'mobilities.show_mobility', [
-                'mobility' => $mobility
-            ]
-        );
+        return view('mobilities.show_mobility', [
+            'mobility' => Mobility::findById($id)
+        ]);
     }
 
     /**
@@ -85,20 +44,16 @@ class MobilityController extends Controller
      */
     public function edit($id) 
     {
-        // update
-        $mobility = Mobility::find($id);
-        return view(
-            'mobilities.rate_mobility', [
-                'mobility' => $mobility,
-                'reasons' => Reason::all()
-            ]
-        ); 
+        return view('mobilities.rate_mobility', [
+            'mobility' => Mobility::find($id),
+            'reasons' => Reason::all()
+        ]); 
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\UpdateMobilityRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -106,6 +61,6 @@ class MobilityController extends Controller
     {
         $mobility = Mobility::find($id);
         $mobility->updateMobility($request->validated());
-        return redirect('mobilities');
+        return redirect()->route('mobilities.index');
     }
 }

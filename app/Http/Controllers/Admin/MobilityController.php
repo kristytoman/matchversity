@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 
 class MobilityController extends Controller
 {
-
     /**
      * Create a new controller instance.
      *
@@ -23,7 +22,6 @@ class MobilityController extends Controller
         $this->middleware('auth');
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -31,20 +29,25 @@ class MobilityController extends Controller
      */
     public function index()
     {
-        return view(
-            'admin.mobilities', [
+        return view('admin.mobilities', [
                 'mobilities' => Mobility::all()
             ]
         );
     }
 
+    /**
+     * Import data from the resource file.
+     *
+     * @param  App\Http\Requests\ImportMobilitiesRequest  $request
+     * @return \Illuminate\Http\Response
+     */
     public function import(ImportMobilitiesRequest $request)
     {
-        $validated = $request->validated();
         $fileValidator = new FileValidator;
-        if ($mobilities = $fileValidator->getData($validated['file'])) {
-            Mobility::import($mobilities);
-        }
+        
+        $validated = $request->validated();
+        Mobility::import($fileValidator->getData($validated['file']));
+        
         if ($fileValidator->toCheck) {
             return view('admin.data_check', [
                 'count' => $fileValidator->getCount(),
@@ -52,30 +55,20 @@ class MobilityController extends Controller
             ]);
         }
         else {
-            return redirect('admin/mobilities');
+            return redirect()->route('admin.mobilities.index');
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(ImportMobilitiesRequest $request)
-    {
-        
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\StoreMobilitiesRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreMobilitiesRequest $request)
     {
         Mobility::import(MobilityValidator::fromForm($request->validated()));
-        return redirect('admin/mobilities');
+        return redirect()->route('admin.mobilities.index');
     }
 
     /**
@@ -86,18 +79,7 @@ class MobilityController extends Controller
      */
     public function show(Mobility $mobility)
     {
-        // delete?
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Mobility  $mobility
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Mobility $mobility)
-    {
-        // delete?
+        // 
     }
 
     /**
@@ -109,17 +91,6 @@ class MobilityController extends Controller
      */
     public function update(Request $request, Mobility $mobility)
     {
-        // delete?
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Mobility  $mobility
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Mobility $mobility)
-    {
-        // delete?
+        //
     }
 }
