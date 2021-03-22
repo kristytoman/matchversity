@@ -15,7 +15,8 @@ class CreateReasonsTable extends Migration
     {
         Schema::create('reasons', function (Blueprint $table) {
             $table->id();
-            $table->string('description', 248);
+            $table->string('description_cz', 248);
+            $table->string('description_en', 248);
             $table->boolean('is_verified')
                   ->default(false);
         });

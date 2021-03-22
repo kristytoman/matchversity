@@ -11,19 +11,19 @@
             <!-- Left Side Of Navbar -->
             <ul >
                 <li >
-                    <a  href="mobilities">{{ __('Mobilities') }}</a>
+                    <a  href="{{ route('admin.mobilities.index') }}">{{ __('Mobilities') }}</a>
                 </li>
                 <li >
-                    <a  href="universities">{{ __('Universities') }}</a>
+                    <a  href="{{ route('admin.universities.index') }}">{{ __('Universities') }}</a>
                 </li>
                 <li >
-                    <a  href="foreign-courses">{{ __('Foreign courses') }}</a>
+                    <a  href="{{ route('admin.foreign-courses.index') }}">{{ __('Foreign courses') }}</a>
                 </li>
                 <li >
-                    <a  href="home-courses">{{ __('Home courses') }}</a>
+                    <a  href="{{ route('admin.home-courses.index') }}">{{ __('Home courses') }}</a>
                 </li>
                 <li >
-                    <a  href="reasons">{{ __('Reasons') }}</a>
+                    <a  href="{{ route('admin.reasons.index') }}">{{ __('Reasons') }}</a>
                 </li>
             </ul>
 

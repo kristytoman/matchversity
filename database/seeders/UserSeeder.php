@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
                 'name' => 'k_tomanova',
                 'email' => 'k_tomanova@utb.cz',
-                'password' => Hash::make(env('ADMIN_PASSWORD')),
+                'password' => Hash::make('Matchversity 2021'),
                 'email_verified_at' => Carbon::now()
             ]);
     }

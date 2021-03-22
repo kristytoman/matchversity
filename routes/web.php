@@ -34,7 +34,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::resource('home-courses', HomeCourseController::class);
     Route::resource('mobilities', AdminMobilityController::class);
     Route::resource('universities', AdminUniversityController::class);
-    Route::resource('reasons', ReasonController::class);
+    Route::resource('reasons', ReasonController::class)->except(['show', 'edit', 'create']);
 });
 
 Route::get('search', SearchController::class);
