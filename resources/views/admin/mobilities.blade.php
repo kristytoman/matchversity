@@ -3,7 +3,7 @@
 @include('include.admin')
 
 @section('content')
-    <form method="POST" enctype="multipart/form-data" action="{{ route('admin.import') }}">
+    <form method="POST" enctype="multipart/form-data" action="{{ route('admin.mobilities.import') }}">
         @csrf
         <label>{{__('Mobilities')}}: </label>
         <input type="file" name="file" accept=".xlsx"/>

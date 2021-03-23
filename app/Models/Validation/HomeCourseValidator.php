@@ -7,7 +7,7 @@ use App\Models\HomeCourse;
 
 class HomeCourseValidator extends DataValidator
 {
-    public $name;
+    public $nameCZ;
     public $year;
     private static $courses;
 
@@ -29,7 +29,8 @@ class HomeCourseValidator extends DataValidator
     {
         $new = new HomeCourseValidator;
         $new->data = $homeCourse['code'];
-        $new->name = $homeCourse['name'];
+        $new->nameCZ = $homeCourse['name_cz'];
+        $new->nameEN = $homeCourse['name_en'];
         return $new;
     }
 
@@ -54,29 +55,36 @@ class HomeCourseValidator extends DataValidator
 
     public function getName($year)
     {
-        if ($this->name) {
+        if ($this->nameCZ && $this->nameEN) {
             return true;
         }
-        // if ($savedCourse = HomeCourse::find($this->data)) {
-        //     $this->name = $savedCourse->name;
+        // if ($savedCourse = HomeCourse::findByCode($this->data)) {
+        //     $this->nameCZ = $savedCourse->name_cz;
         //     return true;
         // }
         if (!empty(self::$courses) && key_exists($this->data . $year, self::$courses)) {
-            $this->name = self::$courses[$this->data . $year];
+            $this->nameCZ = self::$courses[$this->data . $year]['cz'];
+            $this->nameEN = self::$courses[$this->data . $year]['en'];
             return true;
         }
         $code = explode("/", $this->data);
-        if ($this->name = $this->fetchName($code[0], $code[1], $year)) {
-            self::$courses[$this->data . $year] = $this->name;
-            return true;
+        if ($this->nameCZ = $this->fetchName($code[0], $code[1], $year, 'cs')) {
+            self::$courses[$this->data . $year]['cz'] = $this->nameCZ;
+            if ($this->nameEN = $this->fetchName($code[0], $code[1], $year, 'en')) {
+                self::$courses[$this->data . $year]['en'] = $this->nameEN;
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         return false;
     }
 
-    public function fetchName($unit, $course, $year)
+    public function fetchName($unit, $course, $year, $lang)
     {
         $res = file_get_contents('https://stag-ws.utb.cz/ws/services/rest2/predmety/getPredmetInfo?katedra='.$unit.
-        '&zkratka='.$course.'&rok='.$year.'&outputFormat=JSON');
+        '&zkratka='.$course.'&rok='.$year.'&lang='.$lang.'&outputFormat=JSON');
         if ($res !== false && (strpos($res, "faultstring") !== false || substr($res, 0, 6) == '<html>')) {
             return null;
         }

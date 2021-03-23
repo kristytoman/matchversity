@@ -46,26 +46,27 @@ class HomeCourse extends Model
 
     public static function findByCode($code)
     {
-        return self::where('code', $code)->first();
+        return self::where('code', '=', $code)->first();
     }
 
     public static function get($homeCourse) 
     {
         return self::firstOrCreate([
             'code' => $homeCourse->data,
-            'name' => $homeCourse->name
+            'name_cz' => $homeCourse->nameCZ,
+            'name_en' => $homeCourse->nameEN
         ]);
     }
 
     public static function allOrderedByName()
     {
-        return self::select()->orderBy('name')->get();
+        return self::select()->orderBy('name_cz')->get();
     }
 
     public static function changeGroups($data)
     {
         foreach ($data['group'] as $key => $value) {
-            HomeCourse::addtToGroup($key, $value);
+            HomeCourse::addToGroup($key, $value);
         }
     }
 

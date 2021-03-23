@@ -36,9 +36,10 @@ class StoreMobilitiesRequest extends FormRequest
             'mobility.*.pairing' => ['required', 'array', 'min:1'],
             'mobility.*.pairing.*.type' => ['required', 'string', 'alpha'],
             'mobility.*.pairing.*.foreignCourse' => ['required', 'string'],
-            'mobility.*.pairing.*.homeCourse' => ['required', 'array', 'size:2'],
+            'mobility.*.pairing.*.homeCourse' => ['required', 'array', 'size:3'],
             'mobility.*.pairing.*.homeCourse.code' => ['required', 'string', 'regex:/^[A-Z0-9]*\/[A-Z0-9]*$/'],
-            'mobility.*.pairing.*.homeCourse.name' => ['required', 'string']
+            'mobility.*.pairing.*.homeCourse.name_cz' => ['required', 'string'],
+            'mobility.*.pairing.*.homeCourse.name_en' => ['required', 'string']
         ];
     }
 }

@@ -35,7 +35,8 @@
                     <input name="mobility[{{$key}}][pairing][{{$index}}][type]" value="{{ $pairing->data }}"> 
                     <input name="mobility[{{$key}}][pairing][{{$index}}][foreignCourse]" value="{{ $pairing->foreignCourse->data }}">
                     <input name="mobility[{{$key}}][pairing][{{$index}}][homeCourse][code]" value="{{ $pairing->homeCourse->data }}">
-                    <input name="mobility[{{$key}}][pairing][{{$index}}][homeCourse][name]" value="{{ $pairing->homeCourse->name }}">
+                    <input name="mobility[{{$key}}][pairing][{{$index}}][homeCourse][name_cz]" value="{{ $pairing->homeCourse->nameCZ }}">
+                    <input name="mobility[{{$key}}][pairing][{{$index}}][homeCourse][name_en]" value="{{ $pairing->homeCourse->nameEN }}">
                         <span style="color: red">{{ $pairing->foreignCourse->message }}</span>
                         <span style="color: red">{{ $pairing->homeCourse->message }}</span>
                         <span style="color: red">{{ $pairing->message }}</span><br>

@@ -1997,6 +1997,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     course: {
@@ -37710,12 +37713,19 @@ var render = function() {
   return _c("div", [
     _c("span", [_vm._v(_vm._s(_vm.course.code))]),
     _vm._v(" "),
-    _c("span", [_vm._v(_vm._s(_vm.course.name))]),
+    _c("span", [_vm._v(_vm._s(_vm.course.name_cz))]),
+    _c("br"),
+    _vm._v(" "),
+    _c("span", [_vm._v(_vm._s(_vm.course.name_en))]),
     _vm._v(" "),
     _c("input", {
       attrs: { type: "number", name: "group[" + _vm.course.id + "]" },
       domProps: { value: _vm.course.group }
-    })
+    }),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("br")
   ])
 }
 var staticRenderFns = []

@@ -69,19 +69,19 @@ class Mobility extends Model
     }
 
 
-    public static function saveMobility($data)
-    {
-        $mobility = new Mobility;
-            $mobility->student = "test";    // change when connected to system
-            $mobility->university()
-                     ->associate(University::getUniversity($data));
-        $mobility->save();
-        Pairing::saveMobilityPairings(
-            $mobility, 
-            $data['semester'], 
-            $data['pairing']
-        );
-    }
+    // public static function saveMobility($data)
+    // {
+    //     $mobility = new Mobility;
+    //         $mobility->student = "test";    // change when connected to system
+    //         $mobility->university()
+    //                  ->associate(University::getUniversity($data));
+    //     $mobility->save();
+    //     Pairing::saveMobilityPairings(
+    //         $mobility, 
+    //         $data['semester'], 
+    //         $data['pairing']
+    //     );
+    // }
 
     public function getDuration($id)
     {
