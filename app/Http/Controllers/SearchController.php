@@ -15,7 +15,7 @@ class SearchController extends Controller
     public function __invoke()
     {
         return view('matcher', [
-            'geography' => json_decode(Storage::disk('local')->get('json/countries.json'), false)
+            'geography' => Storage::disk('local')->get('json/countries.json')
         ]);
     }
 }

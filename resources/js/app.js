@@ -23,6 +23,7 @@ import Vue from 'vue'
 //Vue.component('example-component', require('./components/ExampleComponent.vue'));
 import Errors from './components/Errors.vue';
 import ExampleComponent from './components/ExampleComponent.vue';
+import FormMobility from './components/FormMobility.vue';
 import HomeCourse from './components/HomeCourse.vue';
 import MyMobility from './components/MyMobility.vue';
 /**
@@ -34,5 +35,5 @@ import MyMobility from './components/MyMobility.vue';
 
 const app = new Vue({
     el: '#app',
-    components: { ExampleComponent, Errors, HomeCourse, MyMobility }
+    components: { ExampleComponent, Errors, FormMobility, HomeCourse, MyMobility }
 });
