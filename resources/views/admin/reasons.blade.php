@@ -4,15 +4,7 @@
 
 @section('content')
 
-@if ($errors->any())
-<div>
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
+<errors :errors="{{ $errors->all() }}"></errors>
 
 <form method="POST" action="{{ route('admin.reasons.store') }}">
     @csrf

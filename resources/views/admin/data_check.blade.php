@@ -4,15 +4,7 @@
 
 @section('content')
     <h2>Importing {{ $count }} mobilities</h2>
-    @if ($errors->any())
-    <div>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+    <errors :errors="{{ $errors->all() }}"></errors>  
     <form method="post" action="{{ route('admin.mobilities.store') }}">
         @csrf
         @foreach ($mobilities as $key => $mobility)

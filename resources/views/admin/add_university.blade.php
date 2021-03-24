@@ -4,15 +4,7 @@
 
 @section('content')
     <h1>{{ __('University profile for') }} {{ $university->original_name }}</h1>
-    @if ($errors->any())
-    <div>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
+    <errors :errors="{{ $errors->all() }}"></errors>
     <form id="add-university" method="POST" action="{{ route('admin.universities.update', $university) }}">
         @method('PUT')
         @csrf

@@ -3,6 +3,7 @@
 @include('include.header')
 
 @section('content')
+    <errors :errors="{{ $errors->all() }}"></errors>
     <div>
         <span>{{ $mobility->university->name }}</span>
         <span>{{ $mobility->university->native_name }}</span>
@@ -14,15 +15,7 @@
         @endif
         <span>{{ $mobility->year }}</span>
     </div>
-    @if ($errors->any())
-        <div>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+
     <form id="form_rateMobility" method="patch" action="{{ route('mobilities.update', $mobility->id) }}">
         @csrf
         @foreach ($mobility->pairings as $pair)
