@@ -28,7 +28,7 @@
     },
     "dependencies": {
         "@tailwindcss/postcss7-compat": "^2.0.4",
-        "autoprefixer": "^9.8.6",
+        "autoprefixer": "^9.8.0",
         "vue": "^2.6.12"
     }
 }
