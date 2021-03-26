@@ -1,7 +1,7 @@
 <template>
     <div v-show="show">
         <label>{{ country.name }}</label>
-        <input :name="country.name" type="checkbox">
+        <input name="countries[]" :value="country.code" type="checkbox">
     </div>
 </template>
 

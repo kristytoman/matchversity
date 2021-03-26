@@ -3,7 +3,6 @@
 @section('content')
     <div>
         <span style="font-size:2em">{{ $university->name }}</span>
-        <span style="font-size:2em">&starf;&starf;&starf;&starf;&starf;</span>
         <div>{{ $university->native_name }}</div>
         <div>{{ $university->city->name }}, {{ __('countries.' . $university->city->country_id) }}
         <div>

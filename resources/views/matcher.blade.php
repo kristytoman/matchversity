@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <errors :errors="{{ json_encode($errors->all()) }}"></errors>
     <form method="post" action="{{ route('universities.index') }}">
         @csrf
         <h3>{{ __('Winter') }}</h3>

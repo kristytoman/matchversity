@@ -9,7 +9,6 @@
             @foreach ($top3 as $uni)
             <a href={{ route('universities.show', $uni->id)}}>
                 <span>{{ $uni->name }}</span>
-                <span>&starf;&starf;&starf;&starf;&starf;</span>
             </a>
             @endforeach
         </div>

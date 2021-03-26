@@ -2321,6 +2321,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -38784,7 +38785,10 @@ var render = function() {
     [
       _c("label", [_vm._v(_vm._s(_vm.country.name))]),
       _vm._v(" "),
-      _c("input", { attrs: { name: _vm.country.name, type: "checkbox" } })
+      _c("input", {
+        attrs: { name: "countries[]", type: "checkbox" },
+        domProps: { value: _vm.country.code }
+      })
     ]
   )
 }
@@ -39261,6 +39265,8 @@ var render = function() {
         }
       },
       [
+        _c("option", { attrs: { value: "" } }),
+        _vm._v(" "),
         _c("option", { attrs: { value: "FAI" } }, [_vm._v("FAI")]),
         _vm._v(" "),
         _c("option", { attrs: { value: "FAM" } }, [_vm._v("FaME")]),

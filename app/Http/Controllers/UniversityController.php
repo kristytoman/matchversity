@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\University;
+use App\Http\Requests\SearchRequest;
 use Illuminate\Http\Request;
 
 class UniversityController extends Controller
@@ -10,13 +11,13 @@ class UniversityController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param \App\Http\Requests\SearchRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(SearchRequest $request)
     {
         return view('universities.hunter', [
-            'top3' => University::getFavorites(),
-            'universities' => University::with('foreignCourses')->with('city')->get()
+           'universities' => University::findResults($request->validated())
         ]);
     }
 

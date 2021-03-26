@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Location;
-use DatabaseNames;
 use DB;
 
 class University extends Model
@@ -188,5 +187,45 @@ class University extends Model
     public static function getById($id)
     {
         return University::find($id);
+    }
+
+    public static function findResults($request)
+    {
+        return  DB::table('universities')->join('cities', function($join) use ($request) {
+            $join->on('universities.city_id', '=', 'cities.id')
+                ->when($request && array_key_exists('countries', $request), function($query, $bool) use ($request){ 
+                    return $query->whereIn('cities.country_id', $request['countries']);
+                });
+            })
+            ->join('mobilities', function($join2) use ($request) {
+                $join2->on('mobilities.university_id', '=', 'universities.id')
+                    ->join('pairings', function($join3) use ($request) {
+                        $join3->on('mobilities.id', '=', 'pairings.mobility_id')
+                            ->join('foreign_courses', 'foreign_courses.id', '=', 'pairings.foreign_course_id')
+                            ->join('home_courses', FUNCTION ($join4) use ($request) {
+                                $join4->on('home_courses.id', '=', 'pairings.home_course_id')
+                                ->when($request && array_key_exists('courses', $request), 
+                                    function($query, $bool) use ($request) {
+                                        return $query->whereIn('home_courses.code', $request['courses']);
+                                    });
+                                });
+                    });
+            })
+            ->select(DB::raw('universities.id as universityID, ' .
+                        'universities.name as universityName, ' . 
+                        'universities.native_name as universityNativeName, ' .
+                        'universities.xchange as xchange, ' .
+                        'universities.web as web, ' .
+                        'cities.id as cityID, ' .
+                        'cities.name as cityName, ' .
+                        'cities.country_id as countryID, ' .
+                        'pairings.reason_id as reasonID, ' .
+                        'foreign_courses.id as foreignCourseID, ' .
+                        'foreign_courses.name as foreignCourseName, ' .
+                        '(SELECT count(*) FROM mobilities ' . 
+                        'WHERE mobilities.university_id = universities.id) ' .
+                        'as count'))
+            ->orderBy('count', 'desc')
+            ->get();
     }
 }

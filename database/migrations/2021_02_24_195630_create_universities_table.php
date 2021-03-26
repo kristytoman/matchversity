@@ -14,7 +14,6 @@ class CreateUniversitiesTable extends Migration
     public function up()
     {
         Schema::create('universities', function (Blueprint $table) {
-            $table->timestamps();
             $table->id();
             $table->string('name', 128)
                   ->nullable()
@@ -33,8 +32,9 @@ class CreateUniversitiesTable extends Migration
             $table->string('web', 256)
                   ->nullable()
                   ->default(null);                  
-        });
-    }
+            $table->timestamps();
+            });
+      }
 
     /**
      * Reverse the migrations.

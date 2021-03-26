@@ -54,5 +54,6 @@ Route::resource('mobilities', MobilityController::class)
 
 Route::get('search', SearchController::class);
 
+Route::post('universities', [UniversityController::class, 'index']);
 Route::resource('universities', UniversityController::class)
        ->only(['index', 'show']);

@@ -2,6 +2,7 @@
     <div>
         <label>Faculty</label>
         <select @change="findFields()" v-model="faculty">
+            <option value=""></option>
             <option value="FAI">FAI</option>
             <option value="FAM">FaME</option>
             <option value="FHS">FHS</option>
