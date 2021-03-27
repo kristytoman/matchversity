@@ -13,7 +13,7 @@ class UpdateMobilityRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return true; // signed user of the mobility
     }
 
     /**

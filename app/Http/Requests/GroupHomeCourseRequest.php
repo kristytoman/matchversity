@@ -13,7 +13,7 @@ class GroupHomeCourseRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return true; // admin
     }
 
     /**
@@ -25,7 +25,7 @@ class GroupHomeCourseRequest extends FormRequest
     {
         return [
             'group' => ['required', 'array'],
-            'group.*' => ['nullable','numeric']
+            'group.*' => ['nullable', 'numeric']
         ];
     }
 }

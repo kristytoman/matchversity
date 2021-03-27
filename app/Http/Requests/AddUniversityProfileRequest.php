@@ -13,7 +13,7 @@ class AddUniversityProfileRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return true; // admin
     }
 
     /**
@@ -24,13 +24,13 @@ class AddUniversityProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => [ 'required_without:connect_university', 'nullable', 'string'],
-            'native_name' => [ 'required_without:connect_university', 'nullable', 'string'],
-            'country' => [ 'required_without:connect_university', 'nullable', 'string'],
-            'city' => [ 'required_without:connect_university', 'nullable', 'string'],
-            'web' => [ 'required_without:connect_university', 'nullable', 'string'],
-            'xchange' => [ 'required_without:connect_university', 'nullable', 'numeric'],
-            'connect_university' => [ 'required_without:name', 'nullable', 'numeric']
+            'name' => ['required_without:connect_university', 'nullable', 'string'],
+            'native_name' => ['required_without:connect_university', 'nullable', 'string'],
+            'country' => ['required_without:connect_university', 'nullable', 'string'],
+            'city' => ['required_without:connect_university', 'nullable', 'string'],
+            'web' => ['required_without:connect_university', 'nullable', 'string'],
+            'xchange' => ['required_without:connect_university', 'nullable', 'numeric'],
+            'connect_university' => ['required_without:name', 'nullable', 'numeric']
         ];
     }
 }

@@ -13,7 +13,7 @@ class VerifyReasonRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return true; // admin
     }
 
     /**
@@ -26,7 +26,7 @@ class VerifyReasonRequest extends FormRequest
         return [
             'description_cz' => ['required_without:connect', 'nullable', 'string'],
             'description_en' => ['required_without:connect', 'nullable', 'string'],
-            'connect' => ['required_without:description_cz', 'nullable', 'numeric'],
+            'connect' => ['required_without:description_cz', 'nullable', 'numeric']
         ];
     }
 }

@@ -13,7 +13,7 @@ class ImportMobilitiesRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return true; // admin
     }
 
     /**
@@ -24,7 +24,7 @@ class ImportMobilitiesRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required', 'mimes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            'file' => ['required', 'mimes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
         ];
     }
 }

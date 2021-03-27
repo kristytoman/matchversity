@@ -13,7 +13,7 @@ class AddNewReasonRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return true; // authorize as a admin
     }
 
     /**
