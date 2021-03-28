@@ -191,10 +191,11 @@ class University extends Model
 
     public static function findResults($request)
     {
-        return  DB::table('universities')->join('cities', function($join) use ($request) {
+        $select =  DB::table('universities')->join('cities', function($join) use ($request) {
             $join->on('universities.city_id', '=', 'cities.id')
-                ->when($request && array_key_exists('countries', $request), function($query, $bool) use ($request){ 
-                    return $query->whereIn('cities.country_id', $request['countries']);
+                ->when($request && array_key_exists('countries', $request), 
+                    function($query, $bool) use ($request) { 
+                        return $query->whereIn('cities.country_id', $request['countries']);
                 });
             })
             ->join('mobilities', function($join2) use ($request) {
@@ -214,9 +215,6 @@ class University extends Model
             ->select(DB::raw('universities.id as universityID, ' .
                         'universities.name as universityName, ' . 
                         'universities.native_name as universityNativeName, ' .
-                        'universities.xchange as xchange, ' .
-                        'universities.web as web, ' .
-                        'cities.id as cityID, ' .
                         'cities.name as cityName, ' .
                         'cities.country_id as countryID, ' .
                         'pairings.reason_id as reasonID, ' .
@@ -227,5 +225,32 @@ class University extends Model
                         'as count'))
             ->orderBy('count', 'desc')
             ->get();
+        $result = [];
+        foreach ($select->all() as $row) {
+            if (array_key_exists($row->universityID, $result)) {
+                if (empty($row->reasonID)) {
+                    $result[$row->universityID]['courses'][$row->foreignCourseID] = [
+                        'name' => $row->foreignCourseName,
+                        'reason' => $row->reasonID
+                    ];
+                }
+            }
+            else {
+                $result[$row->universityID] = [
+                    'name' => $row->universityName,
+                    'native' => $row->universityNativeName,
+                    'city' => $row->cityName,
+                    'countryID' => $row->countryID,
+                    'count' => $row->count,
+                    'courses' => empty($row->reasonID) ? array(
+                        $row->foreignCourseID => [
+                            'name' => $row->foreignCourseName,
+                            'reason' => $row->reasonID
+                        ] 
+                    ) : []
+                ];
+            }
+        }
+        return $result;
     }
 }

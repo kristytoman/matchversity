@@ -1,44 +1,17 @@
 @extends('layouts.app')
 
+@include('include.header')
+
 @section('content')
     <h2>{{ __('Search results') }}</h2>
-    
-    @if(count($top3) == 3)
-        <h3>{{__('Most favorite destinations') }}</h3>
-        <div>
-            @foreach ($top3 as $uni)
-            <a href={{ route('universities.show', $uni->id)}}>
-                <span>{{ $uni->name }}</span>
-            </a>
-            @endforeach
-        </div>
-    @endif
-
     <div>
         <div>
-            @foreach ($universities as $uni)
-            @if($uni->name)
-            <div>
-                <a href={{ route('universities.show', $uni->id)}}>
-                        <span>{{ $uni->name }}</span>
-                        <span>&starf;&starf;&starf;&starf;&starf;</span>
-                        <div>{{ $uni->native_name }}</div>
-                        @if($uni->city)
-                            <div>{{ $uni->city->name }}, {{ __('countries.' . $uni->city->country_id) }}</div>
-                        @endif
-                        <div>
-                            @foreach ($uni->foreignCourses as $i => $course)
-                                @if ($i < 5)
-                                <span>{{ $course->name }}</span>
-                                @else   
-                                    @break
-                                @endif
-                            @endforeach
-                        </div>
-                    </div>
-                </a>
-                <br>
-                    @endif
+            @foreach ($universities as $key => $uni)
+                @if($uni['name'])
+                    <university-result
+                        :university="{{ json_encode($uni) }}" :route="'{{ route('universities.show', $key) }}'">
+                    </university-result>
+                @endif
             @endforeach
         </div>
     </div>

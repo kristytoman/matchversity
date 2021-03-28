@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@include('include.header')
+
 @section('content')
     <div>
         <span style="font-size:2em">{{ $university->name }}</span>

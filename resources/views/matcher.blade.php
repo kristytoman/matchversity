@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@include('include.header')
+
 @section('content')
     <errors :errors="{{ json_encode($errors->all()) }}"></errors>
     <form method="post" action="{{ route('universities.index') }}">
