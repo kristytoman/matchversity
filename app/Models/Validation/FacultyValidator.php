@@ -7,6 +7,11 @@ use App\Models\Validation\DataValidator;
 
 class FacultyValidator extends DataValidator
 {
+    /**
+     * Validate the input data.
+     *
+     * @return bool
+     */
     public function validate()
     {
         if (empty($this->data)) {

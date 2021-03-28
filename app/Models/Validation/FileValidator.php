@@ -2,24 +2,56 @@
 
 namespace App\Models\Validation;
 
-use ImportColumns;
 use App\Models\Validation\HomeCourseValidator;
+use ImportColumns;
 use SimpleXLSX;
 
 class FileValidator
 {
+    /**
+     * The input data of the file to validate.
+     *
+     * @var Array
+     */
     public $data;
 
+    /**
+     * File to validate.
+     *
+     * @var Object
+     */
     private $file;
 
+    /**
+     * The validated mobilities.
+     *
+     * @var Array
+     */
     public $validated;
 
+    /**
+     * The invalid mobilities to check.
+     *
+     * @var Array
+     */
     public $toCheck;
 
+     /**
+     * Returns the number of mobilities in the file.
+     *
+     * @return int
+     */
     public function getCount()
     {
         return count($this->validated) + count($this->toCheck);
     }
+
+    /**
+     * Checks if the file has all needed rows.
+     *
+     * @param Array  $row
+     * @return bool
+     */
     private function isRightHeader($row)
     {
         return in_array(ImportColumns::STUDENT_ID, $row) &&
@@ -37,14 +69,10 @@ class FileValidator
             in_array(ImportColumns::PAIRING_TYPE, $row);
     }
 
-    private function createHeader($row)
-    {
-        if ($this->isRightHeader($row)) {
-            return $row;
-        }
-        return null;
-    }
-
+    /**
+     * Parse the file content into array
+     *
+     */
     private function parseData()
     {
         $this->data = null;
@@ -52,9 +80,10 @@ class FileValidator
             $header = $rows = [];
             foreach ($this->data->rows() as $index => $row) {
                 if ($index === 0) {
-                    if (!$header = $this->createHeader($row)) {
+                    if (!$this->isRightHeader($row)) {
                         return;
                     }
+                    $header = $row;
                     continue;
                 }
                 $rows[] = array_combine($header, $row);
@@ -63,6 +92,12 @@ class FileValidator
         }
     }
 
+    /**
+     * Returns validated data of the file.
+     *
+     * @param Object  $file
+     * @return Array
+     */
     public function getData($file)
     {
         $this->file = $file;
@@ -71,9 +106,10 @@ class FileValidator
         if ($this->data) {
             $mobilities = [];
             foreach ($this->data as $row) {
-                if (($row[ImportColumns::DEGREE] !== 'doktorský') && (!empty($row[ImportColumns::HOME_COURSE])) &&
-                !empty($row[ImportColumns::STUDENT_ID])) {
-                    $this->addMobility($mobilities, $row);
+                if (($row[ImportColumns::DEGREE] !== 'doktorský') &&
+                    (!empty($row[ImportColumns::HOME_COURSE])) &&
+                        !empty($row[ImportColumns::STUDENT_ID])) {
+                            $this->addMobility($mobilities, $row);
                 }
             }
             $this->validateMobilities($mobilities);
@@ -83,6 +119,12 @@ class FileValidator
         return null;
     }
 
+    /**
+     * Add input row of the file to the array of mobilities.
+     *
+     * @param Array  $mobilities
+     * @param Array  $data
+     */
     private function addMobility(&$mobilities, $data)
     {
         foreach ($mobilities as $mobility) {
@@ -96,7 +138,12 @@ class FileValidator
         array_push($mobilities, MobilityValidator::fromFile($data));
     }
 
-    public function validateMobilities(&$mobilities)
+    /**
+     * Validate the data of the file.
+     *
+     * @param Array  $mobilities
+     */
+    private function validateMobilities(&$mobilities)
     {
         $this->toCheck = [];
         $this->validated = [];
@@ -109,5 +156,4 @@ class FileValidator
             }
         }
     }
-
 }
