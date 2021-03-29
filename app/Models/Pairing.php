@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\HomeCourse;
 use App\Models\ForeignCourse;
+use DB;
 use ImportColumns;
 
 
@@ -169,6 +169,15 @@ class Pairing extends Model
     {
         if ($state == 'Smazaný') {
             $this->reason_id = 1;
+        }
+    }
+
+    public static function getUniPairings()
+    {
+        if ($courses = HomeCourse::getSession()) {
+            Pairing::whereHas('homeCourse', function (Builder $query) {
+                $query->where('content', 'like', 'code%');
+            })->get();
         }
     }
 }

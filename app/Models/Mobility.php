@@ -13,7 +13,16 @@ class Mobility extends Model
 
     const SPRING_SEMESTER = "summer";
     const AUTUMN_SEMESTER = "winter";
-    
+    const EXPORT_COLUMNS = 'foreign_courses.name as name, ' .
+        'foreign_courses.id as foreignCourseID, ' .
+        'home_courses.code as homeCode, ' .
+        'home_courses.name_cz as homeNameCZ, ' .
+        'home_courses.name_en as homeNameEN, ' .
+        'pairings.id as pairingID, ' .
+        'reasons.description_cz as reason, ' .
+        'pairings.rating as rating, ' .
+        'mobilities.is_summer as semester, ' .
+        'mobilities.year as year';
 
     /**
      * The table associated with the model.
@@ -68,7 +77,6 @@ class Mobility extends Model
         return $this->hasMany(Pairing::class);
     }
 
-
     // public static function saveMobility($data)
     // {
     //     $mobility = new Mobility;
@@ -77,8 +85,8 @@ class Mobility extends Model
     //                  ->associate(University::getUniversity($data));
     //     $mobility->save();
     //     Pairing::saveMobilityPairings(
-    //         $mobility, 
-    //         $data['semester'], 
+    //         $mobility,
+    //         $data['semester'],
     //         $data['pairing']
     //     );
     // }
@@ -138,7 +146,7 @@ class Mobility extends Model
         }
     }
 
-    public static function getMobility($data) 
+    public static function getMobility($data)
     {
         $end = empty($data[ImportColumns::END]) ? null : $data[ImportColumns::END];
         $mobility = self::firstOrCreate([
@@ -154,7 +162,7 @@ class Mobility extends Model
         return $mobility;
     }
 
-    public static function getYear($data) 
+    public static function getYear($data)
     {
         if ($data[ImportColumns::SEMESTER] === "ZS") {
             return $data[ImportColumns::YEAR];
@@ -164,7 +172,7 @@ class Mobility extends Model
         }
     }
 
-    public static function isSummerSemester($semester) 
+    public static function isSummerSemester($semester)
     {
         return $semester === "LS";
     }
@@ -188,7 +196,7 @@ class Mobility extends Model
             $toSave->year = $mobility->year->data;
             $toSave->is_summer = self::isSummerSemester($mobility->semester->data);
             $toSave->university()->associate(University::get(
-                $mobility->university->data, 
+                $mobility->university->data,
                 $mobility->city
             ));
         $toSave->save();
@@ -214,4 +222,79 @@ class Mobility extends Model
         $this->university()->associate(University::find($uniID));
         $this->save();
     }
+
+
+    private static function getAllFromUni($id)
+    {
+        return DB::table('mobilities')
+            ->where('mobilities.university_id', '=', $id)
+            ->join('pairings', function ($join) {
+                $join->on('pairings.mobility_id', '=', 'mobilities.id')
+                    ->join('home_courses', 'pairings.home_course_id', '=', 'home_courses.id')
+                    ->join('foreign_courses', 'foreign_courses.id', '=', 'pairings.foreign_course_id')
+                    ->leftJoin('reasons', 'pairings.reason_id', '=', 'reasons.id');
+            })        
+            ->select(DB::raw(self::EXPORT_COLUMNS))->get();
+    }
+
+    private static function getSelectedFromUni($id)
+    {
+        return DB::table('mobilities')
+        ->where('mobilities.university_id', '=', $id)
+        ->join('pairings', function ($join) use ($courses) {
+            $join->on('pairings.mobility_id', '=', 'mobilities.id')
+                ->join('home_courses', function ($join2) use ($courses) {
+                            $join2->on('pairings.home_course_id', '=', 'home_courses.id')
+                                ->whereIn('home_courses.code', $courses['codes'])
+                                ->orWhereIn('home_courses.group', $courses['groups']);
+                        
+                    })
+                ->join('foreign_courses', 'foreign_courses.id', '=', 'pairings.foreign_course_id')
+                ->leftJoin('reasons', 'pairings.reason_id', '=', 'reasons.id');
+        })->select(DB::raw(self::EXPORT_COLUMNS))->get();
+    }
+
+    public static function getUniversityData($id)
+    {
+        $courses = HomeCourse::getSession();
+        return [ 
+            'all' => self::groupData(self::getAllFromUni($id)), 
+            'searched' => $courses ?  self::groupData(self::getSelectedFromUni($id)): null
+        ];
+    }
+
+
+
+    private static function groupData($select)
+    {
+        $result = [];
+        foreach ($select->all() as $row) {
+            if (array_key_exists($row->foreignCourseID, $result)) {
+                    $result[$row->foreignCourseID]['courses'][$row->pairingID] = [
+                        'code' => $row->homeCode,
+                        'nameCZ' => $row->homeNameCZ,
+                        'nameEN' => $row->homeNameEN,
+                        'reason' => $row->reason,
+                        'semester' => $row->semester,
+                        'year' => $row->year,
+                        'rating' => $row->rating
+                    ];
+            }
+            else {
+                $result[$row->foreignCourseID] = [ 
+                    'courses' => [ $row->pairingID => [
+                        'code' => $row->homeCode,
+                        'nameCZ' => $row->homeNameCZ,
+                        'nameEN' => $row->homeNameEN,
+                        'reason' => $row->reason,
+                        'semester' => $row->semester,
+                        'year' => $row->year,
+                        'rating' => $row->rating
+                    ]],
+                    'name' => $row->name
+                ];
+            }
+        }
+        return $result;
+    } 
 }

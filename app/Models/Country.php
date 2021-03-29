@@ -28,4 +28,19 @@ class Country extends Model
     {
         return $this->hasMany(City::class);
     }
+
+    public static function setSession($request) 
+    {
+        if ($request['countries']) {
+            session(['countries' => json_encode($request['countries'])]);
+        }
+        else {
+            session(['countries' => ""]);
+        }
+    }
+
+    public static function getSession()
+    {
+        return json_decode(session('countries'));
+    }
 }

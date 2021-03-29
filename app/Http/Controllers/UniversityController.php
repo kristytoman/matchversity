@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
+use App\Models\HomeCourse;
+use App\Models\Mobility;
 use App\Models\University;
 use App\Http\Requests\SearchRequest;
 use Illuminate\Http\Request;
@@ -16,8 +19,10 @@ class UniversityController extends Controller
      */
     public function index(SearchRequest $request)
     {
+        HomeCourse::setSession($request);
+        Country::setSession($request);
         return view('universities.hunter', [
-           'universities' => University::findResults($request->validated())
+           'universities' => University::findResults()
         ]);
     }
 
@@ -30,7 +35,8 @@ class UniversityController extends Controller
     public function show($id)
     {
         return view('universities.university', [
-            'university' => University::getById($id)
+            'university' => University::getById($id),
+            'mobilities' => Mobility::getUniversityData($id)
         ]);
     }
 }

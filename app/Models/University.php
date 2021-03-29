@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Location;
+use App\Models\Country;
+use App\Models\HomeCourse;
 use DB;
+use Illuminate\Database\Eloquent\Model;
 
 class University extends Model
 {
@@ -71,7 +73,7 @@ class University extends Model
                 $data['web'],
                 $data['xchange'],
                 $data['expiration']
-            );      
+            );
         }
         else {
             return self::find($data['uniID']);
@@ -80,7 +82,7 @@ class University extends Model
 
     /**
      * Stores data about university into the database.
-     * 
+     *
      * @param   String  $name   University name in English
      * @param   String  $originalName   Original university name
      * @param   City    $location   University Location instance from datatabase
@@ -116,7 +118,7 @@ class University extends Model
     {
         return ForeignCourse::where('university_id', '=', $id)->get();
     }
-    
+
     public static function getMobilities($id)
     {
         return Mobility::where('university_id', '=', $id)->get();
@@ -163,7 +165,7 @@ class University extends Model
             DB::connection('xchange')->table('institutions')->select('url')->where('id', $this->xchange)->first();
         $this->rating = DB::connection('xchange')->table('reviews')->where('institution_id',$this->xchange)->avg();
     }
-    
+
     public static function getCount()
     {
         return self::all()->count();
@@ -189,45 +191,45 @@ class University extends Model
         return University::find($id);
     }
 
-    public static function findResults($request)
+    public static function findResults()
     {
-        $select =  DB::table('universities')->join('cities', function($join) use ($request) {
-            $join->on('universities.city_id', '=', 'cities.id')
-                ->when($request && array_key_exists('countries', $request), 
-                    function($query, $bool) use ($request) { 
-                        return $query->whereIn('cities.country_id', $request['countries']);
-                });
+        $select =  DB::table('universities')
+            ->join('cities', function($join) {
+                $join->on('universities.city_id', '=', 'cities.id')
+                     ->when($request = Country::getSession(), function($query, $request) {
+                           return $query->whereIn('cities.country_id', $request);
+                       });
             })
-            ->join('mobilities', function($join2) use ($request) {
+            ->join('mobilities', function($join2) {
                 $join2->on('mobilities.university_id', '=', 'universities.id')
-                    ->join('pairings', function($join3) use ($request) {
-                        $join3->on('mobilities.id', '=', 'pairings.mobility_id')
-                            ->join('foreign_courses', 'foreign_courses.id', '=', 'pairings.foreign_course_id')
-                            ->join('home_courses', FUNCTION ($join4) use ($request) {
-                                $join4->on('home_courses.id', '=', 'pairings.home_course_id')
-                                ->when($request && array_key_exists('courses', $request), 
-                                    function($query, $bool) use ($request) {
-                                        return $query->whereIn('home_courses.code', $request['courses']);
+                      ->join('pairings', function($join3) {
+                            $join3->on('mobilities.id', '=', 'pairings.mobility_id')
+                                  ->join('foreign_courses', 'foreign_courses.id', '=', 'pairings.foreign_course_id')
+                                  ->join('home_courses', function ($join4) {
+                                        $join4->on('home_courses.id', '=', 'pairings.home_course_id')
+                                              ->when($request = HomeCourse::getSession(), function($query, $request) {
+                                                    return $query->whereIn('home_courses.code', $request['codes'])
+                                                                 ->orWhereIn('home_courses.group', $request['groups']);
+                                                });
                                     });
-                                });
-                    });
-            })
+                        });
+                })
             ->select(DB::raw('universities.id as universityID, ' .
-                        'universities.name as universityName, ' . 
+                        'universities.name as universityName, ' .
                         'universities.native_name as universityNativeName, ' .
                         'cities.name as cityName, ' .
                         'cities.country_id as countryID, ' .
                         'pairings.reason_id as reasonID, ' .
                         'foreign_courses.id as foreignCourseID, ' .
                         'foreign_courses.name as foreignCourseName, ' .
-                        '(SELECT count(*) FROM mobilities ' . 
+                        '(SELECT count(*) FROM mobilities ' .
                         'WHERE mobilities.university_id = universities.id) ' .
                         'as count'))
             ->orderBy('count', 'desc')
             ->get();
         $result = [];
         foreach ($select->all() as $row) {
-            if (array_key_exists($row->universityID, $result)) {
+            if (array_key_exists($row->universityID, $result) && (count($result[$row->universityID]['courses']) < 5)) {
                 if (empty($row->reasonID)) {
                     $result[$row->universityID]['courses'][$row->foreignCourseID] = [
                         'name' => $row->foreignCourseName,
@@ -246,7 +248,7 @@ class University extends Model
                         $row->foreignCourseID => [
                             'name' => $row->foreignCourseName,
                             'reason' => $row->reasonID
-                        ] 
+                        ]
                     ) : []
                 ];
             }

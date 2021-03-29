@@ -76,4 +76,31 @@ class HomeCourse extends Model
         $course->group = $group;
         $course->save();
     }
+
+    public static function setSession($request)
+    {
+        if ($request['courses']) {
+            $courses = [
+                'groups' => [],
+                'codes' => []
+            ];
+            foreach($request['courses'] as $code) {
+                if ($course = self::findByCode($code)) {
+                    $courses['codes'][] = $code;
+                    if ($course->group) {
+                        $course['groups'][] = $course->group;
+                    }
+                }
+            }
+            session(['courses' => json_encode($courses)]);
+        }
+        else {
+            session(['courses' => "" ]);
+        }
+    }
+
+    public static function getSession() 
+    {
+        return json_decode(session('courses'));
+    }
 }
