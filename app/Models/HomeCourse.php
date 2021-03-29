@@ -79,7 +79,7 @@ class HomeCourse extends Model
 
     public static function setSession($request)
     {
-        if ($request['courses']) {
+        if (array_key_exists('courses', $request)) {
             $courses = [
                 'groups' => [],
                 'codes' => []

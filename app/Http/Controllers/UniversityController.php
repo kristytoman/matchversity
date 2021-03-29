@@ -19,8 +19,11 @@ class UniversityController extends Controller
      */
     public function index(SearchRequest $request)
     {
-        HomeCourse::setSession($request);
-        Country::setSession($request);
+        if ($request) {
+            $validated = $request->validated();
+            HomeCourse::setSession($validated);
+            Country::setSession($validated);
+        }
         return view('universities.hunter', [
            'universities' => University::findResults()
         ]);
