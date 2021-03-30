@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ForeignCourseController;
 use App\Http\Controllers\Admin\MobilityController as AdminMobilityController;
 use App\Http\Controllers\Admin\ReasonController;
 use App\Http\Controllers\Admin\UniversityController as AdminUniversityController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MobilityController;
 use App\Http\Controllers\SearchController;
@@ -25,12 +26,15 @@ use App\Http\Controllers\UniversityController;
 |
 */
 
-Auth::routes();
+Auth::routes(['register' => false, 'login' => false]);
 
 Route::get('/', HomeController::class);
 
 Route::prefix('admin')->name('admin.')->group(function() {
     Route::get('/', [AdminMobilityController::class, 'index']);
+    
+    Route::get('login', [LoginController::class, 'showAdmin'])->name('login');
+    Route::post('login', [LoginController::class, 'adminLogin']);
     
     Route::resource('foreign-courses', ForeignCourseController::class);
 

@@ -8,7 +8,7 @@
                 <div >{{ __('Login') }}</div>
 
                 <div >
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="login">
                         @csrf
 
                         <div >
