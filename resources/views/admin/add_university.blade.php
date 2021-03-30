@@ -4,7 +4,7 @@
 
 @section('content')
     <h1>{{ __('University profile for') }} {{ $university->original_name }}</h1>
-    <errors :errors="{{ $errors->all() }}"></errors>
+    <errors :errors="{{ json_encode($errors->all()) }}"></errors>
     <form id="add-university" method="POST" action="{{ route('admin.universities.update', $university) }}">
         @method('PUT')
         @csrf

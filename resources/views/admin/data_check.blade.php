@@ -4,7 +4,7 @@
 
 @section('content')
     <h2>Importing {{ $count }} mobilities</h2>
-    <errors :errors="{{ $errors->all() }}"></errors>  
+    <errors :errors="{{ json_encode($errors->all()) }}"></errors>  
     <form method="post" action="{{ route('admin.mobilities.store') }}">
         @csrf
         @foreach ($mobilities as $key => $mobility)

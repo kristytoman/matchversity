@@ -3,7 +3,7 @@
 @include('include.admin')
 
 @section('content')
-    <errors :errors="{{ $errors->all() }}"></errors>
+    <errors :errors="{{ json_encode($errors->all()) }}"></errors>
     <form method="POST" enctype="multipart/form-data" action="{{ route('admin.mobilities.import') }}">
         @csrf
         <label>{{__('Mobilities')}}: </label>

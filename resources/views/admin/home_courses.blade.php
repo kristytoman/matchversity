@@ -3,7 +3,7 @@
 @include('include.admin')
 
 @section('content')
-<errors :errors="{{ $errors->all() }}"></errors>
+<errors :errors="{{ json_encode($errors->all()) }}"></errors>
 <form method="POST" action="{{ route('admin.home-courses.update', $courses->first()) }}">
     @method('PUT')
     @csrf

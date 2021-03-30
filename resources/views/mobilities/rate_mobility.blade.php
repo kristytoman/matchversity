@@ -3,7 +3,7 @@
 @include('include.header')
 
 @section('content')
-    <errors :errors="{{ $errors->all() }}"></errors>
+    <errors :errors="{{ json_encode($errors->all()) }}"></errors>
     <div>
         <span>{{ $mobility->university->name }}</span>
         <span>{{ $mobility->university->native_name }}</span>
