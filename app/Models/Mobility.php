@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 use ImportColumns;
-use DB;
 
 
 
 class Mobility extends Model
 {
-
     const SPRING_SEMESTER = "summer";
     const AUTUMN_SEMESTER = "winter";
     const EXPORT_COLUMNS = 'foreign_courses.name as name, ' .
@@ -62,7 +61,7 @@ class Mobility extends Model
     ];
 
     /**
-     * Gets university of the mobility.
+     * Get university of the mobility.
      */
     public function university()
     {
@@ -70,54 +69,30 @@ class Mobility extends Model
     }
 
     /**
-     * Gets pairings of the mobility.
+     * Get pairings of the mobility.
      */
     public function pairings()
     {
         return $this->hasMany(Pairing::class);
     }
 
-    // public static function saveMobility($data)
-    // {
-    //     $mobility = new Mobility;
-    //         $mobility->student = "test";    // change when connected to system
-    //         $mobility->university()
-    //                  ->associate(University::getUniversity($data));
-    //     $mobility->save();
-    //     Pairing::saveMobilityPairings(
-    //         $mobility,
-    //         $data['semester'],
-    //         $data['pairing']
-    //     );
-    // }
-
-    public function getDuration($id)
-    {
-        $courseTimes = Pairing::getSemestersOfMobility($id);
-        $duration = $this->getSemester($courseTimes[0]);
-        if (count($courseTimes) > 1) {
-            $duration .= '–⁠' . $this->getSemester($courseTimes[count($courseTimes) - 1]);
-        }
-        return $duration;
-    }
-
-    private function getSemester($courseTime)
-    {
-        return $this->getTypeOfSemester($courseTime->is_summer) . ' ' . $courseTime->year;
-    }
-
-    private function getTypeOfSemester($type)
-    {
-        return $type ? $this->SPRING_SEMESTER : $this->AUTUMN_SEMESTER;
-    }
-
+    /**
+     * Update the data in the database.
+     * 
+     * @param array  $data
+     */
     public function updateMobility($data)
     {
-        $this->saveRatings($data->rate);
-        $this->unlinkCourses($data->unlinked, $data->new);
+        $this->saveRatings($data['rate']);
+        $this->unlinkCourses($data['unlinked'], $data['new']);
         $this->save();
     }
 
+    /**
+     * Update pairing ratings of the mobility.
+     * 
+     * @param array  $ratings
+     */
     public function saveRatings($ratings)
     {
         foreach ($ratings as $pairID => $rating) {
@@ -128,6 +103,12 @@ class Mobility extends Model
         }
     }
 
+    /**
+     * Update pairing ratings of the mobility.
+     * 
+     * @param array  $unlinkedData
+     * @param array  $new
+     */
     public function unlinkCourses($unlinkedData, $new)
     {
         foreach($unlinkedData as $pairID => $unlinked) {
@@ -136,7 +117,7 @@ class Mobility extends Model
                          ->get();
             if (($unlinked == 1) && (array_key_exists($pairID, $new))) {
                 $pair->unlink_reason()
-                     ->associate(UnlinkReason::createNewReason($new));
+                     ->associate(Reason::createNewReason($new)); // TODO: update
             }
             else {
                 $pair->unlink_reason()
@@ -146,25 +127,15 @@ class Mobility extends Model
         }
     }
 
-    public static function getMobility($data)
-    {
-        $end = empty($data[ImportColumns::END]) ? null : $data[ImportColumns::END];
-        $mobility = self::firstOrCreate([
-            'student' => self::getStudent($data[ImportColumns::STUDENT_ID]),
-            'arrival' => $data[ImportColumns::START],
-            'departure' => $end,
-            'is_summer' => self::isSummerSemester($data[ImportColumns::SEMESTER]),
-            'year' => self::getYear($data)
-        ]);
-        if (!$mobility->university()) {
-            $mobility->university()->associate(University::getUniversityByName([ImportColumns::UNIVERSITY]));
-        }
-        return $mobility;
-    }
-
+    /**
+     * Return the year of the mobility.
+     * 
+     * @param array  $data
+     * @return int
+     */
     public static function getYear($data)
     {
-        if ($data[ImportColumns::SEMESTER] === "ZS") {
+        if (!self::isSummerSemester($data[ImportColumns::SEMESTER])) {
             return $data[ImportColumns::YEAR];
         }
         else {
@@ -172,11 +143,22 @@ class Mobility extends Model
         }
     }
 
+    /**
+     * Check if the semester is summer.
+     * 
+     * @param string  $semester
+     * @return bool
+     */
     public static function isSummerSemester($semester)
     {
         return $semester === "LS";
     }
 
+    /**
+     * Import data to the database.
+     * 
+     * @param array  $transaction
+     */
     public static function import($transaction)
     {
         if ($transaction) {
@@ -185,6 +167,12 @@ class Mobility extends Model
             }
         }
     }
+
+    /**
+     * Save new mobility to the database.
+     * 
+     * @param MobilityValidator  $mobility
+     */
     private static function createNew($mobility)
     {
         $toSave = new Mobility;
@@ -203,27 +191,44 @@ class Mobility extends Model
         Pairing::import($toSave, $mobility->pairings, $toSave->university->id);
     }
 
+    /**
+     * Return the number of rows in the database.
+     * 
+     * @return int
+     */
     public static function getCount()
     {
         return self::all()->count();
     }
 
+    /**
+     * Return the mobility instance.
+     * 
+     * @param int  $id
+     * @return Mobility
+     */
     public static function findById($id)
     {
-        $mobility = Mobility::find($id);
-        if ($mobility) {
-            $mobility->semester = $mobility->getTypeOfSemester($mobility->is_summer);
-        }
-        return $mobility;
+        return Mobility::find($id);
     }
 
+    /**
+     * Change the university column.
+     * 
+     * @param int  $uniID
+     */
     public function changeUniversity($uniID)
     {
         $this->university()->associate(University::find($uniID));
         $this->save();
     }
 
-
+    /**
+     * Return all mobilities associated with the university.
+     * 
+     * @param int  $id
+     * @return array
+     */
     private static function getAllFromUni($id)
     {
         return DB::table('mobilities')
@@ -237,6 +242,13 @@ class Mobility extends Model
             ->select(DB::raw(self::EXPORT_COLUMNS))->get();
     }
 
+    /**
+     * Return all mobilities associated with the university
+     * that contains selected courses.
+     * 
+     * @param int  $id
+     * @return Illuminate\Support\Collection
+     */
     private static function getSelectedFromUni($id)
     {
         return DB::table('mobilities')
@@ -254,6 +266,12 @@ class Mobility extends Model
         })->select(DB::raw(self::EXPORT_COLUMNS))->get();
     }
 
+    /**
+     * Return mobilities for the university profile.
+     * 
+     * @param int  $id
+     * @return Illuminate\Support\Collection
+     */
     public static function getUniversityData($id)
     {
         $courses = HomeCourse::getSession();
@@ -263,8 +281,12 @@ class Mobility extends Model
         ];
     }
 
-
-
+    /**
+     * Return an array from the query collection.
+     * 
+     * @param Illuminate\Support\Collection  $select
+     * @return array
+     */
     private static function groupData($select)
     {
         $result = [];

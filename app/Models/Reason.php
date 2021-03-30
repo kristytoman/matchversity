@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Pairing;
+use Illuminate\Database\Eloquent\Model;
 
 class Reason extends Model
 {
@@ -32,13 +32,21 @@ class Reason extends Model
     public $timestamps = false;
 
     /**
-     * Gets mobility of the pairing.
+     * Get mobility of the pairing.
      */
     public function pairings()
     {
         return $this->hasMany(Pairing::class);
     }
 
+    /**
+     * Creates new reason to unlink courses.
+     * 
+     * @param string  $answerCZ
+     * @param string  $answerEN
+     * @param bool  $isAdmin
+     * @return int
+     */
     public static function create($answerCZ, $answerEN, $isAdmin)
     {
         $reason = new Reason;
@@ -49,6 +57,12 @@ class Reason extends Model
         return $reason->id;
     }
 
+    /**
+     * Set the verification column to true.
+     * 
+     * @param int  $id
+     * @param array  $data
+     */
     public static function verify($id, $data)
     {
         $reason = Reason::find($id);
@@ -58,11 +72,22 @@ class Reason extends Model
         $reason->save();
     }
 
+    /**
+     * Return pairings associated with this reason.
+     * 
+     * @return Illuminate\Support\Collection
+     */
     public function getPairings()
     {
         return Pairing::where('reason_id', '=', $this->id);
     }
 
+    /**
+     * Merge reasons together.
+     * 
+     * @param int  $id
+     * @param int  $toId
+     */
     public static function change($id, $toId)
     {
         $reason = Reason::find($id);
@@ -73,7 +98,12 @@ class Reason extends Model
         $reason->delete();
     }
 
-
+    /**
+     * Change the pairings associated with the reason
+     * and delete the reason from the database.
+     * 
+     * @param int  $id
+     */
     public static function deleteSafely($id)
     {
         $reason = Reason::find($id);

@@ -3,12 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use DatabaseNames;
-
 
 class ForeignCourse extends Model
 {
-    
     /**
      * The table associated with the model.
      *
@@ -31,22 +28,29 @@ class ForeignCourse extends Model
     protected $guarded = [];
 
     /**
-     * Gets university of the course.
+     * Get university of the course.
      */
-    public function university() 
+    public function university()
     {
         return $this->belongsTo(University::class);
     }
 
     /**
-     * Gets pairings of the course.
+     * Get pairings associated with the course.
      */
-    public function pairings() 
+    public function pairings()
     {
         return $this->hasMany(Pairing::class);
     }
 
-    public static function get($uniId, $name) 
+    /**
+     * Get the instance of the model.
+     *
+     * @param int  $uniID
+     * @param string  $name
+     * @return ForeignCourse
+     */
+    public static function get($uniId, $name)
     {
         return self::firstOrCreate([
             'name' => $name,
@@ -54,11 +58,22 @@ class ForeignCourse extends Model
         ]);
     }
 
+    /**
+     * Return the number of data stored
+     * in the database.
+     *
+     * @return int
+     */
     public static function getCount()
     {
         return self::all()->count();
     }
 
+    /**
+     * Update the university column of the course.
+     *
+     * @param int  $uniID
+     */
     public function changeUniversity($uniID)
     {
         $this->university()->associate(University::find($uniID));

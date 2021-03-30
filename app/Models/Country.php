@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
-    
     /**
      * The table associated with the model.
      *
@@ -22,16 +21,20 @@ class Country extends Model
     public $timestamps = false;
 
     /**
-     * Gets universities of the location.
+     * Get cities associated with the country.
      */
     public function cities()
     {
         return $this->hasMany(City::class);
     }
 
-    public static function setSession($request) 
-    {
-        if ($request['countries']) {
+    /**
+     * Set countries session.
+     *
+     * @param array  $request
+     */
+    public static function setSession($request)    {
+        if (array_key_exists('countries', $request)) {
             session(['countries' => json_encode($request['countries'])]);
         }
         else {
@@ -39,6 +42,11 @@ class Country extends Model
         }
     }
 
+    /**
+     * Get countries session.
+     *
+     * @return array
+     */
     public static function getSession()
     {
         return json_decode(session('countries'));

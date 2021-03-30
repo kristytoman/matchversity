@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class City extends Model
 {
-
     /**
      * The table associated with the model.
      *
@@ -36,13 +35,16 @@ class City extends Model
     protected $with = ['country'];
 
     /**
-     * Gets universities of the location.
+     * Get the universities of the location.
      */
     public function universities()
     {
         return $this->hasMany(University::class);
     }
 
+    /**
+     * Get the country associated with the city.
+     */
     public function country()
     {
         return $this->belongsTo(Country::class);
@@ -50,20 +52,26 @@ class City extends Model
 
 
     /**
-     * Creates or finds an instance of University location in the database.
-     * 
-     * @param   String  $city   City name
-     * @param   String  $country    Country name
-     * @return  City    
+     * Create or find an instance of University location in the database.
+     *
+     * @param string  $city
+     * @return City
      */
-    public static function getCity($city)
+    public static function getCity(string $city)
     {
         return self::firstOrCreate([
             'name' => $city
         ]);
     }
 
-    public static function add($city, $country)
+    /**
+     * Create or find an instance of University location in the database.
+     *
+     * @param string  $city
+     * @param string  $country
+     * @return City
+     */
+    public static function add(string $city, string $country)
     {
         return self::firstOrCreate([
             'name' => $city,

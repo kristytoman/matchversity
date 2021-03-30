@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Models\HomeCourse;
 use App\Models\ForeignCourse;
+use App\Models\HomeCourse;
 use DB;
+use Illuminate\Database\Eloquent\Model;
 use ImportColumns;
 
 
 class Pairing extends Model
 {
-
     /**
      * The table associated with the model.
      *
@@ -43,7 +42,7 @@ class Pairing extends Model
     ];
 
     /**
-     * Gets home course of the pairing.
+     * Get home course associated with the pairing.
      */
     public function homeCourse()
     {
@@ -51,7 +50,7 @@ class Pairing extends Model
     }
 
     /**
-     * Gets foreign course of the pairing.
+     * Get foreign course associated with the pairing.
      */
     public function foreignCourse()
     {
@@ -59,7 +58,7 @@ class Pairing extends Model
     }
 
     /**
-     * Gets mobility of the pairing.
+     * Get mobility associated with the pairing.
      */
     public function mobility()
     {
@@ -67,83 +66,66 @@ class Pairing extends Model
     }
 
     /**
-     * Gets reason of unlink.
+     * Get reason of unlinking.
      */
-    public function unlinkReason()
+    public function reason()
     {
-        return $this->belongsTo(UnlinkReason::class);
+        return $this->belongsTo(Reason::class);
     }
 
-
-    
     /**
-     * Saves mobility pairings in the database.
+     * Associate the foreign course with the instance.
      * 
-     * @param   Mobility    $mobility   Mobility instance
-     * @param   Array   $semester   Validated Array of Date years of the mobility
-     * @param   Array   $pairings   Validated Array of the mobility's courses 
+     * @param int  $uniID
+     * @param string  $name
      */
-    public static function saveMobilityPairings($mobility, $semester, $pairings)
-    {
-        foreach ($semester as $sem => $year) {
-            if (($pairings[$sem] == null) || (count($pairings[$sem]) == 0)) {
-                // error
-                return;
-            }
-            foreach ($pairings[$sem] as $pairing) {
-                $pair = new Pairing;
-                    $pair->is_summer = $sem === 'summer';
-                    $pair->year = $year;
-                    $pair->associateForeignCourse(
-                            $mobility->university->id, 
-                            $pairing['foreignCode'], 
-                            $pairing['foreignName']
-                    );
-                    $pair->associateHomeCourse(
-                            $pairing['homeCode'], 
-                            $pairing['homeName']
-                    );
-                    $pair->associateMobility($mobility);
-                $pair->save();
-            }
-        }
-    }
-
     public function associateForeignCourse($uniID, $name)
     {
         $this->foreignCourse()->associate(
-            ForeignCourse::getCourse($uniID, $name)
+            ForeignCourse::get($uniID, $name)
         );
     } 
 
+    /**
+     * Associate the home course with the instance.
+     * 
+     * @param array  $data
+     */
     public function associateHomeCourse($data)
     {
         $this->homeCourse()->associate(
-            HomeCourse::getCourse($data)
+            HomeCourse::get($data)
         );
     }
 
+    /**
+     * Associate the mobility with the instance.
+     * 
+     * @param Mobility  $mobility
+     */
     public function associateMobility($mobility)
     {
         $this->mobility()->associate($mobility);
     }
 
+    /**
+     * Update the rating column in the database.
+     * 
+     * @param int  $rating
+     */
     public function saveRating($rating)
     {
         $this->rating = $rating;
         $this->save();
     }
 
-    public static function getSemestersOfMobility($mobilityID) 
-    {
-        return DB::table('pairings')
-            ->select('is_summer', 'year')
-                ->distinct()
-                ->where('mobility_id', $mobilityID)
-                ->orderBy('year', 'asc')
-                ->get();
-    }
-
+    /**
+     * Import pairings associated with the mobility.
+     * 
+     * @param Mobility  $mobility
+     * @param array  $pairings
+     * @param int  $uni
+     */
     public static function import($mobility, $pairings, $uni) 
     {
         foreach ($pairings as $pairing) {
@@ -151,33 +133,32 @@ class Pairing extends Model
         }
     }
 
+    /**
+     * Save new pairing to the database.
+     * 
+     * @param Mobility  $mobility
+     * @param array  $data
+     * @param int  $uni
+     */
     private static function createNew($mobility, $data, $uni)
     {
         $pairing = new Pairing;
-            $pairing->foreignCourse()->associate(ForeignCourse::get(
-                $uni, 
-                $data->foreignCourse->data
-            ));
-            $pairing->homeCourse()->associate(HomeCourse::get($data->homeCourse));
+            $pairing->associateForeignCourse($uni, $data->foreignCourse->data);
+            $pairing->associateHomeCourse($data->homeCourse);
             $pairing->setState($data->data);
-            $pairing->mobility()->associate($mobility);
+            $pairing->associateMobility($mobility);
         $pairing->save();
     }
 
-
+    /**
+     * Set the type of the pairing.
+     * 
+     * @param string  $state
+     */
     public function setState($state)
     {
         if ($state == 'Smazaný') {
             $this->reason_id = 1;
-        }
-    }
-
-    public static function getUniPairings()
-    {
-        if ($courses = HomeCourse::getSession()) {
-            Pairing::whereHas('homeCourse', function (Builder $query) {
-                $query->where('content', 'like', 'code%');
-            })->get();
         }
     }
 }

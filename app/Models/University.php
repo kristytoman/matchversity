@@ -31,10 +31,15 @@ class University extends Model
      */
     protected $with = ['city'];
 
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
     protected $guarded = [];
 
     /**
-     * Gets mobilities of the university.
+     * Get mobilities of the university.
      */
     public function mobilities()
     {
@@ -42,7 +47,7 @@ class University extends Model
     }
 
     /**
-     * Gets courses of the university.
+     * Get courses of the university.
      */
     public function foreignCourses()
     {
@@ -50,7 +55,7 @@ class University extends Model
     }
 
     /**
-     * Gets university of the mobility.
+     * Get university of the mobility.
      */
     public function city()
     {
@@ -58,38 +63,15 @@ class University extends Model
     }
 
     /**
-     * Finds an university profile in a database or create a new one.
+     * Store data about university into the database.
      *
-     * @param  Array  $data  validated request data
-     * @return  University
-     */
-    public static function getUniversity($data)
-    {
-        if (!array_key_exists('uniID', $data)) {
-            return self::createNewUniProfile(
-                $data['name'],
-                $data['originalName'],
-                City::getCity($data['city'], $data['country'], $data['continent']),
-                $data['web'],
-                $data['xchange'],
-                $data['expiration']
-            );
-        }
-        else {
-            return self::find($data['uniID']);
-        }
-    }
-
-    /**
-     * Stores data about university into the database.
-     *
-     * @param   String  $name   University name in English
-     * @param   String  $originalName   Original university name
-     * @param   City    $location   University Location instance from datatabase
-     * @param   String  $web    URL of university's web page
-     * @param   String  $xchange    URL of university's progile on xchange portal
-     * @param   String  $expiration Date of contract expiration
-     * @return  University
+     * @param string  $englishName  
+     * @param string  $originalName
+     * @param string  $nativeName
+     * @param string  $xchange
+     * @param string  $web   
+     * @param City  $city
+     * @return University
      */
     public static function createProfile($englishName, $originalName, $nativeName, $xchange, $web, $city)
     {
@@ -104,6 +86,12 @@ class University extends Model
         return $uni;
     }
 
+    /**
+     * Update data in the database.
+     * 
+     * @param int  $uniID
+     * @param array  $data
+     */
     public static function updateProfile($uniID, $data)
     {
         $uni = University::find($uniID);
@@ -114,16 +102,35 @@ class University extends Model
             $uni->associateCity($data);
         $uni->save();
     }
+
+    /**
+     * Return foreign courses assigned to the university.
+     * 
+     * @param int  $id
+     * @return Illuminate\Support\Collection
+     */
     public static function getForeignCourses($id)
     {
         return ForeignCourse::where('university_id', '=', $id)->get();
     }
 
+    /**
+     * Return mobilities assigned to the university.
+     * 
+     * @param int  $id
+     * @return Illuminate\Support\Collection
+     */
     public static function getMobilities($id)
     {
         return Mobility::where('university_id', '=', $id)->get();
     }
 
+    /**
+     * Merge universities.
+     * 
+     * @param int  $connect
+     * @param int  $connectTo
+     */
     public static function connectProfiles($connect, $connectTo)
     {
         foreach (University::getForeignCourses($connect) as $course) {
@@ -134,11 +141,24 @@ class University extends Model
         }
         University::destroy($connect);
     }
+
+    /**
+     * Associate city with the university.
+     * 
+     * @param array  $data
+     */
     public function associateCity($data)
     {
         $this->city()->associate(City::add($data['city'], $data['country']));
     }
 
+    /**
+     * Return university by it's original name.
+     * 
+     * @param string  $name
+     * @param City  $city
+     * @return University
+     */
     public static function get($name, $city)
     {
         $uni = self::firstOrCreate([
@@ -150,47 +170,42 @@ class University extends Model
         return $uni;
     }
 
+    /**
+     * Return list of all universities.
+     * 
+     * @return Illuminate\Support\Collection
+     */
     public static function getAll()
     {
-        $unis = self::all();
-        // foreach($unis as $uni) {
-        //     $uni->getXchange();
-        // }
-        return $unis;
+        return self::all();
     }
 
-    private function getXchange()
-    {
-        $this->xchangeLink = 'https://xchange.utb.cz/instituce/' . $this->xchange . '-' .
-            DB::connection('xchange')->table('institutions')->select('url')->where('id', $this->xchange)->first();
-        $this->rating = DB::connection('xchange')->table('reviews')->where('institution_id',$this->xchange)->avg();
-    }
-
+    /**
+     * Return number of all stored universities.
+     * 
+     * @return int
+     */
     public static function getCount()
     {
         return self::all()->count();
     }
 
-    public static function getFavorites()
-    {
-        $all = self::getAll();
-        $top3 = [];
-        foreach($all as $i => $uni)
-        {
-            if ($i < 3) {
-                $top3[] = $uni;
-            }
-            else {
-                return $top3;
-            }
-        }
-    }
-
+    /**
+     * Return university instance.
+     * 
+     * @param int  $id
+     * @return University|null
+     */
     public static function getById($id)
     {
         return University::find($id);
     }
 
+    /**
+     * Return list of universities based on search request.
+     * 
+     * @return array
+     */
     public static function findResults()
     {
         $select =  DB::table('universities')
@@ -227,10 +242,21 @@ class University extends Model
                         'as count'))
             ->orderBy('count', 'desc')
             ->get();
+        return self::groupData($select);
+    }
+
+    /**
+     * Return an array from the query collection.
+     * 
+     * @param Illuminate\Support\Collection  $select
+     * @return array
+     */
+    private static function groupData($select)
+    {
         $result = [];
         foreach ($select->all() as $row) {
-            if (array_key_exists($row->universityID, $result) && (count($result[$row->universityID]['courses']) < 5)) {
-                if (empty($row->reasonID)) {
+            if (array_key_exists($row->universityID, $result)) {
+                if ((count($result[$row->universityID]['courses']) < 5) && empty($row->reasonID)) {
                     $result[$row->universityID]['courses'][$row->foreignCourseID] = [
                         'name' => $row->foreignCourseName,
                         'reason' => $row->reasonID

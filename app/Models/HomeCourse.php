@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use ImportColumns;
 
 
 class HomeCourse extends Model
 {
-
     /**
      * The table associated with the model.
      *
@@ -32,24 +30,31 @@ class HomeCourse extends Model
     protected $guarded = [];
 
     /**
-     * Gets pairings of the course.
+     * Get pairings associated with the course.
      */
-    public function pairings() 
+    public function pairings()
     {
         return $this->hasMany(Pairing::class);
     }
 
-    public function fields()
-    {
-        return $this->belongsToMany(Field::class, 'field_courses');
-    }
-
+    /**
+     * Find a course by its code
+     *
+     * @param string $code
+     * @return HomeCourse|null
+     */
     public static function findByCode($code)
     {
         return self::where('code', '=', $code)->first();
     }
 
-    public static function get($homeCourse) 
+    /**
+     * Get the course instance.
+     *
+     * @param array $homeCourse
+     * @return HomeCourse
+     */
+    public static function get($homeCourse)
     {
         return self::firstOrCreate([
             'code' => $homeCourse->data,
@@ -58,11 +63,22 @@ class HomeCourse extends Model
         ]);
     }
 
+    /**
+     * Get all data from the database
+     * ordered by the czech name.
+     *
+     * @return Illuminate\Support\Collection
+     */
     public static function allOrderedByName()
     {
         return self::select()->orderBy('name_cz')->get();
     }
 
+    /**
+     * Change the group associated with the course.
+     *
+     * @param array  $data
+     */
     public static function changeGroups($data)
     {
         foreach ($data['group'] as $key => $value) {
@@ -70,6 +86,12 @@ class HomeCourse extends Model
         }
     }
 
+    /**
+     * Add the course to the group.
+     *
+     * @param int  $id
+     * @param int  $group
+     */
     public static function addToGroup($id, $group)
     {
         $course = HomeCourse::find($id);
@@ -77,13 +99,15 @@ class HomeCourse extends Model
         $course->save();
     }
 
+    /**
+     * Set the courses session.
+     *
+     * @param array  $request
+     */
     public static function setSession($request)
     {
         if (array_key_exists('courses', $request)) {
-            $courses = [
-                'groups' => [],
-                'codes' => []
-            ];
+            $courses = [ 'groups' => [], 'codes' => []];
             foreach($request['courses'] as $code) {
                 if ($course = self::findByCode($code)) {
                     $courses['codes'][] = $code;
@@ -99,7 +123,12 @@ class HomeCourse extends Model
         }
     }
 
-    public static function getSession() 
+    /**
+     * Get the courses session.
+     *
+     * @return array|null
+     */
+    public static function getSession()
     {
         return json_decode(session('courses'));
     }
