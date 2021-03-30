@@ -69,6 +69,14 @@ class Mobility extends Model
     }
 
     /**
+     * Get university of the mobility.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
      * Get pairings of the mobility.
      */
     public function pairings()
@@ -176,7 +184,7 @@ class Mobility extends Model
     private static function createNew($mobility)
     {
         $toSave = new Mobility;
-            $toSave->student = $mobility->student->data;
+            $toSave->user()->associate(User::getByUtbID($mobility->student->data));
             $toSave->arrival = $mobility->arrival->data;
             if (!empty($mobility->departure->data)) {
                 $toSave->departure = $mobility->departure->data;

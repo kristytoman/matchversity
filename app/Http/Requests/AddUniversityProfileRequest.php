@@ -30,6 +30,7 @@ class AddUniversityProfileRequest extends FormRequest
             'city' => ['required_without:connect_university', 'nullable', 'string'],
             'web' => ['required_without:connect_university', 'nullable', 'string'],
             'xchange' => ['required_without:connect_university', 'nullable', 'numeric'],
+            'xchange_link' => ['required_without:connect_university', 'nullable', 'string'],
             'connect_university' => ['required_without:name', 'nullable', 'numeric']
         ];
     }

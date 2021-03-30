@@ -27,7 +27,10 @@
 
 
         <label for="xchange">xchange ID</label>
-            <input id="xchange" name="xchange" type="text" value="{{ $university->xchange }}"/><br>
+            <input id="xchange" name="xchange" type="text" value="{{ $university->xchange_id }}"/><br>
+        
+        <label for="xchange">xchange link</label>
+        <input id="xchange" name="xchange_link" type="text" value="{{ $university->xchange_link }}"/><br>
             
        
         <label>{{ __('Or connect with another profile')}}</label>

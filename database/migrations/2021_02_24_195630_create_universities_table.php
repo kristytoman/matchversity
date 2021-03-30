@@ -15,20 +15,23 @@ class CreateUniversitiesTable extends Migration
     {
         Schema::create('universities', function (Blueprint $table) {
             $table->id();
+            $table->string('original_name', 128);
             $table->string('name', 128)
                   ->nullable()
                   ->default(null);            
             $table->string('native_name', 128)
                   ->nullable()
                   ->default(null);            
-            $table->string('original_name', 128);
             $table->foreignId('city_id')
                   ->nullable()
                   ->default(null)           
                   ->constrained('cities');
-            $table->bigInteger('xchange')
+            $table->bigInteger('xchange_id')
                   ->nullable()
-                  ->default(null);            
+                  ->default(null);     
+            $table->string('xchange_link')
+                  ->nullable()
+                  ->default(null);         
             $table->string('web', 256)
                   ->nullable()
                   ->default(null);                  

@@ -16,11 +16,11 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        DB::table('admins')->insert([
                 'name' => 'k_tomanova',
                 'email' => 'k_tomanova@utb.cz',
                 'password' => Hash::make('Matchversity 2021'),
                 'email_verified_at' => Carbon::now()
-            ]);
+        ]);
     }
 }

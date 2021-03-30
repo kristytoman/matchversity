@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -16,33 +15,29 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['utbID'];
 
     /**
-     * The attributes that should be hidden for arrays.
+     * Return student's mobilities.
      *
-     * @var array
+     * @param string  $id
+     * @return array
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
     public static function getStudentsMobilities($id)
     {
-        return [Mobility::find(1)];
+        return [Mobility::find(1)]; //TODO
+    }
+
+    /**
+     * Create or find an instance of University location in the database.
+     *
+     * @param string  $utbID
+     * @return User
+     */
+    public static function getByUtbID($utbID)
+    {
+        return self::firstOrCreate([
+            'utbID' => $utbID
+        ]);
     }
 }

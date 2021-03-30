@@ -14,11 +14,11 @@ class CreateForeignCoursesTable extends Migration
     public function up()
     {
         Schema::create('foreign_courses', function (Blueprint $table) {
-            $table->timestamps();
             $table->id();
             $table->string('name', 128)->nullable()->default(null);
             $table->foreignId('university_id')
                   ->constrained('universities');
+            $table->timestamps();
         });
     }
 

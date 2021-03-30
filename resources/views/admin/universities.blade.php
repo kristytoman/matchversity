@@ -10,7 +10,8 @@
             <th>{{ __('English name') }}</th>
             <th>{{ __('Native name') }}</th>
             <th>{{ __('Location') }}</th>
-            <th>{{ __('xchange') }}</th>
+            <th>{{ __('xchange ID') }}</th>
+            <th>{{ __('xchange link') }}</th>
             <th>{{ __('Website') }}</th>
             <th></th>
         </tr>
@@ -25,7 +26,8 @@
             @else
             <td><td>
             @endif
-            <td>{{ $university->xchange }}</td>
+            <td>{{ $university->xchange_id }}</td>
+            <td>{{ $university->xchange_link }}</td>
             <td>{{ $university->web }}</td>
             <td><a href="{{ route('admin.universities.edit', $university) }}">{{ __('Edit profile') }}<a></td>
         </tr>

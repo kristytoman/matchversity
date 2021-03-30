@@ -25,7 +25,7 @@
             <td>{{ $mobility->id }}</td>
             <td>{{ $mobility->arrival }}</td>
             <td>{{ $mobility->departure }}</td>
-            <td>{{ $mobility->student }}</td>
+            <td>{{ $mobility->user->utbID }}</td>
             @if ($mobility->university->name)
             <td><a href="{{ route('admin.universities.edit', $mobility->university) }}">{{ $mobility->university->name }}<a></td>
             @else

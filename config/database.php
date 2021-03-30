@@ -53,25 +53,6 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : []
-        ],
-
-
-        'xchange' => [
-            'driver' => 'mysql',
-            'url' => env('XCHANGE_URL'),
-            'host' => env('XCHANGE_HOST', 'localhost'),
-            'port' => env('XCHANGE_HOST', '3306'),
-            'database' => env('XCHANGE_DATABASE', 'forge'),
-            'username' => env('XCHANGE_USERNAME', 'forge'),
-            'password' => env('XCHANGE_PASSWORD', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8_czech_ci',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'strict' => false,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
         ]
     ],
 

@@ -80,7 +80,7 @@ class University extends Model
             $uni->original_name = $originalName;
             $uni->native_name = $nativeName;
             $uni->web = $web;
-            $uni->xchange = $xchange;
+            $uni->xchange_id = $xchange;
             $uni->city()->associate($city);
         $uni->save();
         return $uni;

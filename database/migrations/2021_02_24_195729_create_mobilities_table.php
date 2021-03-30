@@ -14,17 +14,18 @@ class CreateMobilitiesTable extends Migration
     public function up()
     {
         Schema::create('mobilities', function (Blueprint $table) {
-            $table->timestamps();
             $table->id();
             $table->foreignId('university_id')
                   ->constrained('universities');
-            $table->string('student', 64);
+            $table->foreignId('user_id')
+                  ->constrained('users');
             $table->date('arrival');
             $table->date('departure')
                   ->nullable()
                   ->default(null);
             $table->year('year');
             $table->boolean('is_summer');
+            $table->timestamps();
         });
     }
 
