@@ -30,7 +30,7 @@ Auth::routes(['register' => false, 'login' => false]);
 
 Route::get('/', HomeController::class);
 
-Route::prefix('admin')->name('admin.')->group(function() {
+Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function() {
     Route::get('/', [AdminMobilityController::class, 'index']);
     
     Route::get('login', [LoginController::class, 'showAdmin'])->name('login');
