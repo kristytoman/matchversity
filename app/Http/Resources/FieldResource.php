@@ -14,10 +14,13 @@ class FieldResource extends JsonResource
      */
     public function toArray($request)
     {
+        var_dump($this->resource);
         return [
-            'id' => $this->resource['stprIdno'],
-            'code' => $this->resource['kod'],
-            'title' => $this->resource['nazev']
+            'id' => $this->resource['oborIdno'],
+            'title' => $this->resource['nazev'],
+            'lang' => $this->resource['jazyk'],
+            'type' => $this->resource['typ'],
+            'form' => $this->resource['forma']
         ];
     }
 }

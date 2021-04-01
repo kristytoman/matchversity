@@ -2372,39 +2372,52 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      faculty: "FAI",
-      fields: null
+      faculty: "",
+      fields: null,
+      type: ""
     };
+  },
+  props: {
+    fieldRoute: String
   },
   methods: {
     findFields: function findFields() {
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var response, data;
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this.faculty != "")) {
+                if (!(_this.type && _this.faculty)) {
                   _context.next = 8;
                   break;
                 }
 
-                _context.next = 3;
-                return fetch("https://stag-ws.utb.cz/ws/services/rest2/programy/getStudijniProgramy?fakulta=" + _this.faculty + "&outputFormat=JSON");
+                _this.fields = [];
+                _context.next = 4;
+                return fetch(_this.fieldRequest);
 
-              case 3:
+              case 4:
                 response = _context.sent;
-                _context.next = 6;
+                _context.next = 7;
                 return response.json();
 
-              case 6:
-                data = _context.sent;
-                fields = data.programInfo;
+              case 7:
+                _this.fields = _context.sent;
 
               case 8:
               case "end":
@@ -2413,6 +2426,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    }
+  },
+  computed: {
+    fieldRequest: function fieldRequest() {
+      return this.fieldRoute + '/' + this.type + '/' + this.faculty;
     }
   }
 });
@@ -39392,8 +39410,6 @@ var render = function() {
         }
       },
       [
-        _c("option", { attrs: { value: "" } }),
-        _vm._v(" "),
         _c("option", { attrs: { value: "FAI" } }, [_vm._v("FAI")]),
         _vm._v(" "),
         _c("option", { attrs: { value: "FAM" } }, [_vm._v("FaME")]),
@@ -39408,17 +39424,123 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
+    _c("div", [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.type,
+            expression: "type"
+          }
+        ],
+        attrs: { type: "radio", name: "type", value: "7" },
+        domProps: { checked: _vm._q(_vm.type, "7") },
+        on: {
+          change: [
+            function($event) {
+              _vm.type = "7"
+            },
+            function($event) {
+              return _vm.findFields()
+            }
+          ]
+        }
+      }),
+      _c("label", [_vm._v("Bakalářský")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.type,
+            expression: "type"
+          }
+        ],
+        attrs: { type: "radio", name: "type", value: "8" },
+        domProps: { checked: _vm._q(_vm.type, "8") },
+        on: {
+          change: [
+            function($event) {
+              _vm.type = "8"
+            },
+            function($event) {
+              return _vm.findFields()
+            }
+          ]
+        }
+      }),
+      _c("label", [_vm._v("Magisterský")]),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.type,
+            expression: "type"
+          }
+        ],
+        attrs: { type: "radio", name: "type", value: "0" },
+        domProps: { checked: _vm._q(_vm.type, "0") },
+        on: {
+          change: [
+            function($event) {
+              _vm.type = "0"
+            },
+            function($event) {
+              return _vm.findFields()
+            }
+          ]
+        }
+      }),
+      _c("label", [_vm._v("Navazující")])
+    ]),
+    _vm._v(" "),
     _c("label", [_vm._v("Study field")]),
     _vm._v(" "),
-    _c(
-      "select",
-      _vm._l(_vm.fields, function(field, index) {
-        return _c("option", { key: index }, [_vm._v(_vm._s(field.nazev))])
-      }),
-      0
-    ),
+    _c("select", { on: { select: _vm.sendCourses } }, [
+      _vm.fields
+        ? _c(
+            "optgroup",
+            { attrs: { label: "Prezenční" } },
+            _vm._l(_vm.fields.full, function(field, index) {
+              return _c("option", { key: index }, [
+                _vm._v(
+                  _vm._s(field.nazev) +
+                    " (" +
+                    _vm._s(field.jazyk) +
+                    ") since " +
+                    _vm._s(field.platnyOd)
+                )
+              ])
+            }),
+            0
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.fields
+        ? _c(
+            "optgroup",
+            { attrs: { label: "Kombinovaná" } },
+            _vm._l(_vm.fields.part, function(field, index) {
+              return _c("option", { key: index }, [
+                _vm._v(
+                  _vm._s(field.nazev) +
+                    " (" +
+                    _vm._s(field.jazyk) +
+                    ") since " +
+                    _vm._s(field.platnyOd)
+                )
+              ])
+            }),
+            0
+          )
+        : _vm._e()
+    ]),
     _vm._v(" "),
-    _c("label", [_vm._v("Grade")]),
+    _c("label", { on: { select: _vm.sendCourses } }, [_vm._v("Grade")]),
     _vm._v(" "),
     _c("input", { attrs: { type: "number", min: "1", max: "4" } }),
     _vm._v(" "),

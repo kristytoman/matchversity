@@ -9,7 +9,7 @@
         <h3>{{ __('Winter') }}</h3>
         <h3>{{ __('Summer') }}</h3>
         <br>
-        <study-info></study-info>
+        <study-info :field-route="'{{ route('api.fields', ["", ""]) }}'"></study-info>
         <country-select :geography="{{ $geography }}"></country-select>
         <input type="submit" value="{{ __('Search') }}"/>
     </form>
