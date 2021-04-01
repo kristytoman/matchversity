@@ -13,8 +13,8 @@
         <input :name="inputName + '[year]'" :value="mobility.year.data">
             <span style="color: red">{{ mobility.semester.message }}</span><br>
             <span style="color: red">{{ mobility.year.message }}</span>
-        <form-pairing v-for="(index, pairing) in mobility.pairings" :key="index" 
-            :pairing="pairing" :inputName="inputName + '[' + index +']'"></form-pairing>
+        <form-pairing v-for="(pairing, index) in mobility.pairings" :key="index" 
+            :pairing="pairing" :inputName="inputName + '[pairing][' + index + ']'"></form-pairing>
         <span style="color: red">{{ mobility.message }}</span><br>
     </div>
 </template>

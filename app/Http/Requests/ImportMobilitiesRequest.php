@@ -24,7 +24,7 @@ class ImportMobilitiesRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => ['required', 'mimes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+            'file' => ['required', 'mimetypes:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
         ];
     }
 }

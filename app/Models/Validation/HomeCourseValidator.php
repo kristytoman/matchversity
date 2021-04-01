@@ -119,10 +119,12 @@ class HomeCourseValidator extends DataValidator
      */
     private function findInPrevious($year)
     {
-        if (!empty(self::$courses) && key_exists($this->data . $year, self::$courses)) {
-            $this->nameCZ = self::$courses[$this->data . $year]['cz'];
-            $this->nameEN = self::$courses[$this->data . $year]['en'];
-            return true;
+        if (!empty(self::$courses) && key_exists($index = $this->data . $year, self::$courses)) {
+            if(key_exists('cz', self::$courses[$index]) && key_exists('en', self::$courses[$index])) {
+                $this->nameCZ = self::$courses[$index]['cz'];
+                $this->nameEN = self::$courses[$index]['en'];
+                return true;
+            }
         }
         return false;
     }
@@ -140,7 +142,7 @@ class HomeCourseValidator extends DataValidator
         }
 
         $code = explode("/", $this->data);
-        if ($this->getCzechName($code, $year) && $this->getCzechName($code, $year)) {
+        if ($this->getCzechName($code, $year) && $this->getEnglishName($code, $year)) {
             return true;
         }
         return false;
@@ -175,6 +177,7 @@ class HomeCourseValidator extends DataValidator
             self::$courses[$this->data . $year]['en'] = $this->nameEN;
             return true;
         }
+        self::$courses[$this->data . $year]['en'] = null;
         return false;
     }
 

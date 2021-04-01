@@ -136,18 +136,17 @@ class Mobility extends Model
     }
 
     /**
-     * Return the year of the mobility.
+     * Save the year of the mobility.
      * 
-     * @param array  $data
-     * @return int
+     * @param int  $year
      */
-    public static function getYear($data)
+    public function getYear($year)
     {
-        if (!self::isSummerSemester($data[ImportColumns::SEMESTER])) {
-            return $data[ImportColumns::YEAR];
+        if (!$this->is_summer) {
+            $this->year = $year;
         }
         else {
-            return $data[ImportColumns::YEAR] + 1;
+            $this->year = $year + 1;
         }
     }
 
@@ -189,8 +188,8 @@ class Mobility extends Model
             if (!empty($mobility->departure->data)) {
                 $toSave->departure = $mobility->departure->data;
             }
-            $toSave->year = $mobility->year->data;
             $toSave->is_summer = self::isSummerSemester($mobility->semester->data);
+            $toSave->getYear($mobility->year->data);
             $toSave->university()->associate(University::get(
                 $mobility->university->data,
                 $mobility->city

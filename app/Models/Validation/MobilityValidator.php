@@ -86,6 +86,7 @@ class MobilityValidator
             $new->year = new YearValidator($data[ImportColumns::YEAR], $new->arrival, $new->semester);
             $new->university = new UniversityValidator($data[ImportColumns::UNIVERSITY]);
             $new->city = $data[ImportColumns::CITY];
+            $new->pairings = [];
             $new->addPairing($data);
         return $new;
     }
@@ -157,7 +158,7 @@ class MobilityValidator
     {
         $mobilities = [];
         foreach ($form['mobility'] as $mobility) {
-            array_push($mobilities, createFromForm($mobility));
+            array_push($mobilities, self::createFromForm($mobility));
         }
         return $mobilities;
     }

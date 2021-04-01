@@ -7,9 +7,7 @@
     <errors :errors="{{ json_encode($errors->all()) }}"></errors>  
     <form method="post" action="{{ route('admin.mobilities.store') }}">
         @csrf
-        @foreach ($mobilities as $key => $mobility)
-            <form-mobility :mobility="{{ $mobility }}" :key="{{ $key }}" :inputName="mobility[{{ $key }}]"></form-mobility>
-        @endforeach
+            <form-mobility v-for="(mobility, index) in {{ json_encode($mobilities) }}" :mobility="mobility" :input-name="'mobility[' + index + ']'"></form-mobility>
         <input type="submit" value="{{ __('Confirm') }}">
     </form>
 @endsection

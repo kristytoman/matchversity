@@ -20,7 +20,7 @@ class StudentValidator extends DataValidator
         if (!preg_match("/[A-Z]{2}[0-9]{6}/", $this->data)) {
             return $this->result("Wrong student ID format.");
         }
-        $this->data = Hash::make($this->data);
+        $this->data = hash('sha256', $this->data);
         return $this->result("");
     }
 }
