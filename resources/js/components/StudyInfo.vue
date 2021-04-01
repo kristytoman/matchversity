@@ -15,32 +15,40 @@
             <input type="radio" v-model="type" name="type" value="0" @change="findFields()"><label>Navazující</label>
         </div>
         <label>Study field</label>
-        <select @select="sendCourses">
+        <select v-model="field" @change="findCourses()">
             <optgroup label="Prezenční" v-if="fields">
-            <option v-for="(field, index) in fields.full" :key="index">{{ field.nazev }} ({{field.jazyk}}) since {{field.platnyOd}}</option>
+            <option v-for="(field, index) in fields.full" :key="index" :value="field.oborIdno">{{ field.nazev }} ({{field.jazyk}}) since {{field.platnyOd}}</option>
             </optgroup>
                 <optgroup label="Kombinovaná" v-if="fields">
-            <option v-for="(field, index) in fields.part" :key="index">{{ field.nazev }} ({{field.jazyk}}) since {{field.platnyOd}}</option>
+            <option v-for="(field, index) in fields.part" :key="index" :value="field.oborIdno">{{ field.nazev }} ({{field.jazyk}}) since {{field.platnyOd}}</option>
             </optgroup>
         </select>
-        <label @select="sendCourses">Grade</label>
-        <input type="number" min="1" max="4">
+        <label>Grade</label>
+        <input type="number" min="1" max="4" v-model="grade" @change="findCourses()">
         <span>Or you can try to <a href="#">log in</a></span>
+        <courses :summer-courses="summerList" :winter-courses="winterList"></courses>
     </div>
 </template>
 
 <script>
+import Courses from './Courses.vue';
 
 export default {
+    components: { Courses },
     data() {
         return {
             faculty: "",
             fields: null,
-            type: ""
+            type: "",
+            field: null,
+            grade: "",
+            summerList: null,
+            winterList: null
         }
     },
     props: {
-        fieldRoute: String
+        fieldRoute: String,
+        coursesRoute: String,
     },
     methods: {
         async findFields() {
@@ -49,11 +57,27 @@ export default {
                 const response = await fetch(this.fieldRequest);
                 this.fields = await response.json();
             }
+        },
+        async findCourses() {
+            if (this.field) {
+                const response = await fetch(this.courseRequest);
+                const courseList = await response.json();
+                this.summerList = courseList.LS;
+                this.winterList = courseList.ZS;
+            }
         }
     },
     computed: {
         fieldRequest() {
             return this.fieldRoute + '/' + this.type + '/' + this.faculty;
+        },
+        courseRequest() {
+            if (this.grade) {
+            return this.coursesRoute + '/' + this.field + '/' + this.grade;
+            }
+            else {
+                return this.coursesRoute + '/' + this.field + '/' + 1;
+            }
         }
     }
 }

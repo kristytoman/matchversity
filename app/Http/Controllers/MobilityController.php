@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UpdateMobilityRequest;
 use App\Models\Mobility;
 use App\Models\Reason;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 

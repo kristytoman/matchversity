@@ -98,7 +98,7 @@ class ApiController extends Controller
             )) {
             foreach ($res['predmetOboru'] as $course) {
                 if ($course['doporucenyRocnik'] && $course['doporucenyRocnik'] >= $grade) {
-                    $courses[$course['doporucenySemestr']][] = $course;
+                    $courses[$course['doporucenySemestr']][$course['katedra'].'/'.$course['zkratka']] = $course;
                 }
             }
             return $this->jsonResponse($courses);

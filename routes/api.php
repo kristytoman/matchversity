@@ -22,3 +22,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('fields/{type}/{id}', [ApiController::class, 'getFields'])->name('api.fields');
 
+Route::get('courses/{id}/{rok}', [ApiController::class, 'getCourses'])->name('api.courses');
+
