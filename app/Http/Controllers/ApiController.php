@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\FieldResource;
 use App\Http\Resources\ProgramResource;
+use App\Models\Country;
+use App\Models\HomeCourse;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -104,5 +106,11 @@ class ApiController extends Controller
             return $this->jsonResponse($courses);
         }
         return $this->jsonResponse("");
+    }
+
+    public function getCountries(Request $request)
+    {
+        HomeCourse::setSession($request->all());
+        return $this->jsonResponse(Country::getAvailable());
     }
 }

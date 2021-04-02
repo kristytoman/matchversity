@@ -2462,7 +2462,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   props: {
     fieldRoute: String,
-    coursesRoute: String
+    coursesRoute: String,
+    countriesRoute: String,
+    token: String
   },
   methods: {
     findFields: function findFields() {
@@ -2509,7 +2511,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!_this2.field) {
-                  _context2.next = 11;
+                  _context2.next = 18;
                   break;
                 }
 
@@ -2525,10 +2527,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 courseList = _context2.sent;
                 _this2.summerList = courseList.LS;
                 _this2.winterList = courseList.ZS;
-                session = courseList.LS.keys();
-                sessionStorage.setItem('courses', JSON.stringify(session.concat(courseList.ZS.keys())));
+                session = Object.keys(courseList.LS);
+                _context2.next = 12;
+                return fetch(_this2.countriesRoute, {
+                  headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": _this2.token
+                  },
+                  method: "POST",
+                  credentials: "same-origin",
+                  body: JSON.stringify({
+                    courses: session.concat(Object.keys(courseList.ZS))
+                  })
+                });
 
-              case 11:
+              case 12:
+                response = _context2.sent;
+                _context2.t0 = console;
+                _context2.next = 16;
+                return response.json();
+
+              case 16:
+                _context2.t1 = _context2.sent;
+
+                _context2.t0.log.call(_context2.t0, _context2.t1);
+
+              case 18:
               case "end":
                 return _context2.stop();
             }

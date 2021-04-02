@@ -107,22 +107,26 @@ class HomeCourse extends Model
     public static function setSession($request)
     {
         if (array_key_exists('courses', $request)) {
-            $courses = [ 'groups' => [], 'codes' => []];
-            foreach($request['courses'] as $code) {
-                if ($course = self::findByCode($code)) {
-                    $courses['codes'][] = $code;
-                    if ($course->group) {
-                        $course['groups'][] = $course->group;
-                    }
-                }
-            }
-            session(['courses' => json_encode($courses)]);
+            session(['courses' => json_encode(self::getGroupsAndCourses($request['courses']))]);
         }
         else {
             session(['courses' => "" ]);
         }
     }
-
+    
+    public static function getGroupsAndCourses($request)
+    {
+        $courses = [ 'groups' => [], 'codes' => []];
+        foreach($request as $code) {
+            if ($course = self::findByCode($code)) {
+                $courses['codes'][] = $code;
+                if ($course->group) {
+                    $courses['groups'][] = $course->group;
+                }
+            }
+        }
+        return $courses;
+    } 
     /**
      * Get the courses session.
      *
@@ -130,6 +134,6 @@ class HomeCourse extends Model
      */
     public static function getSession()
     {
-        return json_decode(session('courses'));
+        return json_decode(session('courses'), true);
     }
 }

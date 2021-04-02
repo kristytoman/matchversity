@@ -24,3 +24,5 @@ Route::get('fields/{type}/{id}', [ApiController::class, 'getFields'])->name('api
 
 Route::get('courses/{id}/{rok}', [ApiController::class, 'getCourses'])->name('api.courses');
 
+Route::post('countries', [ApiController::class, 'getCountries'])->name('api.countries');
+

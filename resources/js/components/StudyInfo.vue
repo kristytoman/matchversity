@@ -49,6 +49,8 @@ export default {
     props: {
         fieldRoute: String,
         coursesRoute: String,
+        countriesRoute: String,
+        token: String
     },
     methods: {
         async findFields() {
@@ -60,10 +62,21 @@ export default {
         },
         async findCourses() {
             if (this.field) {
-                const response = await fetch(this.courseRequest);
+                let response = await fetch(this.courseRequest);
                 const courseList = await response.json();
                 this.summerList = courseList.LS;
                 this.winterList = courseList.ZS;
+                const session = Object.keys(courseList.LS);
+                response = await fetch(this.countriesRoute, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": this.token
+                    },
+                    method: "POST", 
+                    credentials: "same-origin",
+                    body: JSON.stringify({courses:session.concat(Object.keys(courseList.ZS))})
+                });
+                console.log(await response.json());
             }
         }
     },
