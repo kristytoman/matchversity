@@ -107,7 +107,7 @@ class HomeCourse extends Model
     public static function setSession($request)
     {
         if (array_key_exists('courses', $request)) {
-            session(['courses' => json_encode(self::getGroupsAndCourses($request['courses']))]);
+            session(['courses' => json_encode(self::getGroupsAndCourses(array_keys($request['courses'])))]);
         }
         else {
             session(['courses' => "" ]);

@@ -258,19 +258,23 @@ class Mobility extends Model
      */
     private static function getSelectedFromUni($id)
     {
-        return DB::table('mobilities')
-        ->where('mobilities.university_id', '=', $id)
-        ->join('pairings', function ($join) use ($courses) {
+        $select =  DB::table('mobilities')
+        ->join('pairings', function ($join) {
             $join->on('pairings.mobility_id', '=', 'mobilities.id')
-                ->join('home_courses', function ($join2) use ($courses) {
-                            $join2->on('pairings.home_course_id', '=', 'home_courses.id')
-                                ->whereIn('home_courses.code', $courses['codes'])
-                                ->orWhereIn('home_courses.group', $courses['groups']);
-                        
-                    })
-                ->join('foreign_courses', 'foreign_courses.id', '=', 'pairings.foreign_course_id')
-                ->leftJoin('reasons', 'pairings.reason_id', '=', 'reasons.id');
+            ->join('home_courses', function ($join2) {
+                $join2->on('home_courses.id', '=', 'pairings.home_course_id');
+            })
+            ->join('foreign_courses', 'foreign_courses.id', '=', 'pairings.foreign_course_id')
+            ->leftJoin('reasons', 'pairings.reason_id', '=', 'reasons.id');
+        })
+        ->where('mobilities.university_id', '=', $id)
+        ->where(function ($query) {
+        $courses = HomeCourse::getSession(session('courses'));
+
+            $query->whereIn('home_courses.group', $courses['groups'])
+                ->orWhereIn('home_courses.code', $courses['codes']);
         })->select(DB::raw(self::EXPORT_COLUMNS))->get();
+        return $select;
     }
 
     /**
@@ -282,10 +286,11 @@ class Mobility extends Model
     public static function getUniversityData($id)
     {
         $courses = HomeCourse::getSession();
-        return [ 
+        $data = [ 
             'all' => self::groupData(self::getAllFromUni($id)), 
             'searched' => $courses ?  self::groupData(self::getSelectedFromUni($id)): null
         ];
+        return $data;
     }
 
     /**
@@ -311,6 +316,7 @@ class Mobility extends Model
             }
             else {
                 $result[$row->foreignCourseID] = [ 
+                    'name' => $row->name,
                     'courses' => [ $row->pairingID => [
                         'code' => $row->homeCode,
                         'nameCZ' => $row->homeNameCZ,
@@ -319,10 +325,10 @@ class Mobility extends Model
                         'semester' => $row->semester,
                         'year' => $row->year,
                         'rating' => $row->rating
-                    ]],
-                    'name' => $row->name
+                    ]]
                 ];
             }
+            
         }
         return $result;
     } 

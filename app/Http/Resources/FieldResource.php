@@ -14,7 +14,6 @@ class FieldResource extends JsonResource
      */
     public function toArray($request)
     {
-        var_dump($this->resource);
         return [
             'id' => $this->resource['oborIdno'],
             'title' => $this->resource['nazev'],
