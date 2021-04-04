@@ -2388,6 +2388,8 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     remove: function remove(id) {
       this.$delete(this.courses, id);
+      console.log(id);
+      this.$emit('delete-course');
     }
   }
 });
@@ -2511,7 +2513,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!_this2.field) {
-                  _context2.next = 18;
+                  _context2.next = 12;
                   break;
                 }
 
@@ -2529,35 +2531,74 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this2.winterList = courseList.ZS;
                 session = Object.keys(courseList.LS);
                 _context2.next = 12;
-                return fetch(_this2.countriesRoute, {
-                  headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": _this2.token
-                  },
-                  method: "POST",
-                  credentials: "same-origin",
-                  body: JSON.stringify({
-                    courses: session.concat(Object.keys(courseList.ZS))
-                  })
-                });
+                return _this2.fetchCountries(session.concat(Object.keys(courseList.ZS)));
 
               case 12:
-                response = _context2.sent;
-                _context2.t0 = console;
-                _context2.next = 16;
-                return response.json();
-
-              case 16:
-                _context2.t1 = _context2.sent;
-
-                _context2.t0.log.call(_context2.t0, _context2.t1);
-
-              case 18:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
+      }))();
+    },
+    fetchCountries: function fetchCountries(countries) {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return fetch(_this3.countriesRoute, {
+                  headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": _this3.token
+                  },
+                  method: "POST",
+                  credentials: "same-origin",
+                  body: JSON.stringify({
+                    courses: countries
+                  })
+                });
+
+              case 2:
+                response = _context3.sent;
+                _context3.t0 = console;
+                _context3.next = 6;
+                return response.json();
+
+              case 6:
+                _context3.t1 = _context3.sent;
+
+                _context3.t0.log.call(_context3.t0, _context3.t1);
+
+              case 8:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    onDeleteCourse: function onDeleteCourse() {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return _this4.fetchCountries(Object.assign({}, _this4.summerList, _this4.winterList));
+
+              case 2:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
       }))();
     }
   },
@@ -39092,10 +39133,22 @@ var render = function() {
     "div",
     [
       _c("semester", {
-        attrs: { title: "Winter", courses: _vm.winterCourses }
+        attrs: { title: "Winter", courses: _vm.winterCourses },
+        on: {
+          "delete-course": function($event) {
+            return _vm.$emit("delete-course")
+          }
+        }
       }),
       _vm._v(" "),
-      _c("semester", { attrs: { title: "Summer", courses: _vm.summerCourses } })
+      _c("semester", {
+        attrs: { title: "Summer", courses: _vm.summerCourses },
+        on: {
+          "delete-course": function($event) {
+            return _vm.$emit("delete-course")
+          }
+        }
+      })
     ],
     1
   )
@@ -39834,7 +39887,8 @@ var render = function() {
         attrs: {
           "summer-courses": _vm.summerList,
           "winter-courses": _vm.winterList
-        }
+        },
+        on: { "delete-course": _vm.onDeleteCourse }
       })
     ],
     1

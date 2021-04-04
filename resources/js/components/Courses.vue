@@ -1,7 +1,7 @@
 <template>
     <div>
-        <semester title="Winter" :courses="winterCourses"></semester>
-        <semester title="Summer" :courses="summerCourses"></semester>
+        <semester title="Winter" :courses="winterCourses" @delete-course="$emit('delete-course')"></semester>
+        <semester title="Summer" :courses="summerCourses" @delete-course="$emit('delete-course')"></semester>
     </div>
 </template>
 
@@ -13,7 +13,6 @@ export default {
     props: {
         summerCourses: Object,
         winterCourses: Object
-    },
-
+    }
 }
 </script>

@@ -26,7 +26,7 @@
         <label>Grade</label>
         <input type="number" min="1" max="4" v-model="grade" @change="findCourses()">
         <span>Or you can try to <a href="#">log in</a></span>
-        <courses :summer-courses="summerList" :winter-courses="winterList"></courses>
+        <courses :summer-courses="summerList" :winter-courses="winterList" @delete-course="onDeleteCourse"></courses>
     </div>
 </template>
 
@@ -62,22 +62,30 @@ export default {
         },
         async findCourses() {
             if (this.field) {
-                let response = await fetch(this.courseRequest);
+                const response = await fetch(this.courseRequest);
                 const courseList = await response.json();
                 this.summerList = courseList.LS;
                 this.winterList = courseList.ZS;
                 const session = Object.keys(courseList.LS);
-                response = await fetch(this.countriesRoute, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": this.token
-                    },
-                    method: "POST", 
-                    credentials: "same-origin",
-                    body: JSON.stringify({courses:session.concat(Object.keys(courseList.ZS))})
-                });
-                console.log(await response.json());
+                await this.fetchCountries(session.concat(Object.keys(courseList.ZS)));
             }
+        },
+        async fetchCountries(countries)
+        {
+            const response = await fetch(this.countriesRoute, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": this.token
+                },
+                method: "POST", 
+                credentials: "same-origin",
+                body: JSON.stringify({courses: countries})
+            });
+            console.log(await response.json());
+        },
+        async onDeleteCourse()
+        {
+            await this.fetchCountries(Object.assign({}, this.summerList, this.winterList));
         }
     },
     computed: {

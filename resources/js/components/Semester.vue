@@ -16,8 +16,9 @@ export default {
     methods: {
         remove(id) {
             this.$delete(this.courses, id);
+            console.log(id);
+            this.$emit('delete-course');
         }
-       
     }
 }
 </script>
