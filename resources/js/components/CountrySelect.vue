@@ -12,8 +12,7 @@
     export default {
         components: { Continent },
         props: {
-            geography: Object,
-            required: true
-        }
+            geography: Object
+        },
     }
 </script>

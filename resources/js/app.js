@@ -21,14 +21,13 @@ import Vue from 'vue'
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue'));
-import CountrySelect from './components/CountrySelect.vue';
 import Errors from './components/Errors.vue';
 import ExampleComponent from './components/ExampleComponent.vue';
+import SearchForm from './components/Form.vue';
 import FormMobility from './components/FormMobility.vue';
 import HomeCourse from './components/HomeCourse.vue';
 import MyMobility from './components/MyMobility.vue';
 import Pairing from './components/Pairing.vue';
-import StudyInfo from './components/StudyInfo.vue';
 import UniversityResult from './components/UniversityResult';
 
 /**
@@ -40,14 +39,13 @@ import UniversityResult from './components/UniversityResult';
 const app = new Vue({
     el: '#app',
     components: { 
-        CountrySelect, 
         ExampleComponent, 
         Errors, 
         FormMobility,
         HomeCourse, 
         MyMobility,
         Pairing, 
-        StudyInfo,
+        SearchForm,
         UniversityResult 
     }
 });

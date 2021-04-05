@@ -81,7 +81,8 @@ export default {
                 credentials: "same-origin",
                 body: JSON.stringify({courses: countries})
             });
-            console.log(await response.json());
+            const data = await response.json();
+            this.$emit('selected-countries', data);
         },
         async onDeleteCourse()
         {
