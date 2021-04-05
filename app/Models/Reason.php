@@ -113,4 +113,9 @@ class Reason extends Model
         }
         $reason->delete();
     }
+
+    public static function getAll()
+    {
+        return Reason::all();
+    }
 }

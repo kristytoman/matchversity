@@ -33,7 +33,8 @@ class MobilityController extends Controller
     public function show($id) 
     {
         return view('mobilities.show_mobility', [
-            'mobility' => Mobility::findById($id)
+            'mobility' => Mobility::findById($id),
+            'reasons' => Reason::getAll()
         ]);
     }
 

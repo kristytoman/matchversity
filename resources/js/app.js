@@ -28,6 +28,7 @@ import FormMobility from './components/FormMobility.vue';
 import HomeCourse from './components/HomeCourse.vue';
 import MyMobility from './components/MyMobility.vue';
 import Pairing from './components/Pairing.vue';
+import Rating from './components/Rating.vue';
 import UniversityResult from './components/UniversityResult';
 
 /**
@@ -45,6 +46,7 @@ const app = new Vue({
         HomeCourse, 
         MyMobility,
         Pairing, 
+        Rating,
         SearchForm,
         UniversityResult 
     }

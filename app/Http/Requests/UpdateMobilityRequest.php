@@ -29,10 +29,10 @@ class UpdateMobilityRequest extends FormRequest
         return [
             'rate' => ['array', 'nullable', 'required_without:unlinked'],
             'rate.*' => ['integer', 'between:0,5'],
-            'unlinked' => ['array', 'nullable', 'required_without:rate'],
-            'unlinked.*' => ['integer', 'between:0,6'],
+            'reason' => ['array', 'nullable'],
+            'reason.*' => ['integer'],
             'new' => ['array', 'nullable'],
-            'new.*' => ['string', 'alpha_num']
+            'new.*' => ['string', 'nullable', 'alpha_num']
         ];
     }
 }

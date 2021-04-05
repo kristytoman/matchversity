@@ -91,8 +91,12 @@ class Mobility extends Model
      */
     public function updateMobility($data)
     {
-        $this->saveRatings($data['rate']);
-        $this->unlinkCourses($data['unlinked'], $data['new']);
+        if (array_key_exists('rate',$data)) {
+            $this->saveRatings($data['rate']);
+        }
+        if (array_key_exists('reason', $data)) {
+            $this->unlinkCourses($data['reason'], array_key_exists('new', $data) ? $data['new'] : null);
+        }
         $this->save();
     }
 
@@ -104,8 +108,8 @@ class Mobility extends Model
     public function saveRatings($ratings)
     {
         foreach ($ratings as $pairID => $rating) {
-            $pair = $this->pairings->where('id', $pairID)->get();
-            if ($pair != null) {
+            $pair = Pairing::find($pairID);
+            if ($pair != null && $pair->mobility_id == $this->id) {
                 $pair->saveRating($rating);
             }
         }
@@ -120,16 +124,13 @@ class Mobility extends Model
     public function unlinkCourses($unlinkedData, $new)
     {
         foreach($unlinkedData as $pairID => $unlinked) {
-            $pair = $this->pairings
-                         ->where('id', $pairID)
-                         ->get();
+            $pair = Pairing::find($pairID);
             if (($unlinked == 1) && (array_key_exists($pairID, $new))) {
-                $pair->unlink_reason()
-                     ->associate(Reason::createNewReason($new)); // TODO: update
+                $pair->reason()
+                     ->associate(Reason::create($new, "", false));
             }
             else {
-                $pair->unlink_reason()
-                     ->associate($unlinked);
+                $pair->reason_id = $unlinked;
             }
             $pair->save();
         }
