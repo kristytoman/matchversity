@@ -22,7 +22,6 @@ import Vue from 'vue'
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue'));
 import Errors from './components/Errors.vue';
-import ExampleComponent from './components/ExampleComponent.vue';
 import SearchForm from './components/Form.vue';
 import FormMobility from './components/FormMobility.vue';
 import HomeCourse from './components/HomeCourse.vue';
@@ -37,10 +36,13 @@ import UniversityResult from './components/UniversityResult';
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+ Vue.prototype.trans = (key) => {
+    return _.get(window.trans, key, key);
+};
+
 const app = new Vue({
     el: '#app',
     components: { 
-        ExampleComponent, 
         Errors, 
         FormMobility,
         HomeCourse, 

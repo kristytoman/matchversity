@@ -7,7 +7,7 @@
             <span>{{ mobility.university.name }}</span>
             <div v-if="mobility.university.city">
                 <span>{{ mobility.university.city.name }}</span>
-                <span>{{ mobility.university.city.country_id }}</span>
+                <span>{{ trans('countries.' + mobility.university.city.country_id) }}</span>
             </div>
         </div> 
     </a>
@@ -25,6 +25,5 @@
                 requried: true
             }
         }
-        
     }
 </script>

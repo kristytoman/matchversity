@@ -3,7 +3,7 @@
         <div>
             <span>{{ pairing.foreign_course.name }}</span>
             <span>{{ pairing.home_course.code }}</span>
-            <span>{{ pairing.home_course.name_cz }}</span>
+            <span>{{ courseName}}</span>
         </div>
             <fieldset v-if="!pairing.reason_id">
                 <input type="radio" :name="'rate[' + pairing.id + ']'" value="0" :checked="pairing.rating === 0">
@@ -15,7 +15,10 @@
             </fieldset>
             <div v-else>
             <select :name="'reason[' + pairing.id +']'" :value="pairing.reason_id">
-                <option v-for="(reason, index) in reasons" :key="index" :value="reason.id">{{ reason.description_cz }}</option>
+                <option v-for="(reason, index) in reasons" :key="index" 
+                        :value="reason.id">
+                    {{ reasonDescription }}
+                </option>
             </select>
             <input type="text" :name="'new[' + pairing.id +']'">
             </div>
@@ -27,6 +30,12 @@ export default {
     props: {
         pairing: Object,
         reasons: Array
+    },
+    data() {
+        return {
+            courseName: isCzech? pairing.home_course.name_cz : pairing.home_course.name_en,
+            reasonDescription: isCzech? reason.description_cz : reason.description_en
+        }
     }
 }
 </script>

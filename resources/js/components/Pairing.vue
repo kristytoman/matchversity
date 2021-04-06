@@ -3,8 +3,7 @@
         <span>{{ data.name }}</span><span>{{ this.rating() }}</span>
         <div v-for="(course, index) in data.courses" :key="index">
             <span>{{ course.code }}</span>
-            <span>{{ course.nameCZ }}</span>
-            <span>{{ course.nameEN }}</span>
+            <span>{{ courseName }}</span>
             <span>{{ course.semester }}</span>
             <span>{{ course.year }}</span>
             <span>{{ course.reason }}</span>
@@ -16,6 +15,13 @@
 export default {
     props: {
         data: Object
+    },
+    data() {
+        return {
+            courseName : isCzech? course.nameCZ : course.nameEN,
+            // semester : course.semester? trans('components.summer') : trans('components.winter')
+            // reason : course.reason
+        }
     },
     methods: {
         rating() {

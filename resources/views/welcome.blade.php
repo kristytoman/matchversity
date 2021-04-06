@@ -14,8 +14,8 @@
     </span>
 
     <div>
-        <span>{{ $countUni }} {{ __('universities')}}</span>
-        <span>{{ $countMobility }} {{ __('mobilities')}}</span>
-        <span>{{ $countCourse }} {{ __('courses')}}</span>
+        <span>{{ $countUni }} {{ __('universities') }}</span>
+        <span>{{ $countMobility }} {{ __('mobilities') }}</span>
+        <span>{{ $countCourse }} {{ __('courses') }}</span>
     </div>
 @endsection

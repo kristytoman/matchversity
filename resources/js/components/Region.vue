@@ -1,6 +1,6 @@
 <template>
     <div>
-        <span @click="showCountries = !showCountries">{{ region.name }}</span>
+        <span @click="showCountries = !showCountries">{{ trans('regions.' + id) }}</span>
         <input type="checkbox" @click="checkCountries" :checked="isChecked" :intermediate="isIntermediate" :disabled="isDisabled">
         <country v-for="(country, index) in region.countries" :key="index"
             :country="country" :show="showCountries"></country>
@@ -13,7 +13,8 @@
     export default {
         components: { Country },
         props: {
-            region: Object
+            region: Object,
+            id : String
         },
         data() {
             return {

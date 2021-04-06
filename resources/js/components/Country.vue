@@ -1,6 +1,6 @@
 <template>
     <div v-show="show">
-        <label>{{ country.name }}</label>
+        <label>{{ trans('countries.' + country.code) }}</label>
         <input name="countries[]" :value="country.code" type="checkbox" 
                :disabled="!country.enabled" v-model="country.selected" :checked="isSelected">
     </div>

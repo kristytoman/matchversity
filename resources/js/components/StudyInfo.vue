@@ -1,6 +1,6 @@
 <template>
     <div>
-        <label>Faculty</label>
+        <label>{{ trans('components.faculty') }}</label>
         <select @change="findFields()" v-model="faculty">
             <option value="FAI">FAI</option>
             <option value="FAM">FaME</option>
@@ -10,23 +10,33 @@
             <option value="FT">FT</option>
         </select>
         <div>
-            <input type="radio" v-model="type" name="type" value="7" @change="findFields()"><label>Bakalářský</label>
-            <input type="radio" v-model="type" name="type" value="8" @change="findFields()"><label>Magisterský</label>
-            <input type="radio" v-model="type" name="type" value="0" @change="findFields()"><label>Navazující</label>
+            <label>{{ trans('components.degree') }}</label>
+            <input type="radio" v-model="type" name="type" value="7" @change="findFields()"><label>{{ trans('components.bc') }}</label>
+            <input type="radio" v-model="type" name="type" value="8" @change="findFields()"><label>{{ trans('components.mgr') }}</label>
+            <input type="radio" v-model="type" name="type" value="0" @change="findFields()"><label>{{ trans('components.con') }}</label>
         </div>
-        <label>Study field</label>
+       <label>{{ trans('components.field') }}</label>
         <select v-model="field" @change="findCourses()">
-            <optgroup label="Prezenční" v-if="fields">
-            <option v-for="(field, index) in fields.full" :key="index" :value="field.oborIdno">{{ field.nazev }} ({{field.jazyk}}) since {{field.platnyOd}}</option>
+            <optgroup :label="trans('components.fulltime')" v-if="fields">
+            <option v-for="(field, index) in fields.full" :key="index" 
+                :value="field.oborIdno">
+                {{ field.nazev }} ({{ field.jazyk }}) {{ trans('components.since') }} {{ field.platnyOd }}
+            </option>
             </optgroup>
-                <optgroup label="Kombinovaná" v-if="fields">
-            <option v-for="(field, index) in fields.part" :key="index" :value="field.oborIdno">{{ field.nazev }} ({{field.jazyk}}) since {{field.platnyOd}}</option>
+            <optgroup :label="trans('components.parttime')" v-if="fields">
+            <option v-for="(field, index) in fields.part" :key="index" 
+                :value="field.oborIdno">
+                {{ field.nazev }} ({{ field.jazyk }}) {{ trans('components.since') }} {{ field.platnyOd }}
+                </option>
             </optgroup>
         </select>
-        <label>Grade</label>
+        <label>{{ trans('components.grade') }}</label>
         <input type="number" min="1" max="4" v-model="grade" @change="findCourses()">
-        <span>Or you can try to <a href="#">log in</a></span>
-        <courses :summer-courses="summerList" :winter-courses="winterList" @delete-course="onDeleteCourse"></courses>
+        <span>{{ trans('components.try') }} <a href="#">{{ trans('components.login') }}</a></span>
+        <courses :summer-courses="summerList" 
+                 :winter-courses="winterList" 
+                 @delete-course="onDeleteCourse">
+        </courses>
     </div>
 </template>
 

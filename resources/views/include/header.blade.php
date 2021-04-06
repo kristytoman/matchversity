@@ -1,49 +1,49 @@
-<nav >
-    <div >
+<nav>
+    <div>
         <a  href="{{ url('/') }}">
             {{ config('app.name', 'Matchversity') }}
         </a>
         <button  type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span ></span>
+            <span></span>
         </button>
 
         <div  id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
-            <ul >
-                <li >
-                    <a  href="https://www.utb.cz/univerzita/mezinarodni-vztahy/partneri-a-projekty/partneri/" target="_blank">{{ __('Current contracts') }}</a>
+            <ul>
+                <li>
+                    <a href="https://www.utb.cz/univerzita/mezinarodni-vztahy/partneri-a-projekty/partneri/" 
+                       target="_blank">{{ __('Current contracts') }}
+                    </a>
                 </li>
-                <li >
-                    <a  href="https://xchange.utb.cz/studijni-pobyty" target="_blank">{{ __('Rated mobilities') }}</a>
+                <li>
+                    <a  href="https://xchange.utb.cz/studijni-pobyty" 
+                        target="_blank">{{ __('Rated mobilities') }}
+                    </a>
                 </li>
-                <li >
+                <li>
                     <a  href="mobilities">{{ __('My mobilities') }}</a>
                 </li>
             </ul>
 
             <!-- Right Side Of Navbar -->
-            <ul >
+            <ul>
                 <!-- Authentication Links -->
                 @guest
                     @if (Route::has('login'))
-                        <li >
+                        <li>
                             <a  href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                     @endif
                 @else
-                    <li >
-                        <a id="navbarDropdown"  href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }}
-                        </a>
-
-                        <div  aria-labelledby="navbarDropdown">
+                    <li>
+                        <div>
                             <a  href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                              document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
                             </a>
 
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" >
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST">
                                 @csrf
                             </form>
                         </div>

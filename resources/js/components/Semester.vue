@@ -2,7 +2,9 @@
 
     <div v-if="courses">
         <h2>{{ title }}</h2>
-        <input v-for="(course, index) in courses" :name="'courses['+index+']'" :key="index" @click="remove(index)" :value="course.nazev" readonly>
+        <input v-for="(course, index) in courses" :key="index"
+               :name="'courses['+index+']'"  :value="course.nazev" 
+               @click="remove(index)"  readonly>
     </div>
 </template>
 
