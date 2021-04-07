@@ -17,7 +17,7 @@
             <th>{{ __('adminMobilities.departure') }}</th>
             <th>{{ __('adminMobilities.student') }}</th>
             <th>{{ __('adminMobilities.university') }}</th>
-            <th>{{ __('adminMobilities.semester') }}/th>
+            <th>{{ __('adminMobilities.semester') }}</th>
             <th>{{ __('adminMobilities.year') }}</th>
         </tr>
     @foreach ($mobilities as $mobility)

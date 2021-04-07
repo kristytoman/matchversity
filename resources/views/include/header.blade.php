@@ -1,11 +1,8 @@
 <nav>
-    <div>
+    <div class="flex items-center">
         <a  href="{{ url('/') }}">
             {{ config('app.name', 'Matchversity') }}
         </a>
-        <button  type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span></span>
-        </button>
 
         <div  id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
