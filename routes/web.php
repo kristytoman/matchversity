@@ -30,11 +30,12 @@ Auth::routes(['register' => false, 'login' => false]);
 
 Route::get('/', HomeController::class);
 
+Route::get('login', [LoginController::class, 'showAdmin'])->name('admin.login');
+
+Route::post('login', [LoginController::class, 'adminLogin']);
+
 Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function() {
     Route::get('/', [AdminMobilityController::class, 'index']);
-    
-    Route::get('login', [LoginController::class, 'showAdmin'])->name('login');
-    Route::post('login', [LoginController::class, 'adminLogin']);
     
     Route::resource('foreign-courses', ForeignCourseController::class);
 

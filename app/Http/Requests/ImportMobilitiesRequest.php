@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ImportMobilitiesRequest extends FormRequest
@@ -13,7 +14,7 @@ class ImportMobilitiesRequest extends FormRequest
      */
     public function authorize()
     {
-        return true; // admin
+        return Auth::guard('admin')->check();
     }
 
     /**

@@ -13,7 +13,7 @@ class StoreMobilitiesRequest extends FormRequest
      */
     public function authorize()
     {
-        return true; // admin
+        return Auth::guard('admin')->check();
     }
 
     /**

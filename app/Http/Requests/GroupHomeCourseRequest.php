@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GroupHomeCourseRequest extends FormRequest
@@ -13,7 +14,7 @@ class GroupHomeCourseRequest extends FormRequest
      */
     public function authorize()
     {
-        return true; // admin
+        return Auth::guard('admin')->check();
     }
 
     /**

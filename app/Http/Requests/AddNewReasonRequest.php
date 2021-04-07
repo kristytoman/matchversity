@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AddNewReasonRequest extends FormRequest
@@ -13,7 +14,7 @@ class AddNewReasonRequest extends FormRequest
      */
     public function authorize()
     {
-        return true; // authorize as a admin
+        return Auth::guard('admin')->check();
     }
 
     /**
