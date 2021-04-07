@@ -1,27 +1,18 @@
 <template>
     <div>
         <span>{{ data.name }}</span><span>{{ this.rating() }}</span>
-        <div v-for="(course, index) in data.courses" :key="index">
-            <span>{{ course.code }}</span>
-            <span>{{ courseName }}</span>
-            <span>{{ course.semester }}</span>
-            <span>{{ course.year }}</span>
-            <span>{{ course.reason }}</span>
-        </div>
+        <pairing-course v-for="(course, index) in data.courses" :key="index"
+        :course="course">
+        </pairing-course>
     </div>
 </template>
 
 <script>
+import PairingCourse from './PairingCourse.vue';
 export default {
+  components: { PairingCourse },
     props: {
         data: Object
-    },
-    data() {
-        return {
-            courseName : isCzech? course.nameCZ : course.nameEN,
-            // semester : course.semester? trans('components.summer') : trans('components.winter')
-            // reason : course.reason
-        }
     },
     methods: {
         rating() {

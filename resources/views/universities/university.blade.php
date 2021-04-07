@@ -9,7 +9,7 @@
         <div>{{ $university->city->name }}, {{ __('countries.' . $university->city->country_id) }}
         <div>
             <a href="{{ $university->web }}" target="_blank">{{ __('Check the website') }}</a>
-            <a href="{{ $university->web }}" target="_blank">{{ __('University rating') }}</a>
+            <a href="{{ $university->xchangeLink }}" target="_blank">{{ __('University rating') }}</a>
         </div>
         @if ($mobilities['searched'])
             <h2>{{ __('Courses for you') }}</h2>

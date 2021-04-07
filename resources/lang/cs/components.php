@@ -15,5 +15,6 @@ return [
     'try' => 'Nebo se můžeš',
     'login' => 'přihlásit',
     'grade' => 'Ročník',
+    'since' => 'od'
 
 ];
