@@ -2011,6 +2011,11 @@ __webpack_require__.r(__webpack_exports__);
     country: Object,
     show: Boolean
   },
+  data: function data() {
+    return {
+      data: this.country
+    };
+  },
   computed: {
     isSelected: function isSelected() {
       return this.country.selected && this.country.enabled;
@@ -39231,49 +39236,49 @@ var render = function() {
       ]
     },
     [
-      _c("label", [_vm._v(_vm._s(_vm.trans("countries." + _vm.country.code)))]),
+      _c("label", [_vm._v(_vm._s(_vm.trans("countries." + _vm.data.code)))]),
       _vm._v(" "),
       _c("input", {
         directives: [
           {
             name: "model",
             rawName: "v-model",
-            value: _vm.country.selected,
-            expression: "country.selected"
+            value: _vm.data.selected,
+            expression: "data.selected"
           }
         ],
         attrs: {
           name: "countries[]",
           type: "checkbox",
-          disabled: !_vm.country.enabled
+          disabled: !_vm.data.enabled
         },
         domProps: {
-          value: _vm.country.code,
+          value: _vm.data.code,
           checked: _vm.isSelected,
-          checked: Array.isArray(_vm.country.selected)
-            ? _vm._i(_vm.country.selected, _vm.country.code) > -1
-            : _vm.country.selected
+          checked: Array.isArray(_vm.data.selected)
+            ? _vm._i(_vm.data.selected, _vm.data.code) > -1
+            : _vm.data.selected
         },
         on: {
           change: function($event) {
-            var $$a = _vm.country.selected,
+            var $$a = _vm.data.selected,
               $$el = $event.target,
               $$c = $$el.checked ? true : false
             if (Array.isArray($$a)) {
-              var $$v = _vm.country.code,
+              var $$v = _vm.data.code,
                 $$i = _vm._i($$a, $$v)
               if ($$el.checked) {
-                $$i < 0 && _vm.$set(_vm.country, "selected", $$a.concat([$$v]))
+                $$i < 0 && _vm.$set(_vm.data, "selected", $$a.concat([$$v]))
               } else {
                 $$i > -1 &&
                   _vm.$set(
-                    _vm.country,
+                    _vm.data,
                     "selected",
                     $$a.slice(0, $$i).concat($$a.slice($$i + 1))
                   )
               }
             } else {
-              _vm.$set(_vm.country, "selected", $$c)
+              _vm.$set(_vm.data, "selected", $$c)
             }
           }
         }

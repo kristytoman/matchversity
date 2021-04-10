@@ -1,8 +1,8 @@
 <template>
     <div v-show="show">
-        <label>{{ trans('countries.' + country.code) }}</label>
-        <input name="countries[]" :value="country.code" type="checkbox" 
-               :disabled="!country.enabled" v-model="country.selected" :checked="isSelected">
+        <label>{{ trans('countries.' + data.code) }}</label>
+        <input name="countries[]" :value="data.code" type="checkbox" 
+               :disabled="!data.enabled" v-model="data.selected" :checked="isSelected">
     </div>
 </template>
 
@@ -11,6 +11,11 @@
         props: {
             country: Object,
             show: Boolean
+        },
+        data() {
+            return {
+                data : this.country
+            }
         },
         computed: {
             isSelected() {

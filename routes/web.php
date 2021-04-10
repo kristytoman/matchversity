@@ -26,11 +26,12 @@ use App\Http\Controllers\UniversityController;
 |
 */
 
-Auth::routes(['register' => false, 'login' => false]);
+Auth::routes(['register' => false]);
 
 Route::get('/', HomeController::class);
 
-Route::get('login', [LoginController::class, 'showAdmin'])->name('admin.login');
+Route::get('login', [LoginController::class, 'showAdmin'])
+       ->name('admin.login');
 
 Route::post('login', [LoginController::class, 'adminLogin']);
 
