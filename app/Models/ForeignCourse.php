@@ -79,4 +79,43 @@ class ForeignCourse extends Model
         $this->university()->associate(University::find($uniID));
         $this->save();
     }
+
+    /**
+     * Update the name of the course.
+     *
+     * @param int  $university
+     */
+    public function changeName($university, $name)
+    {
+        if ($this->university_id == $university && $name != $this->name) {
+            $this->name = $name;
+            $this->save();
+        }
+    }
+
+    /**
+     * Return pairings associated with this course.
+     * 
+     * @return Illuminate\Support\Collection
+     */
+    public function getPairings()
+    {
+        return Pairing::where('foreign_course_id', '=', $this->id)->get();
+    }
+
+    /**
+     * Merge courses together.
+     * 
+     * @param int  $from
+     * @param int  $to
+     */
+    public static function repair($from, $to)
+    {
+        $course = ForeignCourse::find($from);
+        foreach ($course->getPairings() as $pairing) {
+            $pairing->foreign_course_id = $to;
+            $pairing->save();
+        }
+        $course->delete();
+    }
 }

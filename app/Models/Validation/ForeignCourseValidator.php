@@ -31,6 +31,8 @@ class ForeignCourseValidator extends DataValidator
     {
         $this->data = $this->trimSpaces();
         $this->toFirstUpperCase();
+        $this->data = $this->switchBackToLower();
+        $this->data = $this->switchToAllUpper();
     }
 
     /**
@@ -70,6 +72,7 @@ class ForeignCourseValidator extends DataValidator
                 return mb_strtolower($matches[1], 'UTF-8');
             }, strstr($this->data, " "));
         }
+        return $this->data;
     }
 
     /**

@@ -79,7 +79,7 @@ class Reason extends Model
      */
     public function getPairings()
     {
-        return Pairing::where('reason_id', '=', $this->id);
+        return Pairing::where('reason_id', '=', $this->id)->get();
     }
 
     /**

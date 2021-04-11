@@ -4,7 +4,6 @@
 
 @section('content')
 <errors :errors="{{ json_encode($errors->all()) }}"></errors>
-<div><span></span></div>
 <form method="POST" action="{{ route('admin.home-courses.update', $courses->first()) }}">
     @method('PUT')
     @csrf

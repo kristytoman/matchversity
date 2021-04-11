@@ -38,7 +38,8 @@ Route::post('login', [LoginController::class, 'adminLogin']);
 Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function() {
     Route::get('/', [AdminMobilityController::class, 'index']);
     
-    Route::resource('foreign-courses', ForeignCourseController::class);
+    Route::resource('foreign-courses', ForeignCourseController::class)
+           ->only(['index', 'update']);
 
     Route::resource('home-courses', HomeCourseController::class)
            ->only(['index', 'update']);

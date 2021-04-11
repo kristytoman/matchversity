@@ -281,4 +281,27 @@ class University extends Model
         }
         return $result;
     }
+
+    /**
+     * Update courses of the university.
+     * 
+     * @param array  $data
+     * @param int  $id
+     */
+    public static function updateForeignCourses($data, int $id)
+    {
+        if ($university = University::find($id) && array_key_exists($id, $data['courses'])) {
+            foreach($data['courses'][$id] as $courseID => $name) {
+                if ($course = ForeignCourse::find($courseID)) {
+                    if ($course->name != $name) {
+                    if ($secondCourse = ForeignCourse::where('name', $name)->first()) {
+                        ForeignCourse::repair($courseID, $secondCourse->id);
+                    } else {
+                        $course->changeName($id, $course);
+                    }
+                }
+                }
+            }
+        }
+    }
 }
