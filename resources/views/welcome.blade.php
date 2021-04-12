@@ -1,21 +1,56 @@
 @extends('layouts.app')
 
-@include('include.header')
-
 @section('content')
-    <span>
-        <h1>{{ __('Find the right course for you and go study abroad') }}</h1>
-        <div>{{ __('Do you want to explore the world and get a lifetime exprience?') }}</div>
-        <div>{{ __('Check the battles of your ancestors that can help you with your decisions.') }}</div>
-        <a href="/search" role="button">{{ __('Search for universities') }}</a>
-    </span>
-    <span>
-        <img src="{{ asset('img/default.png') }}">
-    </span>
 
-    <div>
-        <span>{{ $countUni }} {{ __('universities') }}</span>
-        <span>{{ $countMobility }} {{ __('mobilities') }}</span>
-        <span>{{ $countCourse }} {{ __('courses') }}</span>
+    @include('include.header')
+
+    <div class="flex justify-evenly mt-10" >
+        <span class="max-w-md flex content-between flex-wrap">
+            <h1 class="text-4xl font-bold">
+                {{ __('Find the right course for you ') }}<br>
+                {{ __('and go study abroad') }}
+            </h1>
+            <span class="text-2xl">
+                <div class="mb-4">
+                     {{ __('Do you want to explore the world and get a lifetime exprience?') }}
+                </div>
+                <div>
+                    {{ __('Check the battles of your ancestors that can help you with your decisions.') }}
+                </div>
+            </span>
+            <a href="/search" 
+               role="button" 
+               class="py-3 px-6 bg-indigo-600 rounded-full text-white">
+               {{ __('Search for universities') }}
+            </a>
+        </span>
+        <img src="{{ asset('img/default.png') }}">
     </div>
+
+    <ul class="flex justify-around mx-20 mt-14">
+        <li class="text-center">
+            <div class="text-3xl font-bold mb-1">
+                 {{ $countUni }}
+            </div>
+            <div class="text-lg">
+                 {{ __('universities') }}
+            </div>
+        </li>
+        <li class="text-center">
+            <div class="text-3xl font-bold mb-1">
+                 {{ $countMobility }}
+            </div>
+            <div class="text-lg">
+                 {{ __('mobilities') }}
+            </div>
+        </li>
+        <li class="text-center">
+            <div class="text-3xl font-bold mb-1">
+                 {{ $countCourse }}
+            </div>
+            <div class="text-lg">
+                 {{ __('courses') }}
+            </div>
+        </li>
+    </ul>
 @endsection
