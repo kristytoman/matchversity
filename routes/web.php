@@ -30,10 +30,10 @@ Auth::routes(['register' => false]);
 
 Route::get('/', HomeController::class);
 
-Route::get('login', [LoginController::class, 'showAdmin'])
+Route::get('admin/login', [LoginController::class, 'showAdmin'])
        ->name('admin.login');
 
-Route::post('login', [LoginController::class, 'adminLogin']);
+Route::post('admin/login', [LoginController::class, 'adminLogin']);
 
 Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function() {
     Route::get('/', [AdminMobilityController::class, 'index']);
