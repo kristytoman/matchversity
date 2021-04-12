@@ -26,12 +26,17 @@ use App\Http\Controllers\UniversityController;
 |
 */
 
-Auth::routes(['register' => false]);
+Auth::routes([
+    'register' => false, 
+    'reset'    => false, 
+    'confirm'  => false, 
+    'verify'   => false
+]);
 
 Route::get('/', HomeController::class);
 
 Route::get('admin/login', [LoginController::class, 'showAdmin'])
-       ->name('admin.login');
+     ->name('admin.login');
 
 Route::post('admin/login', [LoginController::class, 'adminLogin']);
 
@@ -39,28 +44,28 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
     Route::get('/', [AdminMobilityController::class, 'index']);
     
     Route::resource('foreign-courses', ForeignCourseController::class)
-           ->only(['index', 'update']);
+         ->only(['index', 'update']);
 
     Route::resource('home-courses', HomeCourseController::class)
-           ->only(['index', 'update']);
+         ->only(['index', 'update']);
     
     Route::post('import', [AdminMobilityController::class, 'import'])
-           ->name('mobilities.import');
+         ->name('mobilities.import');
     Route::resource('mobilities', AdminMobilityController::class)
-           ->except(['create', 'edit', 'delete']);
+         ->except(['create', 'edit', 'delete']);
     
     Route::resource('reasons', ReasonController::class)
-           ->except(['show', 'edit', 'create']);
+         ->except(['show', 'edit', 'create']);
 
     Route::resource('universities', AdminUniversityController::class)
-           ->only(['index', 'update', 'edit']);
+         ->only(['index', 'update', 'edit']);
 });
 
 Route::resource('mobilities', MobilityController::class)
-       ->only(['index', 'show', 'edit', 'update']);
+     ->only(['index', 'show', 'edit', 'update']);
 
 Route::get('search', SearchController::class);
 
 Route::post('universities', [UniversityController::class, 'index']);
 Route::resource('universities', UniversityController::class)
-       ->only(['index', 'show']);
+     ->only(['index', 'show']);
