@@ -2071,6 +2071,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2131,6 +2133,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2144,6 +2148,11 @@ __webpack_require__.r(__webpack_exports__);
     fieldRoute: String,
     coursesRoute: String,
     countriesRoute: String
+  },
+  data: function data() {
+    return {
+      showCountries: false
+    };
   },
   methods: {
     onCountriesSelected: function onCountriesSelected(countries) {
@@ -2542,16 +2551,72 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     courses: Object,
     title: String
   },
+  data: function data() {
+    return {
+      selected: null,
+      enabled: 'flex-1 opacity-100 mr-3',
+      data: this.courses
+    };
+  },
   methods: {
     remove: function remove(id) {
-      this.$delete(this.courses, id);
-      console.log(id);
-      this.$emit('delete-course');
+      if (this.selected) {
+        this.$delete(this.courses, id);
+        console.log(id);
+        this.$emit('delete-course');
+      }
+    },
+    enable: function enable() {
+      if (this.selected) {
+        this.selected = null;
+        this.enabled = 'flex-1 opacity-50';
+      } else {
+        this.enabled = 'flex-1 opacity-100';
+        this.selected = this.courses;
+      }
+    }
+  },
+  watch: {
+    courses: function courses(newVal) {
+      if (this.selected || !this.data) {
+        this.selected = newVal;
+      }
+
+      this.data = newVal;
+    }
+  },
+  computed: {
+    disabled: function disabled() {
+      if (this.selected) {
+        return "inline-flex items-center text-xs px-3 mx-1 my-1 py-1 width-auto hover:bg-indigo-500 bg-indigo-300 text-indigo-900 focus:outline-none focus:border-none bg-transparent cursor-pointer rounded-xl";
+      } else {
+        return "inline-flex items-center text-xs px-3 mx-1 my-1 py-1 width-auto bg-indigo-300 text-indigo-900 focus:outline-none focus:border-none bg-transparent cursor-default rounded-xl";
+      }
     }
   }
 });
@@ -2576,6 +2641,29 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -39347,29 +39435,38 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("semester", {
-        attrs: { title: "Winter", courses: _vm.winterCourses },
-        on: {
-          "delete-course": function($event) {
-            return _vm.$emit("delete-course")
+  return _c("div", { staticClass: "relative flex-1 flex-col justify-evenly" }, [
+    _c(
+      "div",
+      { staticClass: "flex-1 flex-row flex justify-evenly h-screen-3/4" },
+      [
+        _c("semester", {
+          attrs: {
+            title: _vm.trans("components.winter"),
+            courses: _vm.winterCourses
+          },
+          on: {
+            "delete-course": function($event) {
+              return _vm.$emit("delete-course")
+            }
           }
-        }
-      }),
-      _vm._v(" "),
-      _c("semester", {
-        attrs: { title: "Summer", courses: _vm.summerCourses },
-        on: {
-          "delete-course": function($event) {
-            return _vm.$emit("delete-course")
+        }),
+        _vm._v(" "),
+        _c("semester", {
+          attrs: {
+            title: _vm.trans("components.summer"),
+            courses: _vm.summerCourses
+          },
+          on: {
+            "delete-course": function($event) {
+              return _vm.$emit("delete-course")
+            }
           }
-        }
-      })
-    ],
-    1
-  )
+        })
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -39427,18 +39524,42 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "flex" },
     [
       _c("study-info", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.showCountries,
+            expression: "!showCountries"
+          }
+        ],
         attrs: {
           token: _vm.token,
           "field-route": _vm.fieldRoute,
           "courses-route": _vm.coursesRoute,
           "countries-route": _vm.countriesRoute
         },
-        on: { "selected-countries": _vm.onCountriesSelected }
+        on: {
+          "selected-countries": _vm.onCountriesSelected,
+          "change-view": function($event) {
+            _vm.showCountries = !_vm.showCountries
+          }
+        }
       }),
       _vm._v(" "),
-      _c("country-select", { attrs: { geography: _vm.geography } })
+      _c("country-select", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showCountries,
+            expression: "showCountries"
+          }
+        ],
+        attrs: { geography: _vm.geography }
+      })
     ],
     1
   )
@@ -39974,28 +40095,119 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.courses
-    ? _c(
-        "div",
-        [
-          _c("h2", [_vm._v(_vm._s(_vm.title))]),
-          _vm._v(" "),
-          _vm._l(_vm.courses, function(course, index) {
-            return _c("input", {
-              key: index,
-              attrs: { name: "courses[" + index + "]", readonly: "" },
-              domProps: { value: course.nazev },
-              on: {
-                click: function($event) {
-                  return _vm.remove(index)
-                }
-              }
+  return _c("div", { class: _vm.enabled }, [
+    _c(
+      "div",
+      {
+        staticClass: "cursor-pointer text-gray-800 hover:text-gray-400",
+        on: { click: _vm.enable }
+      },
+      [
+        _c("span", { staticClass: "text-2xl font-500" }, [
+          _vm._v(_vm._s(_vm.title) + "\n        "),
+          _vm.selected
+            ? _c("button", [
+                _c(
+                  "svg",
+                  {
+                    staticClass: "text-indigo-300",
+                    attrs: {
+                      xmlns: "http://www.w3.org/2000/svg",
+                      width: "18",
+                      height: "18",
+                      viewBox: "0 0 18 18",
+                      stroke: "currentColor"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        d:
+                          "M6.61 11.89L3.5 8.78 2.44 9.84 6.61 14l8.95-8.95L14.5 4z"
+                      }
+                    })
+                  ]
+                )
+              ])
+            : _vm._e()
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _vm.courses
+      ? _c(
+          "div",
+          { staticClass: "overflow-y-scroll h-screen-3/4" },
+          [
+            _vm._l(_vm.data, function(course, index) {
+              return _c(
+                "div",
+                {
+                  key: index,
+                  class: _vm.disabled,
+                  on: {
+                    click: function($event) {
+                      return _vm.remove(index)
+                    }
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n                   " +
+                      _vm._s(course.nazev) +
+                      "\n                                "
+                  ),
+                  _c(
+                    "button",
+                    {
+                      staticClass:
+                        "cursor-pointer ml-2 w-3 h-full flex items-center text-white outline-none focus:outline-none"
+                    },
+                    [
+                      _c(
+                        "svg",
+                        {
+                          staticClass: "feather feather-x w-4 h-4",
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            width: "100%",
+                            height: "100%",
+                            fill: "none",
+                            viewBox: "0 0 24 24",
+                            stroke: "currentColor",
+                            "stroke-width": "2",
+                            "stroke-linecap": "round",
+                            "stroke-linejoin": "round"
+                          }
+                        },
+                        [
+                          _c("line", {
+                            attrs: { x1: "18", y1: "6", x2: "6", y2: "18" }
+                          }),
+                          _vm._v(" "),
+                          _c("line", {
+                            attrs: { x1: "6", y1: "6", x2: "18", y2: "18" }
+                          })
+                        ]
+                      )
+                    ]
+                  )
+                ]
+              )
+            }),
+            _vm._v(" "),
+            _vm._l(_vm.selected, function(course, index) {
+              return _c("input", {
+                key: "i" + index,
+                attrs: { type: "hidden", name: "courses[" + index + "]" },
+                domProps: { value: course.nazev }
+              })
             })
-          })
-        ],
-        2
-      )
-    : _vm._e()
+          ],
+          2
+        )
+      : _vm._e()
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -40021,268 +40233,336 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "flex w-screen flex-row h-container justify-evenly" },
     [
-      _c("label", [_vm._v(_vm._s(_vm.trans("components.faculty")))]),
-      _vm._v(" "),
       _c(
-        "select",
+        "div",
         {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.faculty,
-              expression: "faculty"
-            }
-          ],
-          on: {
-            change: [
-              function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.faculty = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              },
-              function($event) {
-                return _vm.findFields()
-              }
-            ]
-          }
+          staticClass: "flex flex-1 h-container flex-col pb-24 justify-evenly"
         },
         [
-          _c("option", { attrs: { value: "FAI" } }, [_vm._v("FAI")]),
+          _c(
+            "div",
+            {
+              staticClass:
+                "flex flex-col justify-center w-3/5 self-center bg-indigo-800 px-8 py-6 rounded-2xl"
+            },
+            [
+              _c(
+                "span",
+                { staticClass: "flex justify-center text-gray-200 mb-3" },
+                [_vm._v("Vyhledej svoje předměty podle svého oboru")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex flex-row" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.faculty,
+                        expression: "faculty"
+                      }
+                    ],
+                    staticClass:
+                      "my-2 p-1 mx-3 flex-1 bg-indigo-300 flex border border-gray-200 rounded",
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.faculty = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        },
+                        function($event) {
+                          return _vm.findFields()
+                        }
+                      ]
+                    }
+                  },
+                  [
+                    _c(
+                      "option",
+                      { attrs: { value: "", disabled: "", selected: "" } },
+                      [_vm._v(_vm._s(_vm.trans("components.faculty")))]
+                    ),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "FAI" } }, [_vm._v("FAI")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "FAM" } }, [_vm._v("FaME")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "FHS" } }, [_vm._v("FHS")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "FLK" } }, [_vm._v("FLK")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "FMK" } }, [_vm._v("FMK")]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "FT" } }, [_vm._v("FT")])
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.type,
+                        expression: "type"
+                      }
+                    ],
+                    staticClass:
+                      "my-2 p-1 flex-1 placeholder-gray-500 mx-3 bg-white flex border border-gray-200 rounded",
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.type = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        },
+                        function($event) {
+                          return _vm.findFields()
+                        }
+                      ]
+                    }
+                  },
+                  [
+                    _c(
+                      "option",
+                      { attrs: { value: "", disabled: "", selected: "" } },
+                      [_vm._v(_vm._s(_vm.trans("components.degree")))]
+                    ),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "7" } }, [
+                      _vm._v(_vm._s(_vm.trans("components.bc")))
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "8" } }, [
+                      _vm._v(_vm._s(_vm.trans("components.mgr")))
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "0" } }, [
+                      _vm._v(_vm._s(_vm.trans("components.con")))
+                    ])
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex flex-col" }, [
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.field,
+                        expression: "field"
+                      }
+                    ],
+                    staticClass:
+                      "my-2 p-1 mx-3 bg-white flex border border-gray-200 rounded",
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.field = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        },
+                        function($event) {
+                          return _vm.findCourses()
+                        }
+                      ]
+                    }
+                  },
+                  [
+                    _vm.fields
+                      ? _c(
+                          "optgroup",
+                          {
+                            attrs: { label: _vm.trans("components.fulltime") }
+                          },
+                          _vm._l(_vm.fields.full, function(field, index) {
+                            return _c(
+                              "option",
+                              {
+                                key: index,
+                                domProps: { value: field.oborIdno }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(field.nazev) +
+                                    " (" +
+                                    _vm._s(field.jazyk) +
+                                    ") \n                                " +
+                                    _vm._s(_vm.trans("components.since")) +
+                                    " " +
+                                    _vm._s(field.platnyOd) +
+                                    "\n                        "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.fields
+                      ? _c(
+                          "optgroup",
+                          {
+                            attrs: { label: _vm.trans("components.parttime") }
+                          },
+                          _vm._l(_vm.fields.part, function(field, index) {
+                            return _c(
+                              "option",
+                              {
+                                key: index,
+                                domProps: { value: field.oborIdno }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(field.nazev) +
+                                    " (" +
+                                    _vm._s(field.jazyk) +
+                                    ") \n                                " +
+                                    _vm._s(_vm.trans("components.since")) +
+                                    " " +
+                                    _vm._s(field.platnyOd) +
+                                    "\n                        "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      : _vm._e()
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex flex-col" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.grade,
+                      expression: "grade"
+                    }
+                  ],
+                  staticClass:
+                    "my-2 p-1 mx-3 bg-white flex border border-gray-200 rounded",
+                  attrs: {
+                    type: "number",
+                    min: "1",
+                    max: "4",
+                    placeholder: _vm.trans("components.grade")
+                  },
+                  domProps: { value: _vm.grade },
+                  on: {
+                    change: function($event) {
+                      return _vm.findCourses()
+                    },
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.grade = $event.target.value
+                    }
+                  }
+                })
+              ])
+            ]
+          ),
           _vm._v(" "),
-          _c("option", { attrs: { value: "FAM" } }, [_vm._v("FaME")]),
+          _vm._m(0),
           _vm._v(" "),
-          _c("option", { attrs: { value: "FHS" } }, [_vm._v("FHS")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "FLK" } }, [_vm._v("FLK")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "FMK" } }, [_vm._v("FMK")]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "FT" } }, [_vm._v("FT")])
+          _c(
+            "div",
+            {
+              staticClass:
+                "text-indigo-700 self-center font-semibold cursor-pointer tracking-wide",
+              on: {
+                click: function($event) {
+                  return _vm.$emit("change-view")
+                }
+              }
+            },
+            [_vm._v("Vybrat si země výjezdu")]
+          )
         ]
       ),
-      _vm._v(" "),
-      _c("div", [
-        _c("label", [_vm._v(_vm._s(_vm.trans("components.degree")))]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.type,
-              expression: "type"
-            }
-          ],
-          attrs: { type: "radio", name: "type", value: "7" },
-          domProps: { checked: _vm._q(_vm.type, "7") },
-          on: {
-            change: [
-              function($event) {
-                _vm.type = "7"
-              },
-              function($event) {
-                return _vm.findFields()
-              }
-            ]
-          }
-        }),
-        _c("label", [_vm._v(_vm._s(_vm.trans("components.bc")))]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.type,
-              expression: "type"
-            }
-          ],
-          attrs: { type: "radio", name: "type", value: "8" },
-          domProps: { checked: _vm._q(_vm.type, "8") },
-          on: {
-            change: [
-              function($event) {
-                _vm.type = "8"
-              },
-              function($event) {
-                return _vm.findFields()
-              }
-            ]
-          }
-        }),
-        _c("label", [_vm._v(_vm._s(_vm.trans("components.mgr")))]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.type,
-              expression: "type"
-            }
-          ],
-          attrs: { type: "radio", name: "type", value: "0" },
-          domProps: { checked: _vm._q(_vm.type, "0") },
-          on: {
-            change: [
-              function($event) {
-                _vm.type = "0"
-              },
-              function($event) {
-                return _vm.findFields()
-              }
-            ]
-          }
-        }),
-        _c("label", [_vm._v(_vm._s(_vm.trans("components.con")))])
-      ]),
-      _vm._v(" "),
-      _c("label", [_vm._v(_vm._s(_vm.trans("components.field")))]),
-      _vm._v(" "),
-      _c(
-        "select",
-        {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.field,
-              expression: "field"
-            }
-          ],
-          on: {
-            change: [
-              function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.field = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              },
-              function($event) {
-                return _vm.findCourses()
-              }
-            ]
-          }
-        },
-        [
-          _vm.fields
-            ? _c(
-                "optgroup",
-                { attrs: { label: _vm.trans("components.fulltime") } },
-                _vm._l(_vm.fields.full, function(field, index) {
-                  return _c(
-                    "option",
-                    { key: index, domProps: { value: field.oborIdno } },
-                    [
-                      _vm._v(
-                        "\n            " +
-                          _vm._s(field.nazev) +
-                          " (" +
-                          _vm._s(field.jazyk) +
-                          ") " +
-                          _vm._s(_vm.trans("components.since")) +
-                          " " +
-                          _vm._s(field.platnyOd) +
-                          "\n        "
-                      )
-                    ]
-                  )
-                }),
-                0
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.fields
-            ? _c(
-                "optgroup",
-                { attrs: { label: _vm.trans("components.parttime") } },
-                _vm._l(_vm.fields.part, function(field, index) {
-                  return _c(
-                    "option",
-                    { key: index, domProps: { value: field.oborIdno } },
-                    [
-                      _vm._v(
-                        "\n            " +
-                          _vm._s(field.nazev) +
-                          " (" +
-                          _vm._s(field.jazyk) +
-                          ") " +
-                          _vm._s(_vm.trans("components.since")) +
-                          " " +
-                          _vm._s(field.platnyOd) +
-                          "\n            "
-                      )
-                    ]
-                  )
-                }),
-                0
-              )
-            : _vm._e()
-        ]
-      ),
-      _vm._v(" "),
-      _c("label", [_vm._v(_vm._s(_vm.trans("components.grade")))]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.grade,
-            expression: "grade"
-          }
-        ],
-        attrs: { type: "number", min: "1", max: "4" },
-        domProps: { value: _vm.grade },
-        on: {
-          change: function($event) {
-            return _vm.findCourses()
-          },
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.grade = $event.target.value
-          }
-        }
-      }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(_vm._s(_vm.trans("components.try")) + " "),
-        _c("a", { attrs: { href: "#" } }, [
-          _vm._v(_vm._s(_vm.trans("components.login")))
-        ])
-      ]),
       _vm._v(" "),
       _c("courses", {
         attrs: {
           "summer-courses": _vm.summerList,
           "winter-courses": _vm.winterList
         },
-        on: { "delete-course": _vm.onDeleteCourse }
+        on: {
+          "delete-course": _vm.onDeleteCourse,
+          "change-view": function($event) {
+            return _vm.$emit("change-view")
+          }
+        }
       })
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "flex flex-col justify-center w-3/5 self-center bg-indigo-800 px-8 py-6 rounded-2xl"
+      },
+      [
+        _c("span", { staticClass: "flex justify-center text-gray-200 mb-3" }, [
+          _vm._v("Nebo vyhledej samotný předmět")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass:
+            "my-2 p-1 mx-3 bg-white flex border border-gray-200 rounded",
+          attrs: { placeholder: "Zkratka předmětu" }
+        })
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
