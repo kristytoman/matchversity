@@ -2073,6 +2073,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2120,6 +2126,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _CountrySelect_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CountrySelect.vue */ "./resources/js/components/CountrySelect.vue");
 /* harmony import */ var _StudyInfo_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StudyInfo.vue */ "./resources/js/components/StudyInfo.vue");
+//
 //
 //
 //
@@ -2571,6 +2578,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     courses: Object,
@@ -2641,6 +2654,17 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -40104,7 +40128,7 @@ var render = function() {
       },
       [
         _c("span", { staticClass: "text-2xl font-500" }, [
-          _vm._v(_vm._s(_vm.title) + "\n        "),
+          _vm._v(_vm._s(_vm.title) + "\n            "),
           _vm.selected
             ? _c("button", [
                 _c(
@@ -40153,15 +40177,13 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\n                   " +
-                      _vm._s(course.nazev) +
-                      "\n                                "
+                    "\n            " + _vm._s(course.nazev) + "\n            "
                   ),
                   _c(
                     "button",
                     {
                       staticClass:
-                        "cursor-pointer ml-2 w-3 h-full flex items-center text-white outline-none focus:outline-none"
+                        "cursor-pointer ml-2 w-3 h-full flex items-center \n                           text-white outline-none focus:outline-none"
                     },
                     [
                       _c(
@@ -40251,7 +40273,11 @@ var render = function() {
               _c(
                 "span",
                 { staticClass: "flex justify-center text-gray-200 mb-3" },
-                [_vm._v("Vyhledej svoje předměty podle svého oboru")]
+                [
+                  _vm._v(
+                    "\n                Vyhledej svoje předměty podle svého oboru\n            "
+                  )
+                ]
               ),
               _vm._v(" "),
               _c("div", { staticClass: "flex flex-row" }, [
@@ -40322,7 +40348,7 @@ var render = function() {
                       }
                     ],
                     staticClass:
-                      "my-2 p-1 flex-1 placeholder-gray-500 mx-3 bg-white flex border border-gray-200 rounded",
+                      "my-2 p-1 flex-1 placeholder-gray-500 mx-3 \n                               bg-white flex border border-gray-200 rounded",
                     on: {
                       change: [
                         function($event) {
@@ -40517,7 +40543,7 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("Vybrat si země výjezdu")]
+            [_vm._v("\n            Vybrat si země výjezdu\n        ")]
           )
         ]
       ),
@@ -40551,7 +40577,9 @@ var staticRenderFns = [
       },
       [
         _c("span", { staticClass: "flex justify-center text-gray-200 mb-3" }, [
-          _vm._v("Nebo vyhledej samotný předmět")
+          _vm._v(
+            "\n                Nebo vyhledej samotný předmět\n            "
+          )
         ]),
         _vm._v(" "),
         _c("input", {

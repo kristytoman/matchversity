@@ -1,12 +1,15 @@
 <template>
-    <div>
-        <study-info :token="token" 
+    <div class="flex">
+        <study-info v-show="!showCountries"
+                    :token="token" 
                     :field-route="fieldRoute" 
                     :courses-route="coursesRoute" 
                     :countries-route="countriesRoute"
-                    @selected-countries="onCountriesSelected">
+                    @selected-countries="onCountriesSelected"
+                    @change-view="showCountries = !showCountries">
         </study-info>
-        <country-select :geography="geography">
+        <country-select v-show="showCountries" 
+                        :geography="geography">
         </country-select>
     </div>
 </template>
@@ -23,6 +26,11 @@ export default {
         fieldRoute: String,
         coursesRoute: String,
         countriesRoute: String
+    },
+    data() {
+        return {
+            showCountries: false
+        }
     },
     methods: {
         onCountriesSelected(countries) {
