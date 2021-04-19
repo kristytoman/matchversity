@@ -2,18 +2,19 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
-
-class CourseResource extends JsonResource
+class CourseResource 
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  array  $request
      * @return array
      */
-    public function toArray($request)
+    public static function fromCollectionToArray($request)
     {
-        return $this->resource['nazevDlouhy'];
+        return [
+            'unit' => $request['katedra'],
+            'code' => $request['zkratka']
+        ];
     }
 }
