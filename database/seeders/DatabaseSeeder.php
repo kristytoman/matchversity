@@ -17,7 +17,10 @@ class DatabaseSeeder extends Seeder
             CountrySeeder::class,
             ReasonSeeder::class,
             UniversitySeeder::class,
-            UserSeeder::class
+            AdminSeeder::class,
+            FieldSeeder::class,
+            CourseSeeder::class,
+            FieldCourseSeeder::class
         ]);
     }
 }
