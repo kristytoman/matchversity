@@ -2,26 +2,20 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
-
-class ProgramCollection extends ResourceCollection
+class ProgramCollection
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource array into an array of programs.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  array  $request
      * @return array
      */
-    public function toArray($request)
+    public static function toArray($request)
     {
-        return [
-            'data' => $this->collection
-                           ->map
-                           ->toArray($request)
-                           ->all(),
-            'links' => [
-                'self' => 'link-value',
-            ]
-        ];
+        $collection = [];
+        foreach ($request['programInfo'] as $program) {
+            $collection[] = ProgramResource::toArray($program);
+        }
+        return $collection;
     }
 }
