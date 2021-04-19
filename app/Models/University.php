@@ -65,23 +65,19 @@ class University extends Model
     /**
      * Store data about university into the database.
      *
-     * @param string  $englishName  
-     * @param string  $originalName
-     * @param string  $nativeName
-     * @param string  $xchange
-     * @param string  $web   
-     * @param City  $city
+     * @param array  $data
      * @return University
      */
-    public static function createProfile($englishName, $originalName, $nativeName, $xchange, $web, $city)
+    public static function createProfile($data)
     {
         $uni = new University;
-            $uni->name = $englishName;
-            $uni->original_name = $originalName;
-            $uni->native_name = $nativeName;
-            $uni->web = $web;
-            $uni->xchange_id = $xchange;
-            $uni->city()->associate($city);
+            $uni->name = $data['nameEN'];
+            $uni->original_name = $data['nameDB'];
+            $uni->native_name = $data['nameORG'];
+            $uni->web = $data['web'];
+            $uni->xchange_link = $data['xchangeLink'];
+            $uni->xchange_id = $data['xchangeID'];
+            $uni->city()->associate($data['city']);
         $uni->save();
         return $uni;
     }
