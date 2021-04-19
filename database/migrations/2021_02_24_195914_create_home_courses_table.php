@@ -25,7 +25,6 @@ class CreateHomeCoursesTable extends Migration
             $table->string('name_en', 128)
                   ->nullable()
                   ->default(null);
-            $table->timestamps();
         });
     }
 
