@@ -1976,6 +1976,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2035,6 +2037,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Continent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Continent.vue */ "./resources/js/components/Continent.vue");
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2475,6 +2482,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Country_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Country.vue */ "./resources/js/components/Country.vue");
+//
+//
+//
+//
+//
 //
 //
 //
@@ -39305,17 +39317,30 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    {
+      staticClass:
+        "flex flex-col h-screen-1/2 min-w-continent w-continent max-w-continent flex-none items-center justify-start"
+    },
     [
-      _c("h3", [_vm._v(_vm._s(_vm.trans("continents." + _vm.id)))]),
+      _c("h3", { staticClass: "text-2xl mb-8" }, [
+        _vm._v(_vm._s(_vm.trans("continents." + _vm.id)))
+      ]),
       _vm._v(" "),
-      _vm._l(_vm.continent.regions, function(region, index) {
-        return _c("region", {
-          key: index,
-          attrs: { region: region, id: _vm.continent.name + index }
-        })
-      })
-    ],
-    2
+      _c(
+        "div",
+        {
+          staticClass:
+            "flex flex-col  min-w-continent w-continent max-w-continent flex-1 items-start"
+        },
+        _vm._l(_vm.continent.regions, function(region, index) {
+          return _c("region", {
+            key: index,
+            attrs: { region: region, id: _vm.continent.name + index }
+          })
+        }),
+        1
+      )
+    ]
   )
 }
 var staticRenderFns = []
@@ -39345,7 +39370,8 @@ var render = function() {
     {
       directives: [
         { name: "show", rawName: "v-show", value: _vm.show, expression: "show" }
-      ]
+      ],
+      staticClass: "my-2"
     },
     [
       _c("label", [_vm._v(_vm._s(_vm.trans("countries." + _vm.data.code)))]),
@@ -39422,19 +39448,48 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    {
+      staticClass:
+        "flex sticky flex-col w-screen max-w-screen h-container justify-start"
+    },
     [
-      _c("a", { attrs: { href: "#" } }, [
-        _vm._v(_vm._s(_vm.trans("components.chooseAll")))
+      _c("div", { staticClass: "flex justify-between h-16 px-16" }, [
+        _c(
+          "a",
+          {
+            staticClass:
+              "text-indigo-700 font-semibold cursor-pointer tracking-wide",
+            attrs: { href: "#" }
+          },
+          [_vm._v(_vm._s(_vm.trans("components.selectCourses")))]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass:
+              "text-indigo-700 font-semibold cursor-pointer tracking-wide",
+            attrs: { href: "#" }
+          },
+          [_vm._v(_vm._s(_vm.trans("components.chooseAll")))]
+        )
       ]),
       _vm._v(" "),
-      _vm._l(_vm.geography.continents, function(continent, index) {
-        return _c("continent", {
-          key: index,
-          attrs: { id: index, continent: continent }
-        })
-      })
-    ],
-    2
+      _c(
+        "div",
+        {
+          staticClass:
+            "flex w-screen max-w-screen h-screen-1/2 flex-grow-0 justify-evenly content-center items-start"
+        },
+        _vm._l(_vm.geography.continents, function(continent, index) {
+          return _c("continent", {
+            key: index,
+            attrs: { id: index, continent: continent }
+          })
+        }),
+        1
+      )
+    ]
   )
 }
 var staticRenderFns = []
@@ -39552,12 +39607,7 @@ var render = function() {
     [
       _c("study-info", {
         directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: !_vm.showCountries,
-            expression: "!showCountries"
-          }
+          { name: "show", rawName: "v-show", value: false, expression: "false" }
         ],
         attrs: {
           token: _vm.token,
@@ -39575,12 +39625,7 @@ var render = function() {
       _vm._v(" "),
       _c("country-select", {
         directives: [
-          {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.showCountries,
-            expression: "showCountries"
-          }
+          { name: "show", rawName: "v-show", value: true, expression: "true" }
         ],
         attrs: { geography: _vm.geography }
       })
@@ -40064,37 +40109,50 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    {
+      staticClass:
+        "my-6 min-w-continent w-full w-continent max-h-screen-1/2 flex-grow-0"
+    },
     [
-      _c(
-        "span",
-        {
-          on: {
-            click: function($event) {
-              _vm.showCountries = !_vm.showCountries
+      _c("div", { staticClass: "grid grid-cols-3 w-full items-center" }, [
+        _c(
+          "span",
+          {
+            staticClass: "text-lg cursor-pointer col-span-2",
+            on: {
+              click: function($event) {
+                _vm.showCountries = !_vm.showCountries
+              }
             }
-          }
-        },
-        [_vm._v(_vm._s(_vm.trans("regions." + _vm.id)))]
-      ),
-      _vm._v(" "),
-      _c("input", {
-        attrs: {
-          type: "checkbox",
-          intermediate: _vm.isIntermediate,
-          disabled: _vm.isDisabled
-        },
-        domProps: { checked: _vm.isChecked },
-        on: { click: _vm.checkCountries }
-      }),
-      _vm._v(" "),
-      _vm._l(_vm.region.countries, function(country, index) {
-        return _c("country", {
-          key: index,
-          attrs: { country: country, show: _vm.showCountries }
+          },
+          [_vm._v(_vm._s(_vm.trans("regions." + _vm.id)))]
+        ),
+        _vm._v(" "),
+        _c("input", {
+          staticClass:
+            "form-checkbox h-5 w-5 justify-self-end text-indigo-600 border-indigo-300 border-2 rounded-full",
+          attrs: {
+            type: "checkbox",
+            intermediate: _vm.isIntermediate,
+            disabled: _vm.isDisabled
+          },
+          domProps: { checked: _vm.isChecked },
+          on: { click: _vm.checkCountries }
         })
-      })
-    ],
-    2
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "max-h-32 overflow-auto overscroll-y-contain" },
+        _vm._l(_vm.region.countries, function(country, index) {
+          return _c("country", {
+            key: index,
+            attrs: { country: country, show: _vm.showCountries }
+          })
+        }),
+        1
+      )
+    ]
   )
 }
 var staticRenderFns = []

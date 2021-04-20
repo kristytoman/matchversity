@@ -1,9 +1,14 @@
 <template>
-    <div>
-        <span @click="showCountries = !showCountries">{{ trans('regions.' + id) }}</span>
-        <input type="checkbox" @click="checkCountries" :checked="isChecked" :intermediate="isIntermediate" :disabled="isDisabled">
-        <country v-for="(country, index) in region.countries" :key="index"
-            :country="country" :show="showCountries"></country>
+    <div class="my-6 min-w-continent w-full w-continent max-h-screen-1/2 flex-grow-0">
+        <div class="grid grid-cols-3 w-full items-center">
+        <span class="text-lg cursor-pointer col-span-2" @click="showCountries = !showCountries">{{ trans('regions.' + id) }}</span>
+        <input type="checkbox" class="form-checkbox h-5 w-5 justify-self-end text-indigo-600 border-indigo-300 border-2 rounded-full"
+               @click="checkCountries" :checked="isChecked" :intermediate="isIntermediate" :disabled="isDisabled">
+        </div>
+        <div class="max-h-32 overflow-auto overscroll-y-contain">
+            <country v-for="(country, index) in region.countries" :key="index"
+                :country="country" :show="showCountries"></country>
+        </div>
     </div>
 </template>
 

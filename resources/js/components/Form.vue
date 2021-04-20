@@ -1,6 +1,6 @@
 <template>
     <div class="flex">
-        <study-info v-show="!showCountries"
+        <study-info v-show="false"
                     :token="token" 
                     :field-route="fieldRoute" 
                     :courses-route="coursesRoute" 
@@ -8,7 +8,7 @@
                     @selected-countries="onCountriesSelected"
                     @change-view="showCountries = !showCountries">
         </study-info>
-        <country-select v-show="showCountries" 
+        <country-select v-show="true" 
                         :geography="geography">
         </country-select>
     </div>
