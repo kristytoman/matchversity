@@ -183,6 +183,7 @@ class Mobility extends Model
      */
     private static function createNew($mobility)
     {
+        self::deletePrevious($mobility->student->data, $mobility->arrival->data, $mobility->departure->data);
         $toSave = new Mobility;
             $toSave->user()->associate(User::getByUtbID($mobility->student->data));
             $toSave->arrival = $mobility->arrival->data;
@@ -199,6 +200,23 @@ class Mobility extends Model
         Pairing::import($toSave, $mobility->pairings, $toSave->university->id);
     }
 
+    /**
+     * Delete mobility in the same time as the mobility.
+     * 
+     * @param string  $user
+     * @param string  $from
+     * @param string  $to
+     */
+    private static function deletePrevious($user, $from, $to)
+    {
+        if ($mobility = User::getPreviousMobility($id, $arrival, $to)) {
+            foreach ($mobility->pairings as $pairing) {
+                $pairing->delete();
+            }
+            $mobility->delete();
+        }
+    }
+    
     /**
      * Return the number of rows in the database.
      * 

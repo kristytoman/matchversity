@@ -79,9 +79,9 @@ class MobilityValidator
     public static function fromFile($data)
     {
         $new = new MobilityValidator;
-            $new->student = new StudentValidator($data[ImportColumns::STUDENT_ID]);
-            $new->arrival = new ArrivalValidator($data[ImportColumns::START]);
-            $new->departure = new DepartureValidator($data[ImportColumns::END], $new->arrival->data);
+        $new->arrival = new ArrivalValidator($data[ImportColumns::START]);
+        $new->departure = new DepartureValidator($data[ImportColumns::END], $new->arrival->data);
+        $new->student = new StudentValidator($data[ImportColumns::STUDENT_ID], $new->arrival, $new->departure);
             $new->semester = new SemesterValidator($data[ImportColumns::SEMESTER], $new->arrival);
             $new->year = new YearValidator($data[ImportColumns::YEAR], $new->arrival, $new->semester);
             $new->university = new UniversityValidator($data[ImportColumns::UNIVERSITY]);
@@ -135,9 +135,9 @@ class MobilityValidator
     private function getValidatedData()
     {
         $validations = [
-            $this->student->validate(),
             $this->arrival->validate(),
             $this->departure->validate(),
+            $this->student->validate(),
             $this->semester->validate(),
             $this->year->validate(),
             $this->university->validate()
@@ -172,9 +172,9 @@ class MobilityValidator
     public static function createFromForm($mobility)
     {
         $toSave = new MobilityValidator;
-        $toSave->student = new StudentValidator($mobility['student']);
         $toSave->arrival = new ArrivalValidator($mobility['arrival']);
         $toSave->departure = new DepartureValidator($mobility['departure'], $toSave->arrival->data);
+        $toSave->student = new StudentValidator($mobility['student'], $toSave->arrival, $toSave->departure);
         $toSave->semester = new SemesterValidator($mobility['semester'], $toSave->arrival);
         $toSave->year = new YearValidator($mobility['year'], $toSave->arrival, $toSave->semester);
         $toSave->university = new UniversityValidator($mobility['university']);

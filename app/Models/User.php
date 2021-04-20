@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use DateTime;
+use DateInterval;
 
 class User extends Authenticatable
 {
@@ -16,6 +18,21 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = ['utbID'];
+
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['mobilities'];
+
+    /**
+     * Get mobilities of the university.
+     */
+    public function mobilities()
+    {
+        return $this->hasMany(Mobility::class);
+    }
 
     /**
      * Return student's mobilities.
@@ -39,5 +56,49 @@ class User extends Authenticatable
         return self::firstOrCreate([
             'utbID' => $utbID
         ]);
+    }
+
+    /**
+     * Check if there's another mobility at the same time.
+     * 
+     * @param string  $id
+     * @param string  $from
+     * @param string  $to
+     * 
+     * @return bool
+     */
+    public static function hasUniqueMobility($id, $arrival, $to)
+    {
+        if (self::getPreviousMobility($id, $arrival, $to)) {
+            return true;
+        } 
+        return false;
+    }
+
+    /**
+     * Return student's mobility at the same time.
+     * 
+     * @param string  $id
+     * @param string  $from
+     * @param string  $to
+     * 
+     * @return Mobility|null
+     */
+    public static function getPreviousMobility($id, $arrival, $to)
+    {
+        $user = self::getByUtbID($id);
+        $from = new DateTime($arrival);
+        if (!$to) {
+            $to = new DateTime($arrival);
+            $to->add(new DateInterval('P6M'));
+        }
+        foreach ($user->mobilities as $mobility) {
+            
+            if (($mobility->arrival <= $from && $mobility->departure >= $from) ||
+                ($mobility->arrival <= $to && $mobility->departure >= $to)) {
+                    return $mobility;
+                }
+        }
+        return null;
     }
 }
