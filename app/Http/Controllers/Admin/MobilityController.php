@@ -34,7 +34,6 @@ class MobilityController extends Controller
     public function import(ImportMobilitiesRequest $request)
     {
         $fileValidator = new FileValidator;
-        
         $validated = $request->validated();
         Mobility::import($fileValidator->getData($validated['file']));
         
@@ -57,7 +56,17 @@ class MobilityController extends Controller
      */
     public function store(StoreMobilitiesRequest $request)
     {
-        Mobility::import(MobilityValidator::fromForm($request->validated()));
+        $fileValidator = new FileValidator;
+        Mobility::import($fileValidator->revalidate($request->validated()));
+        if ($fileValidator->toCheck) {
+            return view('admin.data_check', [
+                'count' => $fileValidator->getCount(),
+                'mobilities' => $fileValidator->toCheck
+            ]);
+        }
+        else {
+            return redirect()->route('admin.mobilities.index');
+        }
         return redirect()->route('admin.mobilities.index');
     }
 

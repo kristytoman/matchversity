@@ -8,7 +8,7 @@
         @csrf
         <label>{{ __('adminMobilities.new') }}: </label>
         <input type="file" name="file" accept=".xlsx"/>
-        <input type="{{ __('adminMobilities.import') }}" />
+        <input type="submit" value="{{ __('adminMobilities.import') }}" />
     </form>
     <table>
         <tr>

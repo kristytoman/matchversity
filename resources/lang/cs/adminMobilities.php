@@ -10,5 +10,6 @@ return [
     'university' => 'Univerzita',
     'create' => 'Vytvořit profil',
     'summer' => 'Letní',
-    'winter' => 'Zimní'
+    'winter' => 'Zimní',
+    'year' => 'Rok'
 ];

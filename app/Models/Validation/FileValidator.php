@@ -11,7 +11,7 @@ class FileValidator
     /**
      * The input data of the file to validate.
      *
-     * @var Array
+     * @var array
      */
     public $data;
 
@@ -25,14 +25,14 @@ class FileValidator
     /**
      * The validated mobilities.
      *
-     * @var Array
+     * @var array
      */
     public $validated;
 
     /**
      * The invalid mobilities to check.
      *
-     * @var Array
+     * @var array
      */
     public $toCheck;
 
@@ -49,7 +49,7 @@ class FileValidator
     /**
      * Checks if the file has all needed rows.
      *
-     * @param Array  $row
+     * @param array  $row
      * @return bool
      */
     private function isRightHeader($row)
@@ -95,8 +95,8 @@ class FileValidator
     /**
      * Returns validated data of the file.
      *
-     * @param Object  $file
-     * @return Array
+     * @param object  $file
+     * @return array
      */
     public function getData($file)
     {
@@ -122,8 +122,8 @@ class FileValidator
     /**
      * Add input row of the file to the array of mobilities.
      *
-     * @param Array  $mobilities
-     * @param Array  $data
+     * @param array  $mobilities
+     * @param array  $data
      */
     private function addMobility(&$mobilities, $data)
     {
@@ -141,7 +141,7 @@ class FileValidator
     /**
      * Validate the data of the file.
      *
-     * @param Array  $mobilities
+     * @param array  $mobilities
      */
     private function validateMobilities(&$mobilities)
     {
@@ -155,5 +155,19 @@ class FileValidator
                 array_push($this->toCheck, $mobility);
             }
         }
+    }
+
+    /**
+     * Revalidate data from form.
+     * 
+     * @param array  $request
+     * @return array
+     */
+    public function revalidate($request)
+    {
+        $mobilities = MobilityValidator::fromForm($request);
+        $this->validateMobilities($mobilities);
+        HomeCourseValidator::refreshField();
+        return $this->validated;
     }
 }
