@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             FieldSeeder::class,
             CourseSeeder::class,
-            FieldCourseSeeder::class
+            FieldCourseSeeder::class,
+            GroupSeeder::class
         ]);
     }
 }
