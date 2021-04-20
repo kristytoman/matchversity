@@ -3,6 +3,7 @@
 namespace App\Models\Validation;
 
 use App\Models\Validation\DataValidator;
+use App\Models\HomeCourse;
 
 class HomeCourseValidator extends DataValidator
 {
@@ -83,8 +84,10 @@ class HomeCourseValidator extends DataValidator
         if (!preg_match("/^[A-Z0-9]*\/[A-Z0-9]*$/", $this->data)) {
             return $this->result("Wrong home course code format.");
         }
-        if (!$this->getNames($this->year->data) && !$this->getNames($this->year->data - 1)) {
-            return $this->result("Name import not succesful.");
+        if (!($this->nameCZ && $this->nameEN)) {
+            if (!$this->getNames($this->year->data) && !$this->getNames($this->year->data - 1)) {
+                return $this->result("Name import not succesful.");
+            }
         }
         return $this->result("");
     }
@@ -106,6 +109,11 @@ class HomeCourseValidator extends DataValidator
     private function isSet()
     {
         if ($this->nameCZ && $this->nameEN) {
+            return true;
+        }
+        if ($course = HomeCourse::findByCode($this->data)) {
+            $this->nameCZ = $course->name_cz;
+            $this->nameEN = $course->name_en;
             return true;
         }
         return false;
