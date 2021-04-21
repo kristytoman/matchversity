@@ -1,8 +1,8 @@
 <template>
     <div class="my-2" v-show="show">
-        <label>{{ trans('countries.' + data.code) }}</label>
-        <input name="countries[]" :value="data.code" type="checkbox" 
-               :disabled="!data.enabled" v-model="data.selected" :checked="isSelected">
+        <label :class="color">{{ trans('countries.' + data.code) }}
+        <input name="countries[]" :value="data.code" type="checkbox" v-show="false"
+               :disabled="!data.enabled" v-model="data.selected" :checked="isSelected"></label>
     </div>
 </template>
 
@@ -20,6 +20,15 @@
         computed: {
             isSelected() {
                 return this.country.selected && this.country.enabled;
+            },
+            color() {
+                if (this.isSelected) {
+                    return "text-indigo-600 cursor-pointer";
+                }
+                if (this.country.enabled) {
+                    return "text-black cursor-pointer";
+                }
+                return "text-gray-400";
             }
         }
     }

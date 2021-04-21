@@ -14,7 +14,7 @@
             <div v-for="(course, index) in data" :key="index"
                 @click="remove(index)"
                 :class="disabled">
-                {{ course.nazev }}
+                {{ course.name_cz }}
                 <button class="cursor-pointer ml-2 w-3 h-full flex items-center 
                                text-white outline-none focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" 
@@ -28,8 +28,8 @@
             </div>
             <input v-for="(course, index) in selected" :key="'i' + index"
                    type="hidden"
-                   :name="'courses[' + index + ']'"
-                   :value="course.nazev">
+                   :name="'courses[]'"
+                   :value="course.code">
         </div>
     </div>
 </template>

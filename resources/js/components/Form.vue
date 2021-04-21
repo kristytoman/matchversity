@@ -1,6 +1,6 @@
 <template>
     <div class="flex">
-        <study-info v-show="false"
+        <study-info v-show="!showCountries"
                     :token="token" 
                     :field-route="fieldRoute" 
                     :courses-route="coursesRoute" 
@@ -8,8 +8,9 @@
                     @selected-countries="onCountriesSelected"
                     @change-view="showCountries = !showCountries">
         </study-info>
-        <country-select v-show="true" 
-                        :geography="geography">
+        <country-select v-show="showCountries" 
+                        :geo="geo"
+                        @change-view="showCountries = !showCountries">
         </country-select>
     </div>
 </template>
@@ -29,13 +30,14 @@ export default {
     },
     data() {
         return {
-            showCountries: false
+            showCountries: false,
+            geo: this.geography
         }
     },
     methods: {
         onCountriesSelected(countries) {
             console.log(countries);
-            this.geography.continents.forEach(continent => {
+            this.geo.continents.forEach(continent => {
                 continent.regions.forEach(region => {
                     region.countries.forEach(country => {
                         if (countries.some(e => e.id === country.code)) {

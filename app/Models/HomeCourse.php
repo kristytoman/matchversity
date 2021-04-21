@@ -38,6 +38,14 @@ class HomeCourse extends Model
     }
 
     /**
+     * The users that belong to the role.
+     */
+    public function fields()
+    {
+        return $this->belongsToMany(Field::class);
+    }
+
+    /**
      * Find a course by its code
      *
      * @param string $code
@@ -127,6 +135,7 @@ class HomeCourse extends Model
         }
         return $courses;
     } 
+
     /**
      * Get the courses session.
      *

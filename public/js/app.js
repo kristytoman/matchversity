@@ -1986,6 +1986,11 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     continent: Object,
     id: Number
+  },
+  data: function data() {
+    return {
+      cont: this.continent
+    };
   }
 });
 
@@ -2021,6 +2026,17 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     isSelected: function isSelected() {
       return this.country.selected && this.country.enabled;
+    },
+    color: function color() {
+      if (this.isSelected) {
+        return "text-indigo-600 cursor-pointer";
+      }
+
+      if (this.country.enabled) {
+        return "text-black cursor-pointer";
+      }
+
+      return "text-gray-400";
     }
   }
 });
@@ -2049,13 +2065,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Continent: _Continent_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   props: {
-    geography: Object
+    geo: Object
+  },
+  data: function data() {
+    return {
+      geography: this.geo
+    };
   }
 });
 
@@ -2149,6 +2175,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2165,13 +2192,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      showCountries: false
+      showCountries: false,
+      geo: this.geography
     };
   },
   methods: {
     onCountriesSelected: function onCountriesSelected(countries) {
       console.log(countries);
-      this.geography.continents.forEach(function (continent) {
+      this.geo.continents.forEach(function (continent) {
         continent.regions.forEach(function (region) {
           region.countries.forEach(function (country) {
             if (countries.some(function (e) {
@@ -2502,12 +2530,13 @@ __webpack_require__.r(__webpack_exports__);
     Country: _Country_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   props: {
-    region: Object,
+    reg: Object,
     id: String
   },
   data: function data() {
     return {
-      showCountries: false
+      showCountries: false,
+      region: this.reg
     };
   },
   methods: {
@@ -2740,8 +2769,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2823,11 +2850,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 courseList = _context2.sent;
-                _this2.summerList = courseList.LS;
-                _this2.winterList = courseList.ZS;
-                session = Object.keys(courseList.LS);
+                _this2.summerList = courseList.summer;
+                _this2.winterList = courseList.winter;
+                session = Object.keys(courseList.summer);
                 _context2.next = 12;
-                return _this2.fetchCountries(session.concat(Object.keys(courseList.ZS)));
+                return _this2.fetchCountries(session.concat(Object.keys(courseList.winter)));
 
               case 12:
               case "end":
@@ -2866,10 +2893,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
                 data = _context3.sent;
+                console.log(data);
 
                 _this3.$emit('selected-countries', data);
 
-              case 7:
+              case 8:
               case "end":
                 return _context3.stop();
             }
@@ -39332,10 +39360,10 @@ var render = function() {
           staticClass:
             "flex flex-col  min-w-continent w-continent max-w-continent flex-1 items-start"
         },
-        _vm._l(_vm.continent.regions, function(region, index) {
+        _vm._l(_vm.cont.regions, function(region, index) {
           return _c("region", {
             key: index,
-            attrs: { region: region, id: _vm.continent.name + index }
+            attrs: { reg: region, id: _vm.cont.name + index }
           })
         }),
         1
@@ -39374,53 +39402,60 @@ var render = function() {
       staticClass: "my-2"
     },
     [
-      _c("label", [_vm._v(_vm._s(_vm.trans("countries." + _vm.data.code)))]),
-      _vm._v(" "),
-      _c("input", {
-        directives: [
-          {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.data.selected,
-            expression: "data.selected"
-          }
-        ],
-        attrs: {
-          name: "countries[]",
-          type: "checkbox",
-          disabled: !_vm.data.enabled
-        },
-        domProps: {
-          value: _vm.data.code,
-          checked: _vm.isSelected,
-          checked: Array.isArray(_vm.data.selected)
-            ? _vm._i(_vm.data.selected, _vm.data.code) > -1
-            : _vm.data.selected
-        },
-        on: {
-          change: function($event) {
-            var $$a = _vm.data.selected,
-              $$el = $event.target,
-              $$c = $$el.checked ? true : false
-            if (Array.isArray($$a)) {
-              var $$v = _vm.data.code,
-                $$i = _vm._i($$a, $$v)
-              if ($$el.checked) {
-                $$i < 0 && _vm.$set(_vm.data, "selected", $$a.concat([$$v]))
+      _c("label", { class: _vm.color }, [
+        _vm._v(_vm._s(_vm.trans("countries." + _vm.data.code)) + "\n    "),
+        _c("input", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: false,
+              expression: "false"
+            },
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.data.selected,
+              expression: "data.selected"
+            }
+          ],
+          attrs: {
+            name: "countries[]",
+            type: "checkbox",
+            disabled: !_vm.data.enabled
+          },
+          domProps: {
+            value: _vm.data.code,
+            checked: _vm.isSelected,
+            checked: Array.isArray(_vm.data.selected)
+              ? _vm._i(_vm.data.selected, _vm.data.code) > -1
+              : _vm.data.selected
+          },
+          on: {
+            change: function($event) {
+              var $$a = _vm.data.selected,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = _vm.data.code,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && _vm.$set(_vm.data, "selected", $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    _vm.$set(
+                      _vm.data,
+                      "selected",
+                      $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                    )
+                }
               } else {
-                $$i > -1 &&
-                  _vm.$set(
-                    _vm.data,
-                    "selected",
-                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                  )
+                _vm.$set(_vm.data, "selected", $$c)
               }
-            } else {
-              _vm.$set(_vm.data, "selected", $$c)
             }
           }
-        }
-      })
+        })
+      ])
     ]
   )
 }
@@ -39459,9 +39494,19 @@ var render = function() {
           {
             staticClass:
               "text-indigo-700 font-semibold cursor-pointer tracking-wide",
-            attrs: { href: "#" }
+            on: {
+              click: function($event) {
+                return _vm.$emit("change-view")
+              }
+            }
           },
-          [_vm._v(_vm._s(_vm.trans("components.selectCourses")))]
+          [
+            _vm._v(
+              "\n           " +
+                _vm._s(_vm.trans("components.selectCourses")) +
+                "\n        "
+            )
+          ]
         ),
         _vm._v(" "),
         _c(
@@ -39471,7 +39516,7 @@ var render = function() {
               "text-indigo-700 font-semibold cursor-pointer tracking-wide",
             attrs: { href: "#" }
           },
-          [_vm._v(_vm._s(_vm.trans("components.chooseAll")))]
+          [_vm._v(_vm._s(_vm.trans("components.chooseAll")) + "\n        ")]
         )
       ]),
       _vm._v(" "),
@@ -39481,7 +39526,7 @@ var render = function() {
           staticClass:
             "flex w-screen max-w-screen h-screen-1/2 flex-grow-0 justify-evenly content-center items-start"
         },
-        _vm._l(_vm.geography.continents, function(continent, index) {
+        _vm._l(_vm.geo.continents, function(continent, index) {
           return _c("continent", {
             key: index,
             attrs: { id: index, continent: continent }
@@ -39607,7 +39652,12 @@ var render = function() {
     [
       _c("study-info", {
         directives: [
-          { name: "show", rawName: "v-show", value: false, expression: "false" }
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.showCountries,
+            expression: "!showCountries"
+          }
         ],
         attrs: {
           token: _vm.token,
@@ -39625,9 +39675,19 @@ var render = function() {
       _vm._v(" "),
       _c("country-select", {
         directives: [
-          { name: "show", rawName: "v-show", value: true, expression: "true" }
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showCountries,
+            expression: "showCountries"
+          }
         ],
-        attrs: { geography: _vm.geography }
+        attrs: { geo: _vm.geo },
+        on: {
+          "change-view": function($event) {
+            _vm.showCountries = !_vm.showCountries
+          }
+        }
       })
     ],
     1
@@ -40235,7 +40295,7 @@ var render = function() {
                 },
                 [
                   _vm._v(
-                    "\n            " + _vm._s(course.nazev) + "\n            "
+                    "\n            " + _vm._s(course.name_cz) + "\n            "
                   ),
                   _c(
                     "button",
@@ -40279,8 +40339,8 @@ var render = function() {
             _vm._l(_vm.selected, function(course, index) {
               return _c("input", {
                 key: "i" + index,
-                attrs: { type: "hidden", name: "courses[" + index + "]" },
-                domProps: { value: course.nazev }
+                attrs: { type: "hidden", name: "courses[]" },
+                domProps: { value: course.code }
               })
             })
           ],
@@ -40435,15 +40495,15 @@ var render = function() {
                       [_vm._v(_vm._s(_vm.trans("components.degree")))]
                     ),
                     _vm._v(" "),
-                    _c("option", { attrs: { value: "7" } }, [
+                    _c("option", { attrs: { value: "1" } }, [
                       _vm._v(_vm._s(_vm.trans("components.bc")))
                     ]),
                     _vm._v(" "),
-                    _c("option", { attrs: { value: "8" } }, [
+                    _c("option", { attrs: { value: "2" } }, [
                       _vm._v(_vm._s(_vm.trans("components.mgr")))
                     ]),
                     _vm._v(" "),
-                    _c("option", { attrs: { value: "0" } }, [
+                    _c("option", { attrs: { value: "3" } }, [
                       _vm._v(_vm._s(_vm.trans("components.con")))
                     ])
                   ]
@@ -40495,21 +40555,14 @@ var render = function() {
                           _vm._l(_vm.fields.full, function(field, index) {
                             return _c(
                               "option",
-                              {
-                                key: index,
-                                domProps: { value: field.oborIdno }
-                              },
+                              { key: index, domProps: { value: field.id } },
                               [
                                 _vm._v(
                                   "\n                                " +
-                                    _vm._s(field.nazev) +
+                                    _vm._s(field.title) +
                                     " (" +
-                                    _vm._s(field.jazyk) +
-                                    ") \n                                " +
-                                    _vm._s(_vm.trans("components.since")) +
-                                    " " +
-                                    _vm._s(field.platnyOd) +
-                                    "\n                        "
+                                    _vm._s(field.from) +
+                                    ")\n                        "
                                 )
                               ]
                             )
@@ -40527,21 +40580,14 @@ var render = function() {
                           _vm._l(_vm.fields.part, function(field, index) {
                             return _c(
                               "option",
-                              {
-                                key: index,
-                                domProps: { value: field.oborIdno }
-                              },
+                              { key: index, domProps: { value: field.id } },
                               [
                                 _vm._v(
                                   "\n                                " +
-                                    _vm._s(field.nazev) +
+                                    _vm._s(field.title) +
                                     " (" +
-                                    _vm._s(field.jazyk) +
-                                    ") \n                                " +
-                                    _vm._s(_vm.trans("components.since")) +
-                                    " " +
-                                    _vm._s(field.platnyOd) +
-                                    "\n                        "
+                                    _vm._s(field.from) +
+                                    ")\n                        "
                                 )
                               ]
                             )

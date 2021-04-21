@@ -18,12 +18,13 @@
     export default {
         components: { Country },
         props: {
-            region: Object,
+            reg: Object,
             id : String
         },
         data() {
             return {
-                showCountries: false
+                showCountries: false,
+                region: this.reg
             }
         },
         methods: {

@@ -22,9 +22,9 @@
                                    bg-white flex border border-gray-200 rounded"
                             @change="findFields()">
                         <option value="" disabled selected>{{ trans('components.degree') }}</option>
-                        <option value="7">{{ trans('components.bc') }}</option>
-                        <option value="8">{{ trans('components.mgr') }}</option>
-                        <option value="0">{{ trans('components.con') }}</option>
+                        <option value="1">{{ trans('components.bc') }}</option>
+                        <option value="2">{{ trans('components.mgr') }}</option>
+                        <option value="3">{{ trans('components.con') }}</option>
                     </select>
                 </div>
                 <div class="flex flex-col">
@@ -33,16 +33,14 @@
                             @change="findCourses()">
                         <optgroup :label="trans('components.fulltime')" v-if="fields">
                             <option v-for="(field, index) in fields.full" :key="index" 
-                                    :value="field.oborIdno">
-                                    {{ field.nazev }} ({{ field.jazyk }}) 
-                                    {{ trans('components.since') }} {{ field.platnyOd }}
+                                    :value="field.id">
+                                    {{ field.title }} ({{ field.from }})
                             </option>
                         </optgroup>
                         <optgroup :label="trans('components.parttime')" v-if="fields">
                             <option v-for="(field, index) in fields.part" :key="index" 
-                                    :value="field.oborIdno">
-                                    {{ field.nazev }} ({{ field.jazyk }}) 
-                                    {{ trans('components.since') }} {{ field.platnyOd }}
+                                    :value="field.id">
+                                    {{ field.title }} ({{ field.from }})
                             </option>
                         </optgroup>
                     </select>
@@ -108,10 +106,10 @@ export default {
             if (this.field) {
                 const response = await fetch(this.courseRequest);
                 const courseList = await response.json();
-                this.summerList = courseList.LS;
-                this.winterList = courseList.ZS;
-                const session = Object.keys(courseList.LS);
-                await this.fetchCountries(session.concat(Object.keys(courseList.ZS)));
+                this.summerList = courseList.summer;
+                this.winterList = courseList.winter;
+                const session = Object.keys(courseList.summer);
+                await this.fetchCountries(session.concat(Object.keys(courseList.winter)));
             }
         },
         async fetchCountries(countries)
@@ -126,6 +124,7 @@ export default {
                 body: JSON.stringify({courses: countries})
             });
             const data = await response.json();
+            console.log(data);
             this.$emit('selected-countries', data);
         },
         async onDeleteCourse()

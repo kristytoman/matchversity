@@ -18,7 +18,7 @@ class CreateFieldCoursesTable extends Migration
                   ->constrained('home_courses');
             $table->foreignId('field_id')
                   ->constrained('fields');
-            $table->year('grade')->nullable();
+            $table->tinyInteger('grade')->nullable();
             $table->boolean('is_summer')->nullable();
             $table->boolean('compulsory');
         });
