@@ -1,15 +1,12 @@
 <template>
-   <a :href="showRoute">
-        <div :id="mobility.id">
-            <span>{{ mobility.id }}</span>
-            <span>{{ mobility.arrival }}</span>
-            <span>{{ mobility.departure }}</span>
-            <span>{{ mobility.university.name }}</span>
-            <div v-if="mobility.university.city">
-                <span>{{ mobility.university.city.name }}</span>
-                <span>{{ trans('countries.' + mobility.university.city.country_id) }}</span>
+   <a :href="showRoute" class="flex justify-between w-full self-center bg-indigo-200 hover:bg-indigo-400 px-8 py-6 my-4 rounded-2xl">
+        <div>
+            <span class="text-2xl text-indigo-900 font-semibold uppercase tracking-wide mb-6">{{ mobility.university.name }}</span>
+            <div v-if="mobility.university.city" class="text-indigo-900">
+              {{ mobility.university.city.name + ' ' + trans('countries.' + mobility.university.city.country_id) }}
             </div>
         </div> 
+        <span class="text-3xl text-indigo-800 font-semibold tracking-wide self-center">{{ mobility.is_summer?trans('summer'):trans('winter') + ' ' + mobility.year }}</span>
     </a>
 </template>
 
@@ -24,6 +21,6 @@
                 type: String,
                 requried: true
             }
-        }
+        },
     }
 </script>
