@@ -4,7 +4,8 @@
 
     @include('include.header')
 
-    <div class="flex justify-evenly mt-10" >
+    <div class="flex h-container flex-col justify-evenly" >
+        <div class="flex justify-evenly">
         <span class="max-w-md flex content-between flex-wrap">
             <h1 class="text-4xl font-bold">
                 {{ __('Find the right course for you ') }}<br>
@@ -27,7 +28,7 @@
         <img src="{{ asset('img/default.png') }}">
     </div>
 
-    <ul class="flex justify-around mx-20 mt-14">
+    <ul class="flex justify-around mx-20">
         <li class="text-center">
             <div class="text-3xl font-bold mb-1">
                  {{ $countUni }}
@@ -53,4 +54,5 @@
             </div>
         </li>
     </ul>
+</div>
 @endsection

@@ -2349,9 +2349,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     mobility: {
@@ -2950,6 +2947,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -39483,10 +39481,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass:
-        "flex sticky flex-col w-screen max-w-screen h-container justify-start"
-    },
+    { staticClass: "flex sticky flex-col w-full h-container justify-start" },
     [
       _c("div", { staticClass: "flex justify-between h-16 px-16" }, [
         _c(
@@ -39524,7 +39519,7 @@ var render = function() {
         "div",
         {
           staticClass:
-            "flex w-screen max-w-screen h-screen-1/2 flex-grow-0 justify-evenly content-center items-start"
+            "flex w-full h-screen-1/2 flex-grow-0 justify-evenly content-center items-start"
         },
         _vm._l(_vm.geo.continents, function(continent, index) {
           return _c("continent", {
@@ -39924,33 +39919,59 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("a", { attrs: { href: _vm.showRoute } }, [
-    _c("div", { attrs: { id: _vm.mobility.id } }, [
-      _c("span", [_vm._v(_vm._s(_vm.mobility.id))]),
-      _vm._v(" "),
-      _c("span", [_vm._v(_vm._s(_vm.mobility.arrival))]),
-      _vm._v(" "),
-      _c("span", [_vm._v(_vm._s(_vm.mobility.departure))]),
-      _vm._v(" "),
-      _c("span", [_vm._v(_vm._s(_vm.mobility.university.name))]),
-      _vm._v(" "),
-      _vm.mobility.university.city
-        ? _c("div", [
-            _c("span", [_vm._v(_vm._s(_vm.mobility.university.city.name))]),
-            _vm._v(" "),
-            _c("span", [
+  return _c(
+    "a",
+    {
+      staticClass:
+        "flex justify-between w-full self-center bg-indigo-200 hover:bg-indigo-400 px-8 py-6 my-4 rounded-2xl",
+      attrs: { href: _vm.showRoute }
+    },
+    [
+      _c("div", [
+        _c(
+          "span",
+          {
+            staticClass:
+              "text-2xl text-indigo-900 font-semibold uppercase tracking-wide mb-6"
+          },
+          [_vm._v(_vm._s(_vm.mobility.university.name))]
+        ),
+        _vm._v(" "),
+        _vm.mobility.university.city
+          ? _c("div", { staticClass: "text-indigo-900" }, [
               _vm._v(
-                _vm._s(
-                  _vm.trans(
-                    "countries." + _vm.mobility.university.city.country_id
-                  )
-                )
+                "\n           " +
+                  _vm._s(
+                    _vm.mobility.university.city.name +
+                      " " +
+                      _vm.trans(
+                        "countries." + _vm.mobility.university.city.country_id
+                      )
+                  ) +
+                  "\n         "
               )
             ])
-          ])
-        : _vm._e()
-    ])
-  ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c(
+        "span",
+        {
+          staticClass:
+            "text-3xl text-indigo-800 font-semibold tracking-wide self-center"
+        },
+        [
+          _vm._v(
+            _vm._s(
+              _vm.mobility.is_summer
+                ? _vm.trans("summer")
+                : _vm.trans("winter") + " " + _vm.mobility.year
+            )
+          )
+        ]
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -40716,27 +40737,53 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("a", { attrs: { href: _vm.route } }, [
-      _c("span", [_vm._v(_vm._s(_vm.university.name))]),
+  return _c(
+    "a",
+    {
+      staticClass:
+        "flex flex-col justify-center w-full self-center bg-indigo-200 hover:bg-indigo-400 px-8 py-6 my-4 rounded-2xl",
+      attrs: { href: _vm.route }
+    },
+    [
+      _c(
+        "span",
+        {
+          staticClass:
+            "text-2xl text-indigo-900 font-semibold uppercase tracking-wide mb-2"
+        },
+        [_vm._v(_vm._s(_vm.university.name))]
+      ),
       _vm._v(" "),
-      _c("span", [_vm._v(_vm._s(_vm.university.native))]),
+      _c("span", { staticClass: "text-lg text-indigo-900 mb-1" }, [
+        _vm._v(_vm._s(_vm.university.native))
+      ]),
       _vm._v(" "),
-      _c("span", [
+      _c("span", { staticClass: "text-indigo-900" }, [
         _vm._v(
-          _vm._s(_vm.university.city) + ", " + _vm._s(_vm.university.countryID)
+          _vm._s(_vm.university.city) +
+            ", " +
+            _vm._s(_vm.trans("countries." + _vm.university.countryID))
         )
       ]),
       _vm._v(" "),
       _c(
         "div",
+        { staticClass: "overflow-hidden h-8 mt-4" },
         _vm._l(_vm.university.courses, function(course, index) {
-          return _c("span", { key: index }, [_vm._v(_vm._s(course.name))])
+          return _c(
+            "span",
+            {
+              key: index,
+              staticClass:
+                "inline-flex items-center text-xs px-3 mx-1 my-1 py-1 width-auto bg-indigo-300 text-indigo-900 focus:outline-none focus:border-none bg-transparent cursor-default rounded-xl"
+            },
+            [_vm._v(_vm._s(course.name))]
+          )
         }),
         0
       )
-    ])
-  ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

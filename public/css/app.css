@@ -11654,7 +11654,7 @@ select {
 }
 
 .h-container {
-  height: calc(100vh - 4rem);
+  height: calc(100vh - 6rem);
 }
 
 .h-screen-3\/4 {
@@ -27287,6 +27287,14 @@ select {
 
 .w-continent {
   width: 15vw;
+}
+
+.w-screen-3\/5 {
+  width: 60vw;
+}
+
+.w-screen-1\/4 {
+  width: 25vw;
 }
 
 .z-0 {
@@ -42957,7 +42965,7 @@ select {
   }
 
   .sm\:h-container {
-    height: calc(100vh - 4rem);
+    height: calc(100vh - 6rem);
   }
 
   .sm\:h-screen-3\/4 {
@@ -58579,6 +58587,14 @@ select {
     width: 15vw;
   }
 
+  .sm\:w-screen-3\/5 {
+    width: 60vw;
+  }
+
+  .sm\:w-screen-1\/4 {
+    width: 25vw;
+  }
+
   .sm\:z-0 {
     z-index: 0;
   }
@@ -74090,7 +74106,7 @@ select {
   }
 
   .md\:h-container {
-    height: calc(100vh - 4rem);
+    height: calc(100vh - 6rem);
   }
 
   .md\:h-screen-3\/4 {
@@ -89712,6 +89728,14 @@ select {
     width: 15vw;
   }
 
+  .md\:w-screen-3\/5 {
+    width: 60vw;
+  }
+
+  .md\:w-screen-1\/4 {
+    width: 25vw;
+  }
+
   .md\:z-0 {
     z-index: 0;
   }
@@ -105223,7 +105247,7 @@ select {
   }
 
   .lg\:h-container {
-    height: calc(100vh - 4rem);
+    height: calc(100vh - 6rem);
   }
 
   .lg\:h-screen-3\/4 {
@@ -120845,6 +120869,14 @@ select {
     width: 15vw;
   }
 
+  .lg\:w-screen-3\/5 {
+    width: 60vw;
+  }
+
+  .lg\:w-screen-1\/4 {
+    width: 25vw;
+  }
+
   .lg\:z-0 {
     z-index: 0;
   }
@@ -136356,7 +136388,7 @@ select {
   }
 
   .xl\:h-container {
-    height: calc(100vh - 4rem);
+    height: calc(100vh - 6rem);
   }
 
   .xl\:h-screen-3\/4 {
@@ -151978,6 +152010,14 @@ select {
     width: 15vw;
   }
 
+  .xl\:w-screen-3\/5 {
+    width: 60vw;
+  }
+
+  .xl\:w-screen-1\/4 {
+    width: 25vw;
+  }
+
   .xl\:z-0 {
     z-index: 0;
   }
@@ -167489,7 +167529,7 @@ select {
   }
 
   .\32xl\:h-container {
-    height: calc(100vh - 4rem);
+    height: calc(100vh - 6rem);
   }
 
   .\32xl\:h-screen-3\/4 {
@@ -183109,6 +183149,14 @@ select {
 
   .\32xl\:w-continent {
     width: 15vw;
+  }
+
+  .\32xl\:w-screen-3\/5 {
+    width: 60vw;
+  }
+
+  .\32xl\:w-screen-1\/4 {
+    width: 25vw;
   }
 
   .\32xl\:z-0 {
