@@ -70,9 +70,9 @@ class User extends Authenticatable
     public static function hasUniqueMobility($id, $arrival, $to)
     {
         if (self::getPreviousMobility($id, $arrival, $to)) {
-            return true;
+            return false;
         } 
-        return false;
+        return true;
     }
 
     /**

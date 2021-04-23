@@ -209,7 +209,7 @@ class Mobility extends Model
      */
     private static function deletePrevious($user, $from, $to)
     {
-        if ($mobility = User::getPreviousMobility($id, $arrival, $to)) {
+        if ($mobility = User::getPreviousMobility($user, $from, $to)) {
             foreach ($mobility->pairings as $pairing) {
                 $pairing->delete();
             }

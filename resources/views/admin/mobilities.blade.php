@@ -15,7 +15,6 @@
             <th>ID</th>
             <th>{{ __('adminMobilities.arrival') }}</th>
             <th>{{ __('adminMobilities.departure') }}</th>
-            <th>{{ __('adminMobilities.student') }}</th>
             <th>{{ __('adminMobilities.university') }}</th>
             <th>{{ __('adminMobilities.semester') }}</th>
             <th>{{ __('adminMobilities.year') }}</th>
@@ -25,7 +24,6 @@
             <td>{{ $mobility->id }}</td>
             <td>{{ $mobility->arrival }}</td>
             <td>{{ $mobility->departure }}</td>
-            <td>{{ $mobility->user->utbID }}</td>
             @if ($mobility->university->name)
                 <td><a href="{{ route('admin.universities.edit', $mobility->university) }}">
                     {{ $mobility->university->name }}
