@@ -24,8 +24,10 @@ class UniversityController extends Controller
             HomeCourse::setSession($validated);
             Country::setSession($validated);
         }
+        $universities = University::findResults();
         return view('universities.hunter', [
-           'universities' => University::findResults()
+           'top3' => count($universities) > 3 ? array_slice($universities, 0, 3) : null,
+           'universities' => count($universities) > 3 ? array_slice($universities, 3) : $universities
         ]);
     }
 
