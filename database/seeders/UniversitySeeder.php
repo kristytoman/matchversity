@@ -555,33 +555,33 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Saint Petersburg State University',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Stamford International University',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Dokuz Eylül Üniversitesi',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'Saint Petersburg State University',
+            'nameDB' => 'Saint Petersburg State University',
+            'nameORG' => 'Saint Petersburg State University',
+            'xchangeID' => 262,
+            'xchangeLink' => '262-saint-petersburg-state-university',
+            'web' => 'https://english.spbu.ru/',
+            'city' => City::add('Saint Petersburg', 'RU')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Stamford International University',
+            'nameDB' => 'Stamford International University',
+            'nameORG' => 'Stamford International University',
+            'xchangeID' => 252,
+            'xchangeLink' => '252-stamford-international-university',
+            'web' => 'https://www.stamford.edu/',
+            'city' => City::add('Bangkok', 'TH')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Dokuz Eylül Üniversitesi',
+            'nameDB' => 'Dokuz Eylül Üniversitesi',
+            'nameORG' => 'DOKUZ EYLUL UNIVERSITY',
+            'xchangeID' => 29,
+            'xchangeLink' => '29-dokuz-eylul-university',
+            'web' => 'https://global.deu.edu.tr/',
+            'city' => City::add('Izmir', 'TR')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'Zhejiang University',
@@ -600,15 +600,15 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'UNIVERSIDAD REY JUAN CARLOS',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'UNIVERSIDAD REY JUAN CARLOS',
+            'nameDB' => 'UNIVERSIDAD REY JUAN CARLOS',
+            'nameORG' => 'UNIVERSIDAD REY JUAN CARLOS',
+            'xchangeID' => 112,
+            'xchangeLink' => '112-universidad-rey-juan-carlos',
+            'web' => 'https://www.urjc.es/',
+            'city' => City::add('Madrid', 'ES')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'LUCA - SCHOOL OF ARTS',
@@ -636,24 +636,24 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Universidad ORT Uruguay',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'University College of Northern Denmark',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'UNIVERSIDAD ORT URUGUAY',
+            'nameDB' => 'Universidad ORT Uruguay',
+            'nameORG' => 'UNIVERSIDAD ORT URUGUAY',
+            'xchangeID' => 365,
+            'xchangeLink' => '365-universidad-ort-uruguay',
+            'web' => 'https://www.ort.edu.uy/',
+            'city' => City::add('Montevideo', 'UY')
+        ]);
+        University::createProfile([
+            'nameEN' => 'UNIVERSITY COLLEGE OF NORTHERN DENMARK',
+            'nameDB' => 'University College of Northern Denmark',
+            'nameORG' => 'UNIVERSITY COLLEGE OF NORTHERN DENMARK',
+            'xchangeID' => 390,
+            'xchangeLink' => '390-university-college-of-northern-denmark',
+            'web' => 'https://www.ucn.dk/english',
+            'city' => City::add('AALBORG ØST', 'DK')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'KLAIPEDOS UNIVERSITETAS',
@@ -663,15 +663,15 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Técnico Lisboa',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'Universidade Técnica de Lisboa',
+            'nameDB' => 'Técnico Lisboa',
+            'nameORG' => 'UNIVERSIDADE TÉCNICA DE LISBOA',
+            'xchangeID' => 151,
+            'xchangeLink' => '151-universidade-tecnica-de-lisboa',
+            'web' => 'https://tecnico.ulisboa.pt/en/',
+            'city' => City::add('Lisboa', 'PT')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'UNIWERSYTET LÓDZKI',
@@ -681,15 +681,15 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'INSTITUTO POLITÉCNICO DE BRAGANÇA',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'Polytechnic Institute of Bragança',
+            'nameDB' => 'INSTITUTO POLITÉCNICO DE BRAGANÇA',
+            'nameORG' => 'INSTITUTO POLITÉCNICO DE BRAGANÇA',
+            'xchangeID' => 239,
+            'xchangeLink' => '239-instituto-politecnico-de-braganca',
+            'web' => 'http://portal3.ipb.pt/index.php/en/ipben/home',
+            'city' => City::add('BRAGANÇ', 'PT')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'UNIVERSIDAD DEL PAÍS VASCO / EUSKAL HERRIKO UNIBERTSITATEA',
@@ -699,15 +699,15 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'CHALMERS TEKNISKA HÖGSKOLA',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'Chalmers University of Technology',
+            'nameDB' => 'CHALMERS TEKNISKA HÖGSKOLA',
+            'nameORG' => 'CHALMERS TEKNISKA HÖGSKOLA',
+            'xchangeID' => 57,
+            'xchangeLink' => '57-chalmers-tekniska-hogskola',
+            'web' => 'https://www.chalmers.se/en/Pages/default.aspx',
+            'city' => City::add('GÖTEBORG', 'SE')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'Peter the Great St. Petersburg Polytechnic University',
@@ -717,51 +717,51 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Ecole Supérieure d\'Art et de Design d\'Orleans',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'KAPOSVÁRI EGYETEM',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'HANYANG UNIVERSITY',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Mapúa Institute of Technology',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Tallinna Tervishoiu Korgkool',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'College Art And Design D orléans',
+            'nameDB' => 'Ecole Supérieure d\'Art et de Design d\'Orleans',
+            'nameORG' => 'College Art And Design D orléans',
+            'xchangeID' => 38,
+            'xchangeLink' => '38-ecole-superieure-d-art-et-de-design-d-orleans',
+            'web' => 'https://esadorleans.fr/en/home/',
+            'city' => City::add('Orléans', 'FR')
+        ]);
+        University::createProfile([
+            'nameEN' => 'University of Kaposvár',
+            'nameDB' => 'KAPOSVÁRI EGYETEM',
+            'nameORG' => 'KAPOSVÁRI EGYETEM',
+            'xchangeID' => 337,
+            'xchangeLink' => '337-kaposvar-university',
+            'web' => 'http://english.ke.hu/',
+            'city' => City::add('Kaposvár', 'HU')
+        ]);
+        University::createProfile([
+            'nameEN' => 'HANYANG UNIVERSITY',
+            'nameDB' => 'HANYANG UNIVERSITY',
+            'nameORG' => 'HANYANG UNIVERSITY',
+            'xchangeID' => 256,
+            'xchangeLink' => '256-hanyang-university',
+            'web' => 'https://www.hanyang.ac.kr/web/eng/home/',
+            'city' => City::add('Seoul', 'KR')
+        ]);
+        University::createProfile([
+            'nameEN' => 'MAPÚA UNIVERSITY',
+            'nameDB' => 'Mapúa Institute of Technology',
+            'nameORG' => 'MAPÚA UNIVERSITY',
+            'xchangeID' => 402,
+            'xchangeLink' => '402-mapua-university',
+            'web' => 'https://www.mapua.edu.ph/',
+            'city' => City::add('Manila', 'PH')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Tallinn Health Care College',
+            'nameDB' => 'Tallinna Tervishoiu Korgkool',
+            'nameORG' => 'Tallinna Tervishoiu Korgkool',
+            'xchangeID' => 129,
+            'xchangeLink' => '129-tallinn-health-care-college',
+            'web' => 'https://www.ttk.ee/en',
+            'city' => City::add('Tallinn', 'EE')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'ASSOCIATION INTERNATIONALE POUR LA FORMATION',
@@ -771,33 +771,33 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'UNIVERSITA DEGLI STUDI DI GENOVA',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Josip Juraj Strossmayer University of Osijek',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Soongsil University',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'Università di Genova',
+            'nameDB' => 'UNIVERSITA DEGLI STUDI DI GENOVA',
+            'nameORG' => 'UNIVERSITÀ DEGLI STUDI DI GENOVA',
+            'xchangeID' => 181,
+            'xchangeLink' => '181-universita-degli-studi-di-genova',
+            'web' => 'https://unige.it/en',
+            'city' => City::add('Genova', 'IT')
+        ]);
+        University::createProfile([
+            'nameEN' => 'JOSIP JURAJ STROSSMAYER UNIVERSITY OF OSIJEK',
+            'nameDB' => 'Josip Juraj Strossmayer University of Osijek',
+            'nameORG' => 'JOSIP JURAJ STROSSMAYER UNIVERSITY OF OSIJEK',
+            'xchangeID' => 78,
+            'xchangeLink' => '78-josip-juraj-strossmayer-university-of-osijek',
+            'web' => 'http://www.unios.hr/en/',
+            'city' => City::add('Osijek', 'HR')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Soongsil University',
+            'nameDB' => 'Soongsil University',
+            'nameORG' => 'Soongsil University',
+            'xchangeID' => 398,
+            'xchangeLink' => '398-soongsil-university',
+            'web' => 'https://eng.ssu.ac.kr/',
+            'city' => City::add('DONGJAK-GU', 'KR')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'Limkokwing Universityof Creative Technology',
@@ -807,159 +807,159 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'National Taipei University of Technology',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Instituto Superior Miguel Torga',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'KATHOLIEKE UNIVERSITEIT LEUVEN',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'UNIVERSITE DES ANTILLES ET DE LA GUYANE',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'University of Dubrovnik',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'BUDAPESTI M?SZAKI ÉS GAZDASAGTUDOMANYI EGYETEM',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'UNIVERZIDADE FEEVALE',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Fachhochschule Nordwestschweiz, Hochschule für Gestaltung und Kunst',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'TECHNISCHE UNIVERSITÄT GRAZ',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'HOGSKOLEN I MOLDE',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Izmir University',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'ECOLE DE COMMERCE EUROPEENNE DE BORDEAUX',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'TAMPEREEN YLIOPISTO',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'UNIVERSITE DE LIEGE',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Universidade Lusófona Do Porto',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'VYSOKÁ SKOLA MÚZICKÝCH UMENÍ V BRATISLAVE',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'LAPIN YLIOPISTO',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'National Taipei University of Technology',
+            'nameDB' => 'National Taipei University of Technology',
+            'nameORG' => 'National Taipei University of Technology',
+            'xchangeID' => 267,
+            'xchangeLink' => '267-national-taipei-university-of-technology',
+            'web' => 'https://www-en.ntut.edu.tw/',
+            'city' => City::add('Taipei', 'TW')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Instituto Superior Miguel Torga',
+            'nameDB' => 'Instituto Superior Miguel Torga',
+            'nameORG' => 'Instituto Superior Miguel Torga',
+            'xchangeID' => 68,
+            'xchangeLink' => '68-instituto-superior-miguel-torga',
+            'web' => 'https://ismt.pt/',
+            'city' => City::add('Coimbra', 'PT')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Katholieke Universiteit Leuven',
+            'nameDB' => 'KATHOLIEKE UNIVERSITEIT LEUVEN',
+            'nameORG' => 'Katholieke Universiteit Leuven',
+            'xchangeID' => 81,
+            'xchangeLink' => '81-katholieke-universiteit-leuven',
+            'web' => 'https://www.kuleuven.be/english/',
+            'city' => City::add('Leuven', 'BE')
+        ]);
+        University::createProfile([
+            'nameEN' => 'University of the French West Indies and Guiana',
+            'nameDB' => 'UNIVERSITE DES ANTILLES ET DE LA GUYANE',
+            'nameORG' => 'UNIVERSITÉ DES ANTILLES ET DE LA GUYANE POINTE-À-PITRE',
+            'xchangeID' => 333,
+            'xchangeLink' => '333-universite-des-antilles-et-de-la-guyane-pointe-a-pitre',
+            'web' => 'http://www.univ-antilles.fr/',
+            'city' => City::add('POINTE-À-PITRE', 'FR')
+        ]);
+        University::createProfile([
+            'nameEN' => 'UNIVERSITY OF DUBROVNIK',
+            'nameDB' => 'University of Dubrovnik',
+            'nameORG' => 'UNIVERSITY OF DUBROVNIK',
+            'xchangeID' => 177,
+            'xchangeLink' => '177-university-of-dubrovnik',
+            'web' => 'http://web.unidu.hr/index_eng.php',
+            'city' => City::add('Dubrovnik', 'HR')
+        ]);
+        University::createProfile([
+            'nameEN' => 'UNIVERSITY OF TECHNOLOGY AND ECONOMICS BUDAPEST',
+            'nameDB' => 'BUDAPESTI M?SZAKI ÉS GAZDASAGTUDOMANYI EGYETEM',
+            'nameORG' => 'Budapesti Műszaki és Gazdaságtudományi Egyetem',
+            'xchangeID' => 202,
+            'xchangeLink' => '202-university-of-technology-and-economics-budapest',
+            'web' => 'http://www.bme.hu/?language=en',
+            'city' => City::add('Budapest', 'HU')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Universidade Feevale',
+            'nameDB' => 'UNIVERZIDADE FEEVALE',
+            'nameORG' => 'UNIVERSIDADE FEEVALE',
+            'xchangeID' => 251,
+            'xchangeLink' => '251-universidade-feevale',
+            'web' => 'https://www.feevale.br/en/',
+            'city' => City::add('NOVO HAMBURGO', 'BR')
+        ]);
+        University::createProfile([
+            'nameEN' => 'University of Applied Sciences and Arts Northwestern Switzerland',
+            'nameDB' => 'Fachhochschule Nordwestschweiz, Hochschule für Gestaltung und Kunst',
+            'nameORG' => 'FACHHOCHSCHULE NORDWESTSCHWEIZ',
+            'xchangeID' => 164,
+            'xchangeLink' => '164-fachhochschule-nordwestschweiz',
+            'web' => 'https://www.fhnw.ch/en/',
+            'city' => City::add('Windisch', 'CH')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Graz University of Technology',
+            'nameDB' => 'TECHNISCHE UNIVERSITÄT GRAZ',
+            'nameORG' => 'TECHNISCHE UNIVERSITÄT GRAZ',
+            'xchangeID' => 52,
+            'xchangeLink' => '52-technische-universitat-graz',
+            'web' => 'https://www.tugraz.at/en/home/',
+            'city' => City::add('Graz', 'AT')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Molde University College',
+            'nameDB' => 'HOGSKOLEN I MOLDE',
+            'nameORG' => 'Høgskolen i Molde',
+            'xchangeID' => 288,
+            'xchangeLink' => '288-hgskolen-i-molde',
+            'web' => 'https://www.himolde.no/english/',
+            'city' => City::add('Molde', 'NO')
+        ]);
+        University::createProfile([
+            'nameEN' => 'IZMIR UNIVERSITY',
+            'nameDB' => 'Izmir University',
+            'nameORG' => 'IZMIR UNIVERSITY',
+            'xchangeID' => 73,
+            'xchangeLink' => '73-izmir-university',
+            'web' => '',
+            'city' => City::add('Izmir', 'TR')
+        ]);
+        University::createProfile([
+            'nameEN' => 'INSEEC BBA - European Business Schoo',
+            'nameDB' => 'ECOLE DE COMMERCE EUROPEENNE DE BORDEAUX',
+            'nameORG' => 'ÉCOLE DE COMMERCE EUROPÉENNE BBA INSEEC BORDEAUX',
+            'xchangeID' => 51,
+            'xchangeLink' => '51-ecole-de-commerce-europeenne-bba-inseec-bordeaux',
+            'web' => 'https://bba.inseec.com/',
+            'city' => City::add('Bordeaux', 'FR')
+        ]);
+        University::createProfile([
+            'nameEN' => 'UNIVERSITY OF TAMPERE',
+            'nameDB' => 'TAMPEREEN YLIOPISTO',
+            'nameORG' => 'Tampereen yliopisto',
+            'xchangeID' => 201,
+            'xchangeLink' => '201-university-of-tampere',
+            'web' => 'https://www.tuni.fi/en',
+            'city' => City::add('Tampere', 'FI')
+        ]);
+        University::createProfile([
+            'nameEN' => 'University of Liège',
+            'nameDB' => 'UNIVERSITE DE LIEGE',
+            'nameORG' => 'université de Liège',
+            'xchangeID' => 157,
+            'xchangeLink' => '157-universite-de-liege',
+            'web' => 'https://www.uliege.be/cms/c_8699436/en/uliege',
+            'city' => City::add('Liege', 'BE')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Lusófona University of Porto',
+            'nameDB' => 'Universidade Lusófona Do Porto',
+            'nameORG' => 'Universidade Lusófona do Porto',
+            'xchangeID' => 405,
+            'xchangeLink' => '405-universidade-lusofona-do-porto',
+            'web' => 'https://www.ulp.pt/en/',
+            'city' => City::add('Porto', 'PT')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Academy of Performing Arts in Bratislava',
+            'nameDB' => 'VYSOKÁ SKOLA MÚZICKÝCH UMENÍ V BRATISLAVE',
+            'nameORG' => 'VYSOKÁ SKOLA MÚZICKÝCH UMENÍ V BRATISLAVE',
+            'xchangeID' => 223,
+            'xchangeLink' => '223-vysoka-skola-muzickych-umeni-v-bratislave',
+            'web' => '',
+            'city' => City::add('Bratislava', 'SK')
+        ]);
+        University::createProfile([
+            'nameEN' => 'UNIVERSITY OF LAPLAND',
+            'nameDB' => 'LAPIN YLIOPISTO',
+            'nameORG' => 'Lapin yliopisto',
+            'xchangeID' => 183,
+            'xchangeLink' => '183-university-of-lapland',
+            'web' => 'https://www.ulapland.fi/EN',
+            'city' => City::add('ROVANIEMI', 'FI')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'University of Thessaly',
@@ -969,42 +969,42 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'PXL University College',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'UNIVERSIDAD DE CÁDIZ',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'AKADEMIA SZTUK PIEKNYCH IM. JANA MATEJKI W KRAKOWIE',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'FACHHOCHSCHULE FULDA',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'PXL University of Applied Sciences and Arts',
+            'nameDB' => 'PXL University College',
+            'nameORG' => 'PXL University College',
+            'xchangeID' => 385,
+            'xchangeLink' => '385-pxl-university-college',
+            'web' => 'https://www.pxl.be/International.html',
+            'city' => City::add('Hasselt', 'BE')
+        ]);
+        University::createProfile([
+            'nameEN' => 'University of Cádiz',
+            'nameDB' => 'UNIVERSIDAD DE CÁDIZ',
+            'nameORG' => 'UNIVERSIDAD DE CÁDIZ',
+            'xchangeID' => 174,
+            'xchangeLink' => '174-universidad-de-cadiz',
+            'web' => 'https://www.uca.es/?lang=en',
+            'city' => City::add('Cádiz', 'ES')
+        ]);
+        University::createProfile([
+            'nameEN' => 'AKADEMIA SZTUK PIEKNYCH IM. JANA MATEJKI W KRAKOWIE',
+            'nameDB' => 'AKADEMIA SZTUK PIEKNYCH IM. JANA MATEJKI W KRAKOWIE',
+            'nameORG' => 'AKADEMIA SZTUK PIEKNYCH IM. JANA MATEJKI W KRAKOWIE',
+            'xchangeID' => 138,
+            'xchangeLink' => '138-akademia-sztuk-pieknych-im-jana-matejki-w-krakowie',
+            'web' => 'https://www.asp.krakow.pl/',
+            'city' => City::add('Krakow', 'PL')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Fulda University of Applied Sciences',
+            'nameDB' => 'FACHHOCHSCHULE FULDA',
+            'nameORG' => 'HOCHSCHULE FULDA',
+            'xchangeID' => 241,
+            'xchangeLink' => '241-hochschule-fulda',
+            'web' => 'https://www.hs-fulda.de/en/home',
+            'city' => City::add('Fulda', 'DE')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'HÖGSKOLAN DALARNA',
@@ -1023,15 +1023,15 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'FUNDACION UNIVERSIDAD LOYOLA ANDALUCIA',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'Loyola University Andalusia',
+            'nameDB' => 'FUNDACION UNIVERSIDAD LOYOLA ANDALUCIA',
+            'nameORG' => 'UNIVERSIDAD LOYOLA ANDALUCÍA',
+            'xchangeID' => 392,
+            'xchangeLink' => '392-universidad-loyola-andalucia',
+            'web' => 'https://www.uloyola.es/en/',
+            'city' => City::add('Cordoba', 'ES')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'State Academy of Fine Arts of Armenia',
@@ -1041,69 +1041,69 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'RUBIKA',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'UNIVERZA NA PRIMORSKEM',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'NEOMA Business School',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'SZÍNHÁZ- ÉS FILMM?VÉSZETI EGYETEM',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'UNIVERSITÄT PADERBORN',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'National University of Theatre and Film "I.L.Caragiale"',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'INSTITUTO POLITÉCNICO DE LEIRIA',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'RUBIKA',
+            'nameDB' => 'RUBIKA',
+            'nameORG' => 'RUBIKA',
+            'xchangeID' => 450,
+            'xchangeLink' => '450-rubika',
+            'web' => 'https://rubika-edu.com',
+            'city' => City::add('Valenciennes', 'FR')
+        ]);
+        University::createProfile([
+            'nameEN' => 'UNIVERSITY OF PRIMORSKA',
+            'nameDB' => 'UNIVERZA NA PRIMORSKEM',
+            'nameORG' => 'UNIVERZA NA PRIMORSKEM',
+            'xchangeID' => 194,
+            'xchangeLink' => '194-university-of-primorska',
+            'web' => 'https://www.upr.si/en',
+            'city' => City::add('Koper', 'SI')
+        ]);
+        University::createProfile([
+            'nameEN' => 'NEOMA Business School',
+            'nameDB' => 'NEOMA Business School',
+            'nameORG' => 'NEOMA Business School',
+            'xchangeID' => 99,
+            'xchangeLink' => '99-neoma-business-school',
+            'web' => 'https://neoma-bs.com',
+            'city' => City::add('Paris', 'FR')
+        ]);
+        University::createProfile([
+            'nameEN' => 'UNIVERSITY OF THEATRE AND FILM ARTS',
+            'nameDB' => 'SZÍNHÁZ- ÉS FILMM?VÉSZETI EGYETEM',
+            'nameORG' => 'Színház- és Filmművészeti Egyetem',
+            'xchangeID' => 6,
+            'xchangeLink' => '6-university-of-theatre-and-film-arts',
+            'web' => 'https://szfi.hu/',
+            'city' => City::add('Budapest', 'HU')
+        ]);
+        University::createProfile([
+            'nameEN' => 'University of Paderborn',
+            'nameDB' => 'UNIVERSITÄT PADERBORN',
+            'nameORG' => 'UNIVERSITÄT PADERBORN',
+            'xchangeID' => 190,
+            'xchangeLink' => '190-universitat-paderborn',
+            'web' => 'https://www.uni-paderborn.de/en/',
+            'city' => City::add('Paderborn', 'DE')
+        ]);
+        University::createProfile([
+            'nameEN' => ' National University of Theatre and Film "I.L.Caragiale" Bucharest',
+            'nameDB' => 'National University of Theatre and Film "I.L.Caragiale"',
+            'nameORG' => 'Universitatea Națională de Artă Teatrală și Cinematografică "I.L. Caragiale"',
+            'xchangeID' => 98,
+            'xchangeLink' => '98-national-university-of-theatre-and-film-i-l-caragiale-bucharest',
+            'web' => 'https://unatc.ro/devunatc/',
+            'city' => City::add('Bucharest', 'RO')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Polytechnic of Leiria',
+            'nameDB' => 'INSTITUTO POLITÉCNICO DE LEIRIA',
+            'nameORG' => ' Instituto Politécnico de Leiria',
+            'xchangeID' => 309,
+            'xchangeLink' => '309-instituto-politecnico-de-leiria',
+            'web' => 'https://www.ipleiria.pt/home/',
+            'city' => City::add('Leiria', 'PT')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'HOCHSCHULE MITTWEIDA (FH)',
@@ -1122,42 +1122,42 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'FACHHOCHSCHULE VORARLBERG GMBH',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Anadolu Universitesi',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'UNIVERSITE DES SCIENCES SOCIALES TOULOUSE I',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Universitas Indonesia',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'FACHHOCHSCHULE VORARLBERG',
+            'nameDB' => 'FACHHOCHSCHULE VORARLBERG GMBH',
+            'nameORG' => 'FACHHOCHSCHULE VORARLBERG',
+            'xchangeID' => 222,
+            'xchangeLink' => '222-fachhochschule-vorarlberg',
+            'web' => 'https://www.fhv.at/en/',
+            'city' => City::add('Dornbirn', 'AT')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Anadolu University',
+            'nameDB' => 'Anadolu Universitesi',
+            'nameORG' => 'Anadolu Universitesi',
+            'xchangeID' => 13,
+            'xchangeLink' => '13-anadolu-university',
+            'web' => 'https://www.anadolu.edu.tr/',
+            'city' => City::add('ESKIŞEHIR', 'TR')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Toulouse 1 university Capitole',
+            'nameDB' => 'UNIVERSITE DES SCIENCES SOCIALES TOULOUSE I',
+            'nameORG' => 'UNIVERSITÉ TOULOUSE 1 CAPITOLE',
+            'xchangeID' => 205,
+            'xchangeLink' => '205-universite-toulouse-1-capitole',
+            'web' => 'https://www.ut-capitole.fr/home/',
+            'city' => City::add('TOULOUSE', 'FR')
+        ]);
+        University::createProfile([
+            'nameEN' => 'University of Indonesia',
+            'nameDB' => 'Universitas Indonesia',
+            'nameORG' => 'Universitas Indonesia',
+            'xchangeID' => 441,
+            'xchangeLink' => '441-universitas-indonesia',
+            'web' => 'http://www.ui.ac.id/en/',
+            'city' => City::add('Depok', 'ID')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'University of Silesia',
@@ -1167,15 +1167,15 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'BAUHAUS-UNIVERSITÄT WEIMAR',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'Bauhaus-Universität Weimar',
+            'nameDB' => 'BAUHAUS-UNIVERSITÄT WEIMAR',
+            'nameORG' => 'Bauhaus-Universität Weimar',
+            'xchangeID' => 17,
+            'xchangeLink' => '17-bauhaus-universitat-weimar',
+            'web' => 'https://www.uni-weimar.de/en/university/start/',
+            'city' => City::add('Weimar', 'DE')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'Udayana University',
@@ -1194,24 +1194,24 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Riga Technical University',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'SIAULIAI UNIVERSITY',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'Riga Technical University',
+            'nameDB' => 'Riga Technical University',
+            'nameORG' => ' Rīgas Tehniskā universitāte',
+            'xchangeID' => 114,
+            'xchangeLink' => '114-riga-technical-university',
+            'web' => 'https://www.rtu.lv/en',
+            'city' => City::add('Riga', 'LV')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Šiauliai University',
+            'nameDB' => 'SIAULIAI UNIVERSITY',
+            'nameORG' => 'Vilniaus universiteto Šiaulių akademija',
+            'xchangeID' => 118,
+            'xchangeLink' => '118-siauliai-university',
+            'web' => 'https://www.sa.vu.lt/en/',
+            'city' => City::add('Šiauliai', 'LT')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => 'International Business Academy (IBA)',
@@ -1230,42 +1230,42 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'UNIVERSITÄT FÜR BODENKULTUR WIEN',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'UNIVERSITA DI BOLOGNA ALMA MATER STUDIORUM',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'UNIVERSITY OF NATIONAL AND WORLD ECONOMY',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'Lomonosov Moscow State University',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => ' University of Natural Resources and Life Sciences',
+            'nameDB' => 'UNIVERSITÄT FÜR BODENKULTUR WIEN',
+            'nameORG' => 'UNIVERSITÄT FÜR BODENKULTUR WIEN',
+            'xchangeID' => 457,
+            'xchangeLink' => '457-universitat-fur-bodenkultur-wien',
+            'web' => 'https://boku.ac.at/en/',
+            'city' => City::add('Wien', 'AT')
+        ]);
+        University::createProfile([
+            'nameEN' => 'University of Bologna',
+            'nameDB' => 'UNIVERSITA DI BOLOGNA ALMA MATER STUDIORUM',
+            'nameORG' => 'UNIVERSITÀ DEGLI STUDI DI BOLOGNA',
+            'xchangeID' => 172,
+            'xchangeLink' => '172-universita-degli-studi-di-bologna',
+            'web' => 'https://www.unibo.it/en/homepage',
+            'city' => City::add('Bologna', 'IT')
+        ]);
+        University::createProfile([
+            'nameEN' => 'UNIVERSITY OF NATIONAL AND WORLD ECONOMY',
+            'nameDB' => 'UNIVERSITY OF NATIONAL AND WORLD ECONOMY',
+            'nameORG' => 'Университет за национално и световно стопанство',
+            'xchangeID' => 189,
+            'xchangeLink' => '189-university-of-national-and-world-economy',
+            'web' => 'https://www.unwe.bg/en/',
+            'city' => City::add('Sofia', 'BU')
+        ]);
+        University::createProfile([
+            'nameEN' => 'Lomonosov Moscow State University',
+            'nameDB' => 'Lomonosov Moscow State University',
+            'nameORG' => 'Московский государственный университет имени М. В. Ломоносова',
+            'xchangeID' => 524,
+            'xchangeLink' => '524-lomonosov-moscow-state-university',
+            'web' => 'https://www.msu.ru/en/',
+            'city' => City::add('Moscow', 'RU')
+        ]);
         // University::createProfile([
         //     'nameEN' => '',
         //     'nameDB' => '"RISEBA" University of Business Arts and Technology',
@@ -1275,14 +1275,14 @@ class UniversitySeeder extends Seeder
         //     'web' => '',
         //     'city' => City::add('', '')
         // ]);
-        // University::createProfile([
-        //     'nameEN' => '',
-        //     'nameDB' => 'UNIVERSIDAD POLITÉCNICA DE VALENCIA ',
-        //     'nameORG' => '',
-        //     'xchangeID' => ,
-        //     'xchangeLink' => '',
-        //     'web' => '',
-        //     'city' => City::add('', '')
-        // ]);
+        University::createProfile([
+            'nameEN' => 'Technical University of Valencia',
+            'nameDB' => 'UNIVERSIDAD POLITÉCNICA DE VALENCIA ',
+            'nameORG' => 'UNIVERSIDAD POLITÈCNICA DE VALÈNCIA',
+            'xchangeID' => 155,
+            'xchangeLink' => '155-universidad-politecnica-de-valencia',
+            'web' => 'http://www.upv.es/index-en.html',
+            'city' => City::add('Valencia', 'ES')
+        ]);
     }
 }

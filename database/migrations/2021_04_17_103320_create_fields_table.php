@@ -16,9 +16,7 @@ class CreateFieldsTable extends Migration
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('stag_id');
-            $table->string('title', 128)
-                  ->nullable()
-                  ->default(null);
+            $table->string('title', 128);
             $table->string('faculty', 3);
             $table->string('lang', 2)
                   ->nullable()

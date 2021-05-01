@@ -29,7 +29,7 @@ class CreateUniversitiesTable extends Migration
             $table->bigInteger('xchange_id')
                   ->nullable()
                   ->default(null);     
-            $table->string('xchange_link')
+            $table->string('xchange_link', 128)
                   ->nullable()
                   ->default(null);         
             $table->string('web', 256)
