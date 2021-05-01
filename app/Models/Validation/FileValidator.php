@@ -112,7 +112,7 @@ class FileValidator
                             $this->addMobility($mobilities, $row);
                 }
             }
-            $this->validateMobilities($mobilities);
+            $this->validateMobilities($mobilities, false);
             HomeCourseValidator::refreshField();
             return $this->validated;
         }
@@ -143,12 +143,12 @@ class FileValidator
      *
      * @param array  $mobilities
      */
-    private function validateMobilities(&$mobilities)
+    private function validateMobilities(&$mobilities, $revalidate)
     {
         $this->toCheck = [];
         $this->validated = [];
         foreach($mobilities as $mobility) {
-            if ($mobility->validate()) {
+            if ($mobility->validate() || ($mobility->student->message == StudentValidator::REWRITE && $revalidate)) {
                 array_push($this->validated, $mobility);
             }
             else {
@@ -166,7 +166,7 @@ class FileValidator
     public function revalidate($request)
     {
         $mobilities = MobilityValidator::fromForm($request);
-        $this->validateMobilities($mobilities);
+        $this->validateMobilities($mobilities, true);
         HomeCourseValidator::refreshField();
         return $this->validated;
     }

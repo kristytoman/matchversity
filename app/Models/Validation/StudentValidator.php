@@ -25,6 +25,13 @@ class StudentValidator extends DataValidator
     public DepartureValidator $departure;
 
     /**
+     * Message to rewrite the previous.
+     * 
+     * @var string
+     */
+    public const REWRITE = "This mobility will rewrite previous one.";
+
+    /**
      * Create new instance for DataValidator.
      *
      * @param string  $data
@@ -56,7 +63,7 @@ class StudentValidator extends DataValidator
         }
         if ($this->arrival->isValid && $this->departure->isValid) {
             if (!User::hasUniqueMobility($this->data, $this->arrival->data, $this->departure->data)) {
-                return $this->result("This mobility will rewrite previous one.");
+                return $this->result(self::REWRITE);
             }
         }
         return $this->result("");
