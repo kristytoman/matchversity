@@ -1,11 +1,11 @@
 <template>
     <div class="flex sticky flex-col w-full h-container justify-start">
         <div class="flex justify-between h-16 px-16">
-            <a class="text-indigo-700 font-semibold cursor-pointer tracking-wide"
+            <a class="text-red-700 font-semibold cursor-pointer tracking-wide"
                @click="$emit('change-view')">
                {{ trans('components.selectCourses') }}
             </a>
-            <a class="text-indigo-700 font-semibold cursor-pointer tracking-wide" 
+            <a class="text-red-700 font-semibold cursor-pointer tracking-wide" 
                href="#">{{ trans('components.chooseAll') }}
             </a>
         </div>

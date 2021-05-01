@@ -1,13 +1,13 @@
 <template>
     <div class="flex w-screen flex-row h-container justify-evenly">
         <div class="flex flex-1 h-container flex-col pb-24 justify-evenly">
-            <div class="flex flex-col justify-center w-3/5 self-center bg-indigo-800 px-8 py-6 rounded-2xl">
-                <span class="flex justify-center text-gray-200 mb-3">
+            <div class="flex flex-col justify-center w-3/5 self-center bg-red-800 px-8 py-6 rounded-2xl">
+                <span class="flex justify-center text-red-100 mb-3">
                     Vyhledej svoje předměty podle svého oboru
                 </span>
                 <div class="flex flex-row">
                     <select v-model="faculty" 
-                            class="my-2 p-1 mx-3 flex-1 bg-indigo-300 flex border border-gray-200 rounded"
+                            class="my-2 p-1 mx-3 flex-1  flex border bg-red-100 border-red-200 text-red-900 rounded"
                             @change="findFields()">
                         <option value="" disabled selected>{{ trans('components.faculty') }}</option>
                         <option value="FAI">FAI</option>
@@ -18,8 +18,8 @@
                         <option value="FT">FT</option>
                     </select>
                     <select v-model="type"
-                            class="my-2 p-1 flex-1 placeholder-gray-500 mx-3 
-                                   bg-white flex border border-gray-200 rounded"
+                            class="my-2 p-1 flex-1  bg-red-100 border-red-200 text-red-900  mx-3 
+                                   flex border rounded"
                             @change="findFields()">
                         <option value="" disabled selected>{{ trans('components.degree') }}</option>
                         <option value="1">{{ trans('components.bc') }}</option>
@@ -29,7 +29,7 @@
                 </div>
                 <div class="flex flex-col">
                     <select v-model="field"
-                            class="my-2 p-1 mx-3 bg-white flex border border-gray-200 rounded"
+                            class="my-2 p-1 mx-3 flex border bg-red-100 border-red-200 text-red-900 rounded"
                             @change="findCourses()">
                         <optgroup :label="trans('components.fulltime')" v-if="fields">
                             <option v-for="(field, index) in fields.full" :key="index" 
@@ -48,18 +48,18 @@
                 <div class="flex flex-col">
                     <input type="number" min="1" max="4" v-model="grade" 
                            :placeholder="trans('components.grade')"
-                           class="my-2 p-1 mx-3 bg-white flex border border-gray-200 rounded"
+                           class="my-2 p-1 mx-3 flex border bg-red-100 placeholder-red-900 border-red-200 text-red-900 ounded"
                            @change="findCourses()">
                 </div>
             </div>
-            <div class="flex flex-col justify-center w-3/5 self-center bg-indigo-800 px-8 py-6 rounded-2xl">
-                <span class="flex justify-center text-gray-200 mb-3">
+            <div class="flex flex-col justify-center w-3/5 self-center  bg-red-800 px-8 py-6 rounded-2xl">
+                <span class="flex justify-center text-red-100 mb-3">
                     Nebo vyhledej samotný předmět
                 </span>
                 <input placeholder="Zkratka předmětu" 
-                       class="my-2 p-1 mx-3 bg-white flex border border-gray-200 rounded">
+                       class="my-2 p-1 mx-3 flex border bg-red-100 placeholder-red-900  border-red-200 text-red-900 rounded">
             </div>
-            <div class="text-indigo-700 self-center font-semibold cursor-pointer tracking-wide"
+            <div class="text-red-700 self-center font-semibold cursor-pointer tracking-wide"
                 @click="$emit('change-view')">
                 Vybrat si země výjezdu
             </div>

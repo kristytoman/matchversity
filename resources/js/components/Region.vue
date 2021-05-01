@@ -1,9 +1,9 @@
 <template>
     <div class="my-6 min-w-continent w-full w-continent max-h-screen-1/2 flex-grow-0">
         <div class="grid grid-cols-3 w-full items-center">
-        <span class="text-lg cursor-pointer col-span-2" @click="showCountries = !showCountries">{{ trans('regions.' + id) }}</span>
-        <input type="checkbox" class="form-checkbox h-5 w-5 justify-self-end text-indigo-600 border-indigo-300 border-2 rounded-full"
-               @click="checkCountries" :checked="isChecked" :intermediate="isIntermediate" :disabled="isDisabled">
+        <span :class="'text-lg cursor-pointer col-span-2 ' + color" @click="showCountries = !showCountries">{{ trans('regions.' + id) }}</span>
+        <input type="checkbox" class="form-checkbox h-5 w-5 justify-self-end text-red-600 border-red-300 border-2 rounded-full"
+               @click="checkCountries" :checked="isChecked" :disabled="isDisabled">
         </div>
         <div class="max-h-32 overflow-auto overscroll-y-contain">
             <country v-for="(country, index) in region.countries" :key="index"
@@ -24,7 +24,9 @@
         data() {
             return {
                 showCountries: false,
-                region: this.reg
+                region: this.reg,
+                countries: this.reg.countries,
+                
             }
         },
         methods: {
@@ -44,14 +46,17 @@
             }
         },
         computed: {
-            isIntermediate() {
-                return this.region.countries.map(a => a.selected).includes(false) && this.region.countries.map(a => a.selected).includes(true);
-            },
             isChecked() {
-                return !this.region.countries.map(a => a.selected).includes(false);
+                return !this.countries.map(a => a.selected).includes(false);
             },
             isDisabled() {
-                return !this.region.countries.map(a => a.enabled).includes(true);
+                return !this.countries.map(a => a.enabled).includes(true);
+            },
+            color() {
+                if (this.isDisabled) {
+                    return 'text-gray-400';
+                }
+                return '';
             }
         }
     }

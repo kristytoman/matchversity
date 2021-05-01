@@ -5,7 +5,7 @@
     @include('include.header')
 
     <div class="flex h-container flex-col justify-evenly" >
-        <div class="flex justify-evenly">
+        <div class="flex justify-center">
         <span class="max-w-md flex content-between flex-wrap">
             <h1 class="text-4xl font-bold">
                 {{ __('Find the right course for you ') }}<br>
@@ -21,11 +21,11 @@
             </span>
             <a href="/search" 
                role="button" 
-               class="py-3 px-6 bg-indigo-600 rounded-full text-white">
+               class="py-3 px-6 bg-red-600 hover:bg-red-800 rounded-full text-white">
                {{ __('Search for universities') }}
             </a>
         </span>
-        <img src="{{ asset('img/default.png') }}">
+        <img class="max-w-lg ml-16 -mt-8" src="{{ asset('img/default.png') }}">
     </div>
 
     <ul class="flex justify-around mx-20">

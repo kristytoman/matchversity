@@ -23,7 +23,7 @@
             },
             color() {
                 if (this.isSelected) {
-                    return "text-indigo-600 cursor-pointer";
+                    return "text-red-600 cursor-pointer";
                 }
                 if (this.country.enabled) {
                     return "text-black cursor-pointer";

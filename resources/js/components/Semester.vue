@@ -3,14 +3,14 @@
         <div class="cursor-pointer text-gray-800 hover:text-gray-400" @click="enable">
             <span class="text-2xl font-500">{{ title }}
                 <button v-if="selected">
-                    <svg class="text-indigo-300" xmlns="http://www.w3.org/2000/svg" 
+                    <svg class="text-red-300" xmlns="http://www.w3.org/2000/svg" 
                         width="18" height="18" viewBox="0 0 18 18" stroke="currentColor">
                         <path d="M6.61 11.89L3.5 8.78 2.44 9.84 6.61 14l8.95-8.95L14.5 4z"/>
                     </svg>
                 </button>
             </span>
         </div>
-        <div v-if="courses" class="overflow-y-scroll h-screen-3/4">
+        <div v-if="courses" class="overflow-y-hidden pb-10 hide-scroll-bar h-screen-3/4">
             <div v-for="(course, index) in data" :key="index"
                 @click="remove(index)"
                 :class="disabled">
@@ -78,11 +78,11 @@ export default {
     computed: {
         disabled() {
             if (this.selected) {
-                return "inline-flex items-center text-xs px-3 mx-1 my-1 py-1 width-auto hover:bg-indigo-500 bg-indigo-300 text-indigo-900 focus:outline-none focus:border-none bg-transparent cursor-pointer rounded-xl"
+                return "inline-flex items-center text-xs px-3 mx-1 my-1 py-1 width-auto hover:bg-red-500 bg-red-300 text-red-900 focus:outline-none focus:border-none bg-transparent cursor-pointer rounded-xl"
             }
             else
             {
-                return "inline-flex items-center text-xs px-3 mx-1 my-1 py-1 width-auto bg-indigo-300 text-indigo-900 focus:outline-none focus:border-none bg-transparent cursor-default rounded-xl"
+                return "inline-flex items-center text-xs px-3 mx-1 my-1 py-1 width-auto bg-red-300 text-red-900 focus:outline-none focus:border-none bg-transparent cursor-default rounded-xl"
             }
         }
     }

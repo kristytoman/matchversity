@@ -11,7 +11,7 @@
     @else
         <div>
         @foreach($mobilities as $mobility)
-            <my-mobility :mobility="{{ $mobility }}" 
+            <my-mobility :mobility="{{ json_encode($mobility) }}" 
                          :show-route="'{{ route('mobilities.edit', $mobility->id) }}'">
             </my-mobility>
         @endforeach
@@ -19,12 +19,11 @@
     @endif
     </div>
     <div>
-        <div class="flex-0 bg-gray-200 px-8 py-6 h-90 mt-8 w-screen-1/4 max-w-screen-1/4 rounded-2xl">
+        <div class="flex-0 text-red-900 bg-red-200 px-8 py-6 h-46 mt-8 w-screen-1/4 max-w-screen-1/4 rounded-2xl">
             <h2 class="text-xl my-4 font-bold">{{ __('Hint for you!') }}</h2>
             <span>
-                <p class="my-4">Na výjezdu musíš splnit alespoň 18 kreditů.</p>
-                <p class="my-4">Zároveň je nejlepší, pokud se ti podaří spárovat počet předmětů, který máš během semestru absolvovat na naší univerzitě.</p>
-                <p class="my-4">Předejdeš tak komplikacím a možnému prodlužování studia.</p>
+                <p class="my-4">Celkový pocit z výjezdu můžeš sdílet na webovém portálu xchange.</p>
+                <p class="my-4">Vážíme si Tvých poznatků a jsme vděční, že pomáháš studentům s rozhodnutím vycestovat.</p>
             </span>
         </div>
     </div>

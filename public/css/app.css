@@ -32025,6 +32025,15 @@ select {
   --tw-backdrop-sepia: sepia(100%);
 }
 
+.hide-scroll-bar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scroll-bar::-webkit-scrollbar {
+  display: none;
+}
+
 @media (min-width: 640px) {
   .sm\:container {
     width: 100%;
@@ -187729,3 +187738,4 @@ select {
     --tw-backdrop-sepia: sepia(100%);
   }
 }
+
