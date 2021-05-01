@@ -26,8 +26,8 @@ class UniversityController extends Controller
         }
         $universities = University::findResults();
         return view('universities.hunter', [
-           'top3' => count($universities) > 3 ? array_slice($universities, 0, 3) : null,
-           'universities' => count($universities) > 3 ? array_slice($universities, 3) : $universities
+           'top3' => $universities->count() > 3 ? $universities->splice(0, 3) : null,
+           'universities' => $universities,
         ]);
     }
 

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class Country extends Model
 {
@@ -21,6 +23,8 @@ class Country extends Model
      */
     public $timestamps = false;
 
+    protected $casts = ['id' => 'string'];
+    
     /**
      * Get cities associated with the country.
      */
@@ -55,23 +59,36 @@ class Country extends Model
 
     public static function getAvailable()
     {
-        return DB::table('countries')->join('cities', function($join1) {
-            $join1->on('cities.country_id', '=', 'countries.id')
-                ->join('universities', function($join2) {
-                    $join2->on('universities.city_id', '=', 'cities.id')
-                        ->join('mobilities', function($join3) {
-                            $join3->on('mobilities.university_id', '=', 'universities.id')
-                                ->join('pairings', function($join4) {
-                                    $join4->on('pairings.mobility_id', '=', 'mobilities.id')
-                                        ->join('home_courses', function($join5) {
-                                            $courses = HomeCourse::getSession(session('courses'));
-                                            $join5->on('home_courses.id', '=', 'pairings.home_course_id')
-                                                ->whereIn('home_courses.group', $courses['groups'])
-                                                ->orWhereIn('home_courses.code', $courses['codes']);
-                                        });
-                                });
+        return Country::whereHas('cities', function (Builder $query) {
+            $query->whereHas('universities', function (Builder $query) {
+                $query->whereHas('foreignCourses', function (Builder $query) {
+                    $query->whereHas('pairings', function (Builder $query) {
+                        $query->whereHas('homeCourse', function (Builder $query) {
+                            $courses = HomeCourse::getSession();
+                            $query->whereIn('group', $courses['groups'])
+                                ->orWhereIn('code', $courses['codes']);
                         });
+                    });
                 });
-        })->select('countries.id')->distinct()->get();
+            });
+        })->get();
+        // return DB::table('countries')->join('cities', function($join1) {
+        //     $join1->on('cities.country_id', '=', 'countries.id')
+        //         ->join('universities', function($join2) {
+        //             $join2->on('universities.city_id', '=', 'cities.id')
+        //                 ->join('mobilities', function($join3) {
+        //                     $join3->on('mobilities.university_id', '=', 'universities.id')
+        //                         ->join('pairings', function($join4) {
+        //                             $join4->on('pairings.mobility_id', '=', 'mobilities.id')
+        //                                 ->join('home_courses', function($join5) {
+        //                                     $courses = HomeCourse::getSession(session('courses'));
+        //                                     $join5->on('home_courses.id', '=', 'pairings.home_course_id')
+        //                                         ->whereIn('home_courses.group', $courses['groups'])
+        //                                         ->orWhereIn('home_courses.code', $courses['codes']);
+        //                                 });
+        //                         });
+        //                 });
+        //         });
+        // })->select('countries.id')->distinct()->get();
     }
 }

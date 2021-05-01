@@ -30,7 +30,7 @@ class Pairing extends Model
      *
      * @var array
      */
-    protected $with = ['homeCourse', 'foreignCourse'];
+    protected $with = ['homeCourse', 'foreignCourse', 'reason'];
 
     /**
      * The model's default values for attributes.
