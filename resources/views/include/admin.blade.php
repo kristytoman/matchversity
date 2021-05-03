@@ -2,7 +2,7 @@
     <div class="hidden lg:flex lg:items-center">
         <a class="ml-8 mr-8 pb-1 text-xl lowercase font-bold"
            href="{{ url('/') }}">
-           {{ config('app.name', 'Matchversity') }}
+           <img class="m-h-8 h-8" src="{{ asset('img/logo.png') }}">
         </a>
             
         <ul class="lg:flex items-center justify-between text-base text-gray-400 lg:pt-0">
@@ -38,16 +38,8 @@
             </li>
         </ul>
     </div>
-    <ul class="flex mr-8 items-center justify-between text-base pt-4 ">
-        @guest
-            @if (Route::has('login'))
-                <li>
-                    <a href="{{ route('login') }}">{{ __('Login') }}</a>
-                </li>
-            @endif
-        @else
-            <li>
-                <a href="{{ route('logout') }}"
+<span class="mr-8">                
+    <a href="{{ route('logout') }}"
                    onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
                    {{ __('Logout') }}
@@ -57,7 +49,5 @@
                       method="POST">
                       @csrf
                 </form>
-            </li>
-        @endguest
-    </ul>
+</span>
 </nav>
