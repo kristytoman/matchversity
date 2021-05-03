@@ -27297,6 +27297,10 @@ select {
   width: 25vw;
 }
 
+.w-screen-3\/4 {
+  width: 75vw;
+}
+
 .z-0 {
   z-index: 0;
 }
@@ -58604,6 +58608,10 @@ select {
     width: 25vw;
   }
 
+  .sm\:w-screen-3\/4 {
+    width: 75vw;
+  }
+
   .sm\:z-0 {
     z-index: 0;
   }
@@ -89743,6 +89751,10 @@ select {
 
   .md\:w-screen-1\/4 {
     width: 25vw;
+  }
+
+  .md\:w-screen-3\/4 {
+    width: 75vw;
   }
 
   .md\:z-0 {
@@ -120886,6 +120898,10 @@ select {
     width: 25vw;
   }
 
+  .lg\:w-screen-3\/4 {
+    width: 75vw;
+  }
+
   .lg\:z-0 {
     z-index: 0;
   }
@@ -152027,6 +152043,10 @@ select {
     width: 25vw;
   }
 
+  .xl\:w-screen-3\/4 {
+    width: 75vw;
+  }
+
   .xl\:z-0 {
     z-index: 0;
   }
@@ -183166,6 +183186,10 @@ select {
 
   .\32xl\:w-screen-1\/4 {
     width: 25vw;
+  }
+
+  .\32xl\:w-screen-3\/4 {
+    width: 75vw;
   }
 
   .\32xl\:z-0 {

@@ -12,7 +12,8 @@ module.exports = {
       width: theme => ({
         "continent": "15vw",
         "screen-3/5": "60vw",
-        "screen-1/4": "25vw"
+        "screen-1/4": "25vw",
+        "screen-3/4": "75vw"
       })
     }
   },

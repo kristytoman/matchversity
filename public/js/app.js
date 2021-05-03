@@ -39926,23 +39926,39 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("span", [_vm._v(_vm._s(_vm.course.code))]),
-    _vm._v(" "),
-    _c("span", [_vm._v(_vm._s(_vm.course.name_cz))]),
-    _c("br"),
-    _vm._v(" "),
-    _c("span", [_vm._v(_vm._s(_vm.course.name_en))]),
-    _vm._v(" "),
-    _c("input", {
-      attrs: { type: "number", name: "group[" + _vm.course.id + "]" },
-      domProps: { value: _vm.course.group }
-    }),
-    _vm._v(" "),
-    _c("br"),
-    _vm._v(" "),
-    _c("br")
-  ])
+  return _c(
+    "div",
+    {
+      staticClass:
+        "ml-8 flex justify-between items-center w-screen-3/4 bg-red-200 px-8 py-6 rounded-2xl my-8"
+    },
+    [
+      _c(
+        "span",
+        { staticClass: "flex justify-evenly text-lg text-red-900 space-x-8" },
+        [
+          _c("span", { staticClass: "font-semibold" }, [
+            _vm._v(_vm._s(_vm.course.code))
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "overflow-ellipsis" }, [
+            _vm._v(_vm._s(_vm.course.name_cz))
+          ]),
+          _vm._v(" "),
+          _c("span", { staticClass: "overflow-ellipsis" }, [
+            _vm._v(_vm._s(_vm.course.name_en))
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("input", {
+        staticClass:
+          "h-12 w-16 my-2 p-1 bg-red-100 border-red-800 text-red-900 border rounded",
+        attrs: { type: "number", name: "group[" + _vm.course.id + "]" },
+        domProps: { value: _vm.course.group }
+      })
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
