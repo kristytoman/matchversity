@@ -79,7 +79,7 @@ class HomeCourse extends Model
      */
     public static function allOrderedByName()
     {
-        return self::select()->orderBy('name_cz')->get();
+        return self::select()->orderBy('name_cz')->simplePaginate(15);
     }
 
     /**
