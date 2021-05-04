@@ -6,7 +6,7 @@
               {{ mobility.university.city.name + ' ' + trans('countries.' + mobility.university.city.country_id) }}
             </div>
         </div> 
-        <span class="text-3xl text-red-800 font-semibold tracking-wide self-center">{{ mobility.is_summer?trans('summer'):trans('winter') + ' ' + mobility.year }}</span>
+        <span class="text-3xl text-red-800 font-semibold tracking-wide self-center">{{ mobility.is_summer?trans('summer'):trans('winter') }} {{ mobility.year }}</span>
     </a>
 </template>
 
