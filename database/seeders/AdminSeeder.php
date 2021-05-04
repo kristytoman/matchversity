@@ -19,7 +19,7 @@ class AdminSeeder extends Seeder
         DB::table('admins')->insert([
                 'name' => 'admin',
                 'email' => 'admin@utb.cz',
-                'password' => Hash::make('Matchversity 2021')
+                'password' => Hash::make(env('ADMIN_PASSWORD'), '')
         ]);
     }
 }
