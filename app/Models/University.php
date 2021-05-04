@@ -309,8 +309,10 @@ class University extends Model
                 if ($course = ForeignCourse::find($courseID)) {
                     if ($course->name != $name) {
                         if ($secondCourse = ForeignCourse::where('name', $name)->where('university_id', $id)->first()) {
-                            if ($secondCourse->name == $name) {
+                            if ($secondCourse->name == $name ) {
                                 ForeignCourse::repair($courseID, $secondCourse->id);
+                            } else {
+                                $course->changeName($id, $name);
                             }
                         } else {
                             $course->changeName($id, $name);
