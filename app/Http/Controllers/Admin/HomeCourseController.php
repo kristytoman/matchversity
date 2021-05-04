@@ -31,6 +31,6 @@ class HomeCourseController extends Controller
     public function update(GroupHomeCourseRequest $request, HomeCourse $homeCourse)
     {
         HomeCourse::changeGroups($request->validated());
-        return redirect()->route('admin.home-courses.index');   
+        return back();  
     }
 }
