@@ -2038,6 +2038,15 @@ __webpack_require__.r(__webpack_exports__);
 
       return "text-gray-400";
     }
+  },
+  methods: {
+    onChange: function onChange() {
+      if (this.isSelected) {
+        this.$emit('checked');
+      } else {
+        this.$emit('unchecked');
+      }
+    }
   }
 });
 
@@ -2053,9 +2062,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Continent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Continent.vue */ "./resources/js/components/Continent.vue");
-//
-//
-//
 //
 //
 //
@@ -2198,7 +2204,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     onCountriesSelected: function onCountriesSelected(countries) {
-      console.log(countries);
       this.geo.continents.forEach(function (continent) {
         continent.regions.forEach(function (region) {
           region.countries.forEach(function (country) {
@@ -2555,7 +2560,9 @@ __webpack_require__.r(__webpack_exports__);
     return {
       showCountries: false,
       region: this.reg,
-      countries: this.reg.countries
+      count: this.reg.countries.length,
+      checked: 0,
+      disabled: 0
     };
   },
   methods: {
@@ -2574,16 +2581,22 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         this.changeSelect(false);
       }
+    },
+    onChecked: function onChecked() {
+      ++this.checked;
+    },
+    onUnchecked: function onUnchecked() {
+      --this.checked;
     }
   },
   computed: {
     isChecked: function isChecked() {
-      return !this.countries.map(function (a) {
-        return a.selected;
-      }).includes(false);
+      return this.checked > 0 && this.checked == this.count - this.region.countries.filter(function (x) {
+        return x.enabled == false;
+      }).length;
     },
     isDisabled: function isDisabled() {
-      return !this.countries.map(function (a) {
+      return !this.region.countries.map(function (a) {
         return a.enabled;
       }).includes(true);
     },
@@ -2937,11 +2950,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
                 data = _context3.sent;
-                console.log(data);
 
                 _this3.$emit('selected-countries', data);
 
-              case 8:
+              case 7:
               case "end":
                 return _context3.stop();
             }
@@ -39477,27 +39489,32 @@ var render = function() {
               : _vm.data.selected
           },
           on: {
-            change: function($event) {
-              var $$a = _vm.data.selected,
-                $$el = $event.target,
-                $$c = $$el.checked ? true : false
-              if (Array.isArray($$a)) {
-                var $$v = _vm.data.code,
-                  $$i = _vm._i($$a, $$v)
-                if ($$el.checked) {
-                  $$i < 0 && _vm.$set(_vm.data, "selected", $$a.concat([$$v]))
+            change: [
+              function($event) {
+                var $$a = _vm.data.selected,
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = _vm.data.code,
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 && _vm.$set(_vm.data, "selected", $$a.concat([$$v]))
+                  } else {
+                    $$i > -1 &&
+                      _vm.$set(
+                        _vm.data,
+                        "selected",
+                        $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                      )
+                  }
                 } else {
-                  $$i > -1 &&
-                    _vm.$set(
-                      _vm.data,
-                      "selected",
-                      $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                    )
+                  _vm.$set(_vm.data, "selected", $$c)
                 }
-              } else {
-                _vm.$set(_vm.data, "selected", $$c)
+              },
+              function($event) {
+                return _vm.onChange()
               }
-            }
+            ]
           }
         })
       ])
@@ -39528,9 +39545,9 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "flex sticky flex-col w-full h-container justify-start" },
+    { staticClass: "flex flex-col w-full h-container justify-start" },
     [
-      _c("div", { staticClass: "flex justify-between h-16 px-16" }, [
+      _c("div", { staticClass: "flex justify-start h-16 px-16" }, [
         _c(
           "a",
           {
@@ -39549,16 +39566,6 @@ var render = function() {
                 "\n        "
             )
           ]
-        ),
-        _vm._v(" "),
-        _c(
-          "a",
-          {
-            staticClass:
-              "text-red-700 font-semibold cursor-pointer tracking-wide",
-            attrs: { href: "#" }
-          },
-          [_vm._v(_vm._s(_vm.trans("components.chooseAll")) + "\n        ")]
         )
       ]),
       _vm._v(" "),
@@ -40338,11 +40345,22 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "max-h-32 overflow-auto overscroll-y-contain" },
+        {
+          staticClass:
+            "max-h-32 overflow-auto overscroll-y-contain hide-scroll-bar"
+        },
         _vm._l(_vm.region.countries, function(country, index) {
           return _c("country", {
             key: index,
-            attrs: { country: country, show: _vm.showCountries }
+            attrs: { country: country, show: _vm.showCountries },
+            on: {
+              checked: function($event) {
+                return _vm.onChecked()
+              },
+              unchecked: function($event) {
+                return _vm.onUnchecked()
+              }
+            }
           })
         }),
         1

@@ -2,7 +2,7 @@
     <div class="my-2" v-show="show">
         <label :class="color">{{ trans('countries.' + data.code) }}
         <input name="countries[]" :value="data.code" type="checkbox" v-show="false"
-               :disabled="!data.enabled" v-model="data.selected" :checked="isSelected"></label>
+               :disabled="!data.enabled" v-model="data.selected" :checked="isSelected" @change="onChange()"></label>
     </div>
 </template>
 
@@ -29,6 +29,16 @@
                     return "text-black cursor-pointer";
                 }
                 return "text-gray-400";
+            }
+        },
+        methods: {
+            onChange() {
+                if (this.isSelected) {
+                    this.$emit('checked');
+                }
+                else {
+                    this.$emit('unchecked');
+                }
             }
         }
     }

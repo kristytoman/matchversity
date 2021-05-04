@@ -5,9 +5,9 @@
         <input type="checkbox" class="form-checkbox h-5 w-5 justify-self-end text-red-600 border-red-300 border-2 rounded-full"
                @click="checkCountries" :checked="isChecked" :disabled="isDisabled">
         </div>
-        <div class="max-h-32 overflow-auto overscroll-y-contain">
+        <div class="max-h-32 overflow-auto overscroll-y-contain hide-scroll-bar">
             <country v-for="(country, index) in region.countries" :key="index"
-                :country="country" :show="showCountries"></country>
+                :country="country" :show="showCountries" @checked="onChecked()" @unchecked="onUnchecked()"></country>
         </div>
     </div>
 </template>
@@ -25,8 +25,9 @@
             return {
                 showCountries: false,
                 region: this.reg,
-                countries: this.reg.countries,
-                
+                count: this.reg.countries.length,
+                checked: 0,
+                disabled: 0
             }
         },
         methods: {
@@ -43,14 +44,20 @@
                 else {
                     this.changeSelect(false);
                 }
-            }
+            },
+            onChecked() {
+                ++this.checked;
+            },
+            onUnchecked() {
+                --this.checked;
+            },
         },
         computed: {
             isChecked() {
-                return !this.countries.map(a => a.selected).includes(false);
+                return (this.checked > 0) && (this.checked == this.count - this.region.countries.filter(x => x.enabled==false).length);
             },
             isDisabled() {
-                return !this.countries.map(a => a.enabled).includes(true);
+                return !this.region.countries.map(a => a.enabled).includes(true);
             },
             color() {
                 if (this.isDisabled) {

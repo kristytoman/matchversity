@@ -124,7 +124,6 @@ export default {
                 body: JSON.stringify({courses: countries})
             });
             const data = await response.json();
-            console.log(data);
             this.$emit('selected-countries', data);
         },
         async onDeleteCourse()

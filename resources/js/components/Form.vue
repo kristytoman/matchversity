@@ -36,7 +36,6 @@ export default {
     },
     methods: {
         onCountriesSelected(countries) {
-            console.log(countries);
             this.geo.continents.forEach(continent => {
                 continent.regions.forEach(region => {
                     region.countries.forEach(country => {
