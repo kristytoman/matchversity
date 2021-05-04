@@ -1,5 +1,9 @@
 @extends('layouts.app')
+
+@section('title')Přihlášení |@endsection
+
 @section('content')
+
 @include('include.header')
 <div class="w-screen h-container flex justify-center place-items-center">
 <div class="flex flex-col justify-center self-center bg-red-800 px-8 py-6 rounded-2xl">

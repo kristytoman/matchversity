@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
+@section('title'){{ $university->name }} |@endsection
 
 @section('content')
+
 @include('include.header')
+
 <div class="flex justify-evenly h-container w-full">
     <div class="w-screen-3/5 max-w-screen-3/5 ">
         <div class="px-4 py-8">

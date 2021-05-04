@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
+@section('title')Domácí předměty |@endsection
 
 @section('content')
+
 @include('include.admin')
+
 <div class="flex flex-col w-screen">
 <h2 class="pl-8 text-xl text-black font-semibold">Domácí kurzy</h2>
 <errors :errors="{{ json_encode($errors->all()) }}"></errors>

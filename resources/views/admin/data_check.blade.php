@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
-@include('include.admin')
+@section('title')Kontrola dat |@endsection
 
 @section('content')
+
+@include('include.admin')
+
     <h2>{{ __('dataCheck.import') }} {{ $count }} {{ __('dataCheck.mobilities') }}</h2>
     <errors :errors="{{ json_encode($errors->all()) }}"></errors>
     <span>{{ __('dataCheck.check') }}</span>  

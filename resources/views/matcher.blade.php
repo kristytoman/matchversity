@@ -1,7 +1,10 @@
 @extends('layouts.app')
 
+@section('title')Vyhledávač |@endsection
+
 @section('content')
-    @include('include.header')
+
+@include('include.header')
     <errors :errors="{{ json_encode($errors->all()) }}"></errors>
     <form method="post" action="{{ route('universities.index') }}" class="">
         @csrf

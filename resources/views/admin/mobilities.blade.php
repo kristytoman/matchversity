@@ -1,8 +1,12 @@
 @extends('layouts.app')
 
+@section('title')Výjezdy |@endsection
+
 @section('content')
+
 @include('include.admin')
-    <div class="justify-center items-center w-screen">
+
+<div class="justify-center items-center w-screen">
     <form method="POST" 
           enctype="multipart/form-data" 
           action="{{ route('admin.mobilities.import') }}"

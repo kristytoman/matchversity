@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
-@include('include.header')
+@section('title')Výsledky vyhledávání |@endsection
 
 @section('content')
+
+@include('include.header')
     <div class="flex w-full">
     <div class="flex-col mx-16 w-screen-3/5 max-w-screen-3/5">
         @if($top3)

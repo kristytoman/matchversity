@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
-@include('include.admin')
+@section('title')Profil univerzity |@endsection
 
 @section('content')
+
+@include('include.admin')
+
     <h1 class="text-2xl font-semibold text-red-900 uppercase tracking-wide mb-6 ml-8 mt-4">{{ __('addUniversity.uniProfile') }} {{ $university->original_name }}</h1>
     <errors :errors="{{ json_encode($errors->all()) }}"></errors>
     <form id="add-university" method="POST" action="{{ route('admin.universities.update', $university) }}">

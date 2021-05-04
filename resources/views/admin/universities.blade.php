@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
+@section('title')Univerzity |@endsection
 
 @section('content')
+
 @include('include.admin')
+
 <h2 class="pl-8 text-xl text-black mt-8 mb-4 font-semibold">Univerzity</h2>
     <table class="w-full table-auto">
         <thead class="justify-between">
@@ -38,4 +41,5 @@
     @endforeach
     </tbody>
     </table>
-@endsection
+
+    @endsection

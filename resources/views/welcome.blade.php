@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @include('include.header')
+@include('include.header')
 
     <div class="flex h-container flex-col justify-evenly" >
         <div class="flex justify-center">

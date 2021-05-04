@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
+@section('title')Zahraniční předměty |@endsection
 
 @section('content')
+
 @include('include.admin')
+
 <h2 class="pl-8 text-xl text-black mt-8 mb-4 font-semibold">Zahraniční kurzy</h2>
     <errors :errors="{{ json_encode($errors->all()) }}"></errors>
     <span class="flex place-items-center flex-col w-screen">
