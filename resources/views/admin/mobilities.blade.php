@@ -26,9 +26,9 @@
 
     <h2 class="pl-8 text-xl text-black mt-8 mb-4 font-semibold">Mobility</h2>
 
-    <table class="w-full table-auto">
-        <thead class="justify-between">
-        <tr class="bg-red-800 h-12 border-4 border-red-800 text-red-100">
+    <table class="w-screen max-w-screen">
+        <thead class="justify-between w-screen max-w-screen">
+        <tr class="bg-red-800 h-12 text-red-100">
             <th>ID</th>
             <th>{{ __('adminMobilities.arrival') }}</th>
             <th>{{ __('adminMobilities.departure') }}</th>
@@ -37,8 +37,9 @@
             <th>{{ __('adminMobilities.year') }}</th>
         </tr>
     </thead>
+    <tbody class="divide-y-4 divide-red-200 w-screen max-w-screen">
     @foreach ($mobilities as $mobility)
-        <tr class="bg-white border-4 border-red-200 px-16 py-2 h-12">
+        <tr class="bg-white py-2 h-12">
             <td>{{ $mobility->id }}</td>
             <td>{{ $mobility->arrival }}</td>
             <td>{{ $mobility->departure }}</td>
@@ -61,6 +62,10 @@
             <td>{{ $mobility->year }}</td>
         </tr>
     @endforeach
+    </tbody>
     </table>
+    <div class="my-8">
+    {{ $mobilities->links()}}
+    </div>
 </div>
 @endsection

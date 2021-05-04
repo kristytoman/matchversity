@@ -81,7 +81,8 @@ class FileValidator
             foreach ($this->data->rows() as $index => $row) {
                 if ($index === 0) {
                     if (!$this->isRightHeader($row)) {
-                        return;
+                        $this->data = null;
+                        return null;
                     }
                     $header = $row;
                     continue;
@@ -114,7 +115,10 @@ class FileValidator
             }
             $this->validateMobilities($mobilities, false);
             HomeCourseValidator::refreshField();
-            return $this->validated;
+            if (count($this->toCheck) < 20) {
+                return $this->validated;
+            }
+            return null;
         }
         return null;
     }

@@ -20,7 +20,7 @@ class MobilityController extends Controller
     public function index()
     {
         return view('admin.mobilities', [
-                'mobilities' => Mobility::all()
+                'mobilities' => Mobility::paginate(30)
             ]
         );
     }
@@ -35,7 +35,11 @@ class MobilityController extends Controller
     {
         $fileValidator = new FileValidator;
         $validated = $request->validated();
-        Mobility::import($fileValidator->getData($validated['file']));
+        if (!($mobilities = ($fileValidator->getData($validated['file'])))) {
+            return back()->withErrors(['Wrong file', 'The file has too many errors to be parsed.']);
+        }
+
+        Mobility::import($mobilities);
         
         if ($fileValidator->toCheck) {
             return view('admin.data_check', [
