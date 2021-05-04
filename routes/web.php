@@ -61,7 +61,7 @@ Route::middleware('auth:admin')->prefix('admin')->name('admin.')->group(function
          ->only(['index', 'update', 'edit']);
 });
 
-Route::resource('mobilities', MobilityController::class)
+Route::middleware('auth:web')->resource('mobilities', MobilityController::class)
      ->only(['index', 'show', 'edit', 'update']);
 
 Route::get('search', SearchController::class);

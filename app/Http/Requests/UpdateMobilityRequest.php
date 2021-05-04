@@ -14,8 +14,9 @@ class UpdateMobilityRequest extends FormRequest
      */
     public function authorize()
     {
-        // $mobility = Mobility::find($this->route('mobilities'));
-        // return $mobility->user_id === $this->user()->id;
+        $mobility = Mobility::find($this->route('mobility'));
+         return $mobility->user_id === $this->user()->id;
+        
     }
 
     /**

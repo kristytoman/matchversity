@@ -42,7 +42,7 @@ class User extends Authenticatable
      */
     public static function getStudentsMobilities($id)
     {
-        return [Mobility::find(1)]; //TODO
+        return Mobility::where('user_id', 353)->get(); //TODO
     }
 
     /**
