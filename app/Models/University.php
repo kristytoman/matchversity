@@ -95,7 +95,8 @@ class University extends Model
             $uni->name = $data['name'];
             $uni->native_name = $data['native_name'];
             $uni->web = $data['web'];
-            $uni->xchange = $data['xchange'];
+            $uni->xchange_id = $data['xchange'];
+            $uni->xchange_link = $data['xchange_link'];
             $uni->associateCity($data);
         $uni->save();
     }
@@ -307,12 +308,14 @@ class University extends Model
             foreach($data['courses'][$id] as $courseID => $name) {
                 if ($course = ForeignCourse::find($courseID)) {
                     if ($course->name != $name) {
-                    if ($secondCourse = ForeignCourse::where('name', $name)->first()) {
-                        ForeignCourse::repair($courseID, $secondCourse->id);
-                    } else {
-                        $course->changeName($id, $course);
+                        if ($secondCourse = ForeignCourse::where('name', $name)->where('university_id', $id)->first()) {
+                            if ($secondCourse->name == $name) {
+                                ForeignCourse::repair($courseID, $secondCourse->id);
+                            }
+                        } else {
+                            $course->changeName($id, $name);
+                        }
                     }
-                }
                 }
             }
         }
