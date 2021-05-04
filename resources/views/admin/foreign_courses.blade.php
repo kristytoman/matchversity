@@ -21,5 +21,8 @@
             </form>
         </span>
     @endforeach
+    <span class="mb-8">
+    {{ $universities->links() }}
+    </span>
     </span>
 @endsection

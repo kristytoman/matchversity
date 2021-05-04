@@ -17,7 +17,7 @@ class ForeignCourseController extends Controller
     public function index()
     {
         return view('admin.foreign_courses', [
-            'universities' => University::with('foreignCourses')->get()
+            'universities' => University::with('foreignCourses')->paginate(1)
         ]);
     }
 
@@ -31,6 +31,6 @@ class ForeignCourseController extends Controller
     public function update(UpdateForeignCourseRequest $request, int $id)
     {
         University::updateForeignCourses($request->validated(), $id);
-        return redirect()->route('admin.foreign-courses.index');   
+        return back();   
     }
 }

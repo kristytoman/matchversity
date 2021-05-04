@@ -56,7 +56,7 @@ class ForeignCourseValidator extends DataValidator
     private function toFirstUpperCase()
     {
         $this->data = Str::lower($this->data, 'UTF-8');
-        $this->data = ucwords($this->data, " \t\r\n\f\v(\"'.-");
+        $this->data = ucwords($this->data, " \t\r\n\f\v(\"'.-\/&");
     }
 
     /**
