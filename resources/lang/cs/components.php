@@ -16,5 +16,9 @@ return [
     'login' => 'přihlásit',
     'grade' => 'Ročník',
     'since' => 'od',
-    'selectCourses' => 'Zvolit si předměty'
+    'selectCourses' => 'Zvolit si předměty',
+    'cancel' => 'Zrušeno',
+    'searchByField' => 'Vyhledej svoje předměty podle svého oboru',
+    'searchByCode' => 'Nebo vyhledej samotný předmět',
+    'selectCountries' => 'Vybrat si země výjezdu'
 ];

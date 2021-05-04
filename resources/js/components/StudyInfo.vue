@@ -3,7 +3,7 @@
         <div class="flex flex-1 h-container flex-col pb-24 justify-evenly">
             <div class="flex flex-col justify-center w-3/5 self-center bg-red-800 px-8 py-6 rounded-2xl">
                 <span class="flex justify-center text-red-100 mb-3">
-                    Vyhledej svoje předměty podle svého oboru
+                    {{ trans('components.searchByField') }}
                 </span>
                 <div class="flex flex-row">
                     <select v-model="faculty" 
@@ -54,14 +54,13 @@
             </div>
             <div class="flex flex-col justify-center w-3/5 self-center  bg-red-800 px-8 py-6 rounded-2xl">
                 <span class="flex justify-center text-red-100 mb-3">
-                    Nebo vyhledej samotný předmět
+                    {{ trans('components.searchByCode') }}
                 </span>
                 <input placeholder="Zkratka předmětu" 
                        class="my-2 p-1 mx-3 flex border bg-red-100 placeholder-red-900  border-red-200 text-red-900 rounded">
             </div>
             <div class="text-red-700 self-center font-semibold cursor-pointer tracking-wide"
                 @click="$emit('change-view')">
-                Vybrat si země výjezdu
             </div>
         </div>
         <courses :summer-courses="summerList" 

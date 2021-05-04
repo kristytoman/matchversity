@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'title' => 'Mobilities',
     'new' => 'Import new mobilities',
     'import' => 'Send',
     'arrival' => 'Arrival',
@@ -10,5 +11,6 @@ return [
     'university' => 'University',
     'create' => 'Create new',
     'summer' => 'Spring',
-    'winter' => 'Autumn'
+    'winter' => 'Autumn',
+    'year' => 'Year'
 ];

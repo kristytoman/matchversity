@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'title' => 'Důvody rozpojení',
     'descriptionCZ' => 'Český popis',
     'descriptionEN' => 'Anglický popis',
     'create' => 'Vytvořit nový',

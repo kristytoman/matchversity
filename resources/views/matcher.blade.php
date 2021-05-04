@@ -1,20 +1,23 @@
 @extends('layouts.app')
 
-@section('title')Vyhledávač |@endsection
+@section('title'){{ __('Search engine') }} |@endsection
 
 @section('content')
 
-@include('include.header')
+    @include('include.header')
+    
     <errors :errors="{{ json_encode($errors->all()) }}"></errors>
-    <form method="post" action="{{ route('universities.index') }}" class="">
+    <form method="post" action="{{ route('universities.index') }}">
         @csrf
         <search-form :geography="{{ $geography }}" 
-              :token="'{{ csrf_token() }}'" 
-              :field-route="'{{ route('api.fields', ["", ""]) }}'" 
-              :courses-route="'{{ route('api.courses', ["", ""]) }}'" 
-              :countries-route="'{{ route('api.countries') }}'">
+                     :token="'{{ csrf_token() }}'" 
+                     :field-route="'{{ route('api.fields', ["", ""]) }}'" 
+                     :courses-route="'{{ route('api.courses', ["", ""]) }}'" 
+                     :countries-route="'{{ route('api.countries') }}'">
         </search-form>
-        <label class="fixed bottom-8 right-12 w-20 h-20 rounded-full focus:outline-none justify-center items-center focus:shadow-outline bg-red-500 hover:bg-red-600 cursor-pointer inline-flex  p-2 shadow">
+        <label class="fixed bottom-8 right-12 w-20 h-20 rounded-full 
+                      focus:outline-none justify-center items-center focus:shadow-outline bg-red-500 
+                      hover:bg-red-600 cursor-pointer inline-flex  p-2 shadow">
             <input type="submit" value=""/>
             <svg xmlns="http://www.w3.org/2000/svg" 
                  class="h-16 w-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -2,7 +2,7 @@
    <div class="mb-2">
        <span class="space-x-6">
        <span class="text-red-800" >
-           <span class="font-bold">{{ course.reason ? 'Zrušeno' : ""}}</span>
+           <span class="font-bold">{{ course.reason ? trans('components.cancel') : ""}}</span>
             <span>{{ course.semester? trans('components.summer') : trans('components.winter') }}</span>
             <span>{{ course.year }}</span>
         </span>

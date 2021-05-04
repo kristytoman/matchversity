@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'title' => 'Univerzity',
     'originalName' => 'STAG jméno',
     'englishName' => 'Anglický název',
     'nativeName' => 'Oficiální název',

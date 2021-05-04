@@ -8,6 +8,6 @@ return [
     'city' => 'City',
     'web' => 'Web page link',
     'or' => 'Or',
-    'existingProfile' => 'Connect university with existing profile',
+    'existingProfile' => 'Connect university with an existing profile',
     'save' => 'Save'
 ];

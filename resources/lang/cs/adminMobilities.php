@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'title' => 'Výjezdy',
     'new' => 'Importujte nové mobility',
     'import' => 'Odeslat',
     'arrival' => 'Příjezd',
