@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <div class="flex-0 bg-red-200 px-8 py-6 mt-16 h-full w-screen-1/4 max-w-screen-1/4 rounded-2xl">
+    <div class="flex-0 bg-red-200 text-red-900 px-8 py-6 mt-16 h-full w-screen-1/4 max-w-screen-1/4 rounded-2xl">
         <h2 class="text-xl my-4 font-bold">{{ __('Hint for you') }}</h2>
         <span>
             <p class="my-4">Na výjezdu musíš splnit alespoň 18 kreditů.</p>
