@@ -13,7 +13,8 @@
                      :token="'{{ csrf_token() }}'" 
                      :field-route="'{{ route('api.fields', ["", ""]) }}'" 
                      :courses-route="'{{ route('api.courses', ["", ""]) }}'" 
-                     :countries-route="'{{ route('api.countries') }}'">
+                     :countries-route="'{{ route('api.countries') }}'"
+                     :course-route="'{{ route('api.course', ["", ""]) }}'">
         </search-form>
         <label class="fixed bottom-8 right-12 w-20 h-20 rounded-full 
                       focus:outline-none justify-center items-center focus:shadow-outline bg-red-500 

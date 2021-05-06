@@ -72,4 +72,9 @@ class ApiController extends Controller
         HomeCourse::setSession(['courses'=> ['AUIUI'.$course1,'AUIUI'.$course2]]);
         return $this->jsonResponse(Country::getAvailable());
     }
+
+    public function getCourse($unit, $code)
+    {
+        return $this->jsonResponse(HomeCourse::findByCode($unit . '/' . $code));
+    }
 }

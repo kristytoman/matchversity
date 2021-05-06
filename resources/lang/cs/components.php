@@ -20,5 +20,9 @@ return [
     'cancel' => 'Zrušeno',
     'searchByField' => 'Vyhledej svoje předměty podle svého oboru',
     'searchByCode' => 'Nebo vyhledej samotný předmět',
-    'selectCountries' => 'Vybrat si země výjezdu'
+    'selectCountries' => 'Vybrat si země výjezdu',
+    'delete' => 'Smazat',
+    'undo' => 'Zpět',
+    'pairings' => 'Párování',
+    'search' => 'Vyhledat'
 ];

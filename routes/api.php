@@ -26,3 +26,5 @@ Route::get('courses/{id}/{rok}', [ApiController::class, 'getCourses'])->name('ap
 
 Route::post('countries', [ApiController::class, 'getCountries'])->name('api.countries');
 
+Route::get('course/{unit}/{code}', [ApiController::class, 'getCourse'])->name('api.course');
+

@@ -5,6 +5,7 @@
                     :field-route="fieldRoute" 
                     :courses-route="coursesRoute" 
                     :countries-route="countriesRoute"
+                    :course-route="courseRoute"
                     @selected-countries="onCountriesSelected"
                     @change-view="showCountries = !showCountries">
         </study-info>
@@ -26,7 +27,8 @@ export default {
         token: String,
         fieldRoute: String,
         coursesRoute: String,
-        countriesRoute: String
+        countriesRoute: String,
+        courseRoute: String
     },
     data() {
         return {

@@ -29,6 +29,7 @@ class HomeCourse extends Model
      */
     protected $guarded = [];
 
+    protected $with = ['fields'];
     /**
      * Get pairings associated with the course.
      */
@@ -42,7 +43,7 @@ class HomeCourse extends Model
      */
     public function fields()
     {
-        return $this->belongsToMany(Field::class);
+        return $this->belongsToMany(Field::class, 'field_courses')->withPivot('is_summer', 'compulsory', 'grade');
     }
 
     /**

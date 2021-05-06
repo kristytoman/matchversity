@@ -29,8 +29,7 @@
                 </div>
                 <div class="flex flex-col">
                     <select v-model="field"
-                            class="my-2 p-1 mx-3 flex border bg-red-100 border-red-200 text-red-900 rounded"
-                            @change="findCourses()">
+                            class="my-2 p-1 mx-3 flex border bg-red-100 border-red-200 text-red-900 rounded">
                         <optgroup :label="trans('components.fulltime')" v-if="fields">
                             <option v-for="(field, index) in fields.full" :key="index" 
                                     :value="field.id">
@@ -45,22 +44,27 @@
                         </optgroup>
                     </select>
                 </div>
-                <div class="flex flex-col">
+                <div class="flex items-center justify-evenly">
                     <input type="number" min="1" max="4" v-model="grade" 
                            :placeholder="trans('components.grade')"
-                           class="my-2 p-1 mx-3 flex border bg-red-100 placeholder-red-900 border-red-200 text-red-900 ounded"
-                           @change="findCourses()">
+                           class="my-2 p-1 mx-3 flex border bg-red-100 w-full placeholder-red-900 border-red-200 text-red-900 rounded">
+                <span class="text-red-100 hover:text-red-300 cursor-pointer mx-3" @click="findCourses()">{{ trans('components.search') }}</span>
+                           
                 </div>
             </div>
             <div class="flex flex-col justify-center w-3/5 self-center  bg-red-800 px-8 py-6 rounded-2xl">
                 <span class="flex justify-center text-red-100 mb-3">
                     {{ trans('components.searchByCode') }}
                 </span>
-                <input placeholder="Zkratka předmětu" 
+                <span class="flex justify-evenly items-center">
+                <input placeholder="Zkratka předmětu" v-model="code" 
                        class="my-2 p-1 mx-3 flex border bg-red-100 placeholder-red-900  border-red-200 text-red-900 rounded">
+                <span class="text-red-100 hover:text-red-300 cursor-pointer" @click="fetchCourse()">{{ trans('components.search')}}</span></span>
+                <span class="text-red-300">{{ error }}</span>
             </div>
             <div class="text-red-700 self-center font-semibold cursor-pointer tracking-wide"
                 @click="$emit('change-view')">
+                {{ trans('components.selectCountries')}}
             </div>
         </div>
         <courses :summer-courses="summerList" 
@@ -83,14 +87,18 @@ export default {
             type: "",
             field: null,
             grade: "",
-            summerList: null,
-            winterList: null
+            summerList: {},
+            winterList: {},
+            error: "",
+            code: "",
+            course: {}
         }
     },
     props: {
         fieldRoute: String,
         coursesRoute: String,
         countriesRoute: String,
+        courseRoute: String,
         token: String
     },
     methods: {
@@ -103,10 +111,16 @@ export default {
         },
         async findCourses() {
             if (this.field) {
-                const response = await fetch(this.courseRequest);
+                const response = await fetch(this.courseRequest, {        
+                headers: {
+                    "X-CSRF-TOKEN": this.token,
+                    "Access-Control-Allow-Credentials" : true
+                },
+                method: "GET", 
+                credentials: "same-origin"});
                 const courseList = await response.json();
-                this.summerList = courseList.summer;
-                this.winterList = courseList.winter;
+                this.summerList = Object.assign({}, courseList.summer, this.summerList);
+                this.winterList = Object.assign({}, courseList.winter, this.summerList);
                 const session = Object.keys(courseList.summer);
                 await this.fetchCountries(session.concat(Object.keys(courseList.winter)));
             }
@@ -128,6 +142,29 @@ export default {
         async onDeleteCourse()
         {
             await this.fetchCountries(Object.assign({}, this.summerList, this.winterList));
+        },
+        async fetchCourse() {
+            if (this.code) {
+                console.log(this.courseRoute + '/' + this.code);
+                const response = await fetch(this.courseRoute + '/' + this.code);
+                const courseCode = await response.json();
+                this.$set(this.course, courseCode.code, courseCode);
+                console.log(this.course);
+                if (this.course) {
+                    if (courseCode.fields[0].pivot.is_summer) {
+                        this.summerList = Object.assign({}, this.course, this.summerList);
+                        console.log(this.summerList);
+                    }
+                    else {
+                        this.winterList[courseCode.code] =  Object.assign({}, this.course, this.winterList);
+                        console.log(this.winterList);
+
+                    }
+                    const session = Object.keys(this.summerList);
+                    await this.fetchCountries(session.concat(Object.keys(this.winterList)));
+                    this.code = ""
+                }
+            }
         }
     },
     computed: {

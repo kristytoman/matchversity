@@ -10,7 +10,7 @@
                 </button>
             </span>
         </div>
-        <div v-if="courses" class="overflow-y-hidden pb-10 hide-scroll-bar h-screen-3/4">
+        <div v-if="courses" class="overflow-y-auto pb-10 hide-scroll-bar h-screen-3/4">
             <div v-for="(course, index) in data" :key="index"
                 @click="remove(index)"
                 :class="disabled">
@@ -30,6 +30,7 @@
                    type="hidden"
                    :name="'courses[]'"
                    :value="course.code">
+        <div v-if="title == trans('components.summer')" class="h-16"></div>
         </div>
     </div>
 </template>

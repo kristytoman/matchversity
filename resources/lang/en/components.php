@@ -20,5 +20,9 @@ return [
     'cancel' => 'Cancelled',
     'searchByField' => 'Search for your courses by your field',
     'searchByCode' => 'Or search for the course',
-    'selectCountries' => 'Select the countries for mobility'
+    'selectCountries' => 'Select the countries for mobility',
+    'delete' => 'Delete',
+    'undo' => 'Undo',
+    'pairings' => 'Pairings',
+    'search' => 'Search'
 ];
