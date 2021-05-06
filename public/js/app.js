@@ -1978,6 +1978,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2182,6 +2183,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2194,7 +2196,8 @@ __webpack_require__.r(__webpack_exports__);
     token: String,
     fieldRoute: String,
     coursesRoute: String,
-    countriesRoute: String
+    countriesRoute: String,
+    courseRoute: String
   },
   data: function data() {
     return {
@@ -2255,15 +2258,69 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   setup: function setup() {},
   components: {
     FormPairing: _FormPairing_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
+  data: function data() {
+    return {
+      isdelete: false
+    };
+  },
   props: {
     mobility: Object,
     inputName: String
+  },
+  computed: {
+    buttonName: function buttonName() {
+      if (this.isdelete) {
+        return "undo";
+      }
+
+      return "delete";
+    }
   }
 });
 
@@ -2278,6 +2335,25 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2687,6 +2763,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     courses: Object,
@@ -2856,6 +2933,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2868,14 +2948,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       type: "",
       field: null,
       grade: "",
-      summerList: null,
-      winterList: null
+      summerList: {},
+      winterList: {},
+      error: "",
+      code: "",
+      course: {}
     };
   },
   props: {
     fieldRoute: String,
     coursesRoute: String,
     countriesRoute: String,
+    courseRoute: String,
     token: String
   },
   methods: {
@@ -2928,7 +3012,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 _context2.next = 3;
-                return fetch(_this2.courseRequest);
+                return fetch(_this2.courseRequest, {
+                  headers: {
+                    "X-CSRF-TOKEN": _this2.token,
+                    "Access-Control-Allow-Credentials": true
+                  },
+                  method: "GET",
+                  credentials: "same-origin"
+                });
 
               case 3:
                 response = _context2.sent;
@@ -2937,8 +3028,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 6:
                 courseList = _context2.sent;
-                _this2.summerList = courseList.summer;
-                _this2.winterList = courseList.winter;
+                _this2.summerList = Object.assign({}, courseList.summer, _this2.summerList);
+                _this2.winterList = Object.assign({}, courseList.winter, _this2.summerList);
                 session = Object.keys(courseList.summer);
                 _context2.next = 12;
                 return _this2.fetchCountries(session.concat(Object.keys(courseList.winter)));
@@ -3008,6 +3099,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee4);
+      }))();
+    },
+    fetchCourse: function fetchCourse() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var response, courseCode, session;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (!_this5.code) {
+                  _context5.next = 16;
+                  break;
+                }
+
+                console.log(_this5.courseRoute + '/' + _this5.code);
+                _context5.next = 4;
+                return fetch(_this5.courseRoute + '/' + _this5.code);
+
+              case 4:
+                response = _context5.sent;
+                _context5.next = 7;
+                return response.json();
+
+              case 7:
+                courseCode = _context5.sent;
+
+                _this5.$set(_this5.course, courseCode.code, courseCode);
+
+                console.log(_this5.course);
+
+                if (!_this5.course) {
+                  _context5.next = 16;
+                  break;
+                }
+
+                if (courseCode.fields[0].pivot.is_summer) {
+                  _this5.summerList = Object.assign({}, _this5.course, _this5.summerList);
+                  console.log(_this5.summerList);
+                } else {
+                  _this5.winterList[courseCode.code] = Object.assign({}, _this5.course, _this5.winterList);
+                  console.log(_this5.winterList);
+                }
+
+                session = Object.keys(_this5.summerList);
+                _context5.next = 15;
+                return _this5.fetchCountries(session.concat(Object.keys(_this5.winterList)));
+
+              case 15:
+                _this5.code = "";
+
+              case 16:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
       }))();
     }
   },
@@ -39434,7 +39583,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "flex flex-col h-screen-1/2 min-w-continent w-continent max-w-continent flex-none items-center justify-start"
+        "flex flex-col flex-none items-center justify-start\n            h-screen-1/2 min-w-continent w-continent max-w-continent"
     },
     [
       _c("h3", { staticClass: "text-2xl mb-8" }, [
@@ -39742,7 +39891,8 @@ var render = function() {
           token: _vm.token,
           "field-route": _vm.fieldRoute,
           "courses-route": _vm.coursesRoute,
-          "countries-route": _vm.countriesRoute
+          "countries-route": _vm.countriesRoute,
+          "course-route": _vm.courseRoute
         },
         on: {
           "selected-countries": _vm.onCountriesSelected,
@@ -39796,87 +39946,151 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    {
+      staticClass:
+        "flex flex-col w-screen-3/5\n            ml-8 mb-16 px-8 py-6 bg-red-300 rounded-2xl"
+    },
     [
-      _c("input", {
-        attrs: { name: _vm.inputName + "[student]" },
-        domProps: { value: _vm.mobility.student.data }
-      }),
+      !_vm.isdelete
+        ? _c(
+            "span",
+            { staticClass: "flex flex-col justify-evenly" },
+            [
+              _c("div", [_vm._v("Student")]),
+              _vm._v(" "),
+              _c("input", {
+                staticClass:
+                  "flex flex-1 w-full\n                      my-2 py-2 px-2 bg-red-100\n                      border border-red-300 rounded",
+                attrs: { name: _vm.inputName + "[student]" },
+                domProps: { value: _vm.mobility.student.data }
+              }),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-red-600" }, [
+                _vm._v(_vm._s(_vm.mobility.student.message))
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("div", [_vm._v("Univerzita")]),
+              _vm._v(" "),
+              _c("span", { staticClass: "flex" }, [
+                _c("input", {
+                  staticClass:
+                    "flex flex-1 w-full\n                  my-2 py-2 px-2 bg-red-100\n                  border border-red-300 rounded",
+                  attrs: { name: _vm.inputName + "[university]" },
+                  domProps: { value: _vm.mobility.university.data }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass:
+                    "flex flex-1 w-full\n                  my-2 py-2 px-2 bg-red-100\n                  border border-red-300 rounded",
+                  attrs: { name: _vm.inputName + "[city]" },
+                  domProps: { value: _vm.mobility.city }
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "text-red-600" }, [
+                  _vm._v(_vm._s(_vm.mobility.university.message))
+                ]),
+                _c("br")
+              ]),
+              _vm._v(" "),
+              _c("div", [_vm._v("Doba")]),
+              _vm._v(" "),
+              _c("span", { staticClass: "flex items-center" }, [
+                _c("input", {
+                  staticClass:
+                    "flex flex-1 w-full\n                  my-2 py-2 px-2 bg-red-100\n                  border border-red-300 rounded",
+                  attrs: { name: _vm.inputName + "[arrival]" },
+                  domProps: { value: _vm.mobility.arrival.data }
+                }),
+                _c("span", { staticClass: "w-4 text-center" }, [_vm._v(" - ")]),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass:
+                    "flex flex-1 w-full\n                  my-2 py-2 px-2 bg-red-100\n                  border border-red-300 rounded",
+                  attrs: { name: _vm.inputName + "[departure]" },
+                  domProps: { value: _vm.mobility.departure.data }
+                }),
+                _c("br")
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-red-600" }, [
+                _vm._v(_vm._s(_vm.mobility.arrival.message))
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-red-600" }, [
+                _vm._v(_vm._s(_vm.mobility.departure.message))
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("div", [_vm._v("Semestr")]),
+              _c("span", { staticClass: "flex" }, [
+                _c("input", {
+                  staticClass:
+                    "flex flex-1 w-full\n                  my-2 py-2 px-2 bg-red-100\n                  border border-red-300 rounded",
+                  attrs: { name: _vm.inputName + "[semester]" },
+                  domProps: { value: _vm.mobility.semester.data }
+                }),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass:
+                    "flex flex-1 w-full\n                  my-2 py-2 px-2 bg-red-100\n                  border border-red-300 rounded",
+                  attrs: { name: _vm.inputName + "[year]" },
+                  domProps: { value: _vm.mobility.year.data }
+                })
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-red-600" }, [
+                _vm._v(_vm._s(_vm.mobility.semester.message))
+              ]),
+              _c("br"),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-red-600" }, [
+                _vm._v(_vm._s(_vm.mobility.year.message))
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-red-800" }, [
+                _vm._v(_vm._s(_vm.trans("components.pairings")))
+              ]),
+              _vm._v(" "),
+              _vm._l(_vm.mobility.pairings, function(pairing, index) {
+                return _c("form-pairing", {
+                  key: index,
+                  attrs: {
+                    pairing: pairing,
+                    inputName: _vm.inputName + "[pairing][" + index + "]"
+                  }
+                })
+              }),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-red-600" }, [
+                _vm._v(_vm._s(_vm.mobility.message))
+              ]),
+              _c("br")
+            ],
+            2
+          )
+        : _vm._e(),
       _vm._v(" "),
-      _c("span", { staticStyle: { color: "red" } }, [
-        _vm._v(_vm._s(_vm.mobility.student.message))
-      ]),
-      _c("br"),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { name: _vm.inputName + "[university]" },
-        domProps: { value: _vm.mobility.university.data }
-      }),
-      _vm._v(" "),
-      _c("span", { staticStyle: { color: "red" } }, [
-        _vm._v(_vm._s(_vm.mobility.university.message))
-      ]),
-      _c("br"),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { name: _vm.inputName + "[city]" },
-        domProps: { value: _vm.mobility.city }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { name: _vm.inputName + "[arrival]" },
-        domProps: { value: _vm.mobility.arrival.data }
-      }),
-      _vm._v(" - \n    "),
-      _c("input", {
-        attrs: { name: _vm.inputName + "[departure]" },
-        domProps: { value: _vm.mobility.departure.data }
-      }),
-      _c("br"),
-      _vm._v(" "),
-      _c("span", { staticStyle: { color: "red" } }, [
-        _vm._v(_vm._s(_vm.mobility.arrival.message))
-      ]),
-      _vm._v(" "),
-      _c("span", { staticStyle: { color: "red" } }, [
-        _vm._v(_vm._s(_vm.mobility.departure.message))
-      ]),
-      _c("br"),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { name: _vm.inputName + "[semester]" },
-        domProps: { value: _vm.mobility.semester.data }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { name: _vm.inputName + "[year]" },
-        domProps: { value: _vm.mobility.year.data }
-      }),
-      _vm._v(" "),
-      _c("span", { staticStyle: { color: "red" } }, [
-        _vm._v(_vm._s(_vm.mobility.semester.message))
-      ]),
-      _c("br"),
-      _vm._v(" "),
-      _c("span", { staticStyle: { color: "red" } }, [
-        _vm._v(_vm._s(_vm.mobility.year.message))
-      ]),
-      _vm._v(" "),
-      _vm._l(_vm.mobility.pairings, function(pairing, index) {
-        return _c("form-pairing", {
-          key: index,
-          attrs: {
-            pairing: pairing,
-            inputName: _vm.inputName + "[pairing][" + index + "]"
+      _c(
+        "span",
+        {
+          staticClass:
+            "bg-red-900 max-w-max text-white\n                 px-4 py-2 border rounded-md\n                 hover:bg-red-700 hover:border-red-200",
+          on: {
+            click: function($event) {
+              _vm.isdelete = !_vm.isdelete
+            }
           }
-        })
-      }),
-      _vm._v(" "),
-      _c("span", { staticStyle: { color: "red" } }, [
-        _vm._v(_vm._s(_vm.mobility.message))
-      ]),
-      _c("br")
-    ],
-    2
+        },
+        [
+          _vm._v(
+            "\n                 " +
+              _vm._s(_vm.trans("components." + _vm.buttonName)) +
+              "\n    "
+          )
+        ]
+      )
+    ]
   )
 }
 var staticRenderFns = []
@@ -39902,30 +40116,44 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("input", {
-      attrs: { name: _vm.inputName + "[type]" },
-      domProps: { value: _vm.pairing.data }
-    }),
+    _c("span", { staticClass: "flex" }, [
+      _c("input", {
+        staticClass:
+          "flex flex-1 w-full\n                  my-2 py-2 px-2 bg-red-100\n                  border border-red-300 rounded",
+        attrs: { name: _vm.inputName + "[type]" },
+        domProps: { value: _vm.pairing.data }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        staticClass:
+          "flex flex-1 w-full\n                  my-2 py-2 px-2 bg-red-100\n                  border border-red-300 rounded",
+        attrs: { name: _vm.inputName + "[foreignCourse]" },
+        domProps: { value: _vm.pairing.foreignCourse.data }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        staticClass:
+          "flex flex-1 w-full\n                  my-2 py-2 px-2 bg-red-100\n                  border border-red-300 rounded",
+        attrs: { name: _vm.inputName + "[homeCourse][code]" },
+        domProps: { value: _vm.pairing.homeCourse.data }
+      })
+    ]),
     _vm._v(" "),
-    _c("input", {
-      attrs: { name: _vm.inputName + "[foreignCourse]" },
-      domProps: { value: _vm.pairing.foreignCourse.data }
-    }),
-    _vm._v(" "),
-    _c("input", {
-      attrs: { name: _vm.inputName + "[homeCourse][code]" },
-      domProps: { value: _vm.pairing.homeCourse.data }
-    }),
-    _vm._v(" "),
-    _c("input", {
-      attrs: { name: _vm.inputName + "[homeCourse][name_cz]" },
-      domProps: { value: _vm.pairing.homeCourse.nameCZ }
-    }),
-    _vm._v(" "),
-    _c("input", {
-      attrs: { name: _vm.inputName + "[homeCourse][name_en]" },
-      domProps: { value: _vm.pairing.homeCourse.nameEN }
-    }),
+    _c("span", { staticClass: "flex" }, [
+      _c("input", {
+        staticClass:
+          "flex flex-1 w-full\n                  mb-2 py-2 px-2 bg-red-100\n                  border border-red-300 rounded",
+        attrs: { name: _vm.inputName + "[homeCourse][name_cz]" },
+        domProps: { value: _vm.pairing.homeCourse.nameCZ }
+      }),
+      _vm._v(" "),
+      _c("input", {
+        staticClass:
+          "flex flex-1 w-full\n                  mb-2 py-2 px-2 bg-red-100\n                  border border-red-300 rounded",
+        attrs: { name: _vm.inputName + "[homeCourse][name_en]" },
+        domProps: { value: _vm.pairing.homeCourse.nameEN }
+      })
+    ]),
     _vm._v(" "),
     _c("span", { staticStyle: { color: "red" } }, [
       _vm._v(_vm._s(_vm.pairing.foreignCourse.message))
@@ -40142,7 +40370,9 @@ var render = function() {
     _c("span", { staticClass: "space-x-6" }, [
       _c("span", { staticClass: "text-red-800" }, [
         _c("span", { staticClass: "font-bold" }, [
-          _vm._v(_vm._s(_vm.course.reason ? "Zrušeno" : ""))
+          _vm._v(
+            _vm._s(_vm.course.reason ? _vm.trans("components.cancel") : "")
+          )
         ]),
         _vm._v(" "),
         _c("span", [
@@ -40511,9 +40741,7 @@ var render = function() {
     _vm.courses
       ? _c(
           "div",
-          {
-            staticClass: "overflow-y-hidden pb-10 hide-scroll-bar h-screen-3/4"
-          },
+          { staticClass: "overflow-y-auto pb-10 hide-scroll-bar h-screen-3/4" },
           [
             _vm._l(_vm.data, function(course, index) {
               return _c(
@@ -40576,7 +40804,11 @@ var render = function() {
                 attrs: { type: "hidden", name: "courses[]" },
                 domProps: { value: course.code }
               })
-            })
+            }),
+            _vm._v(" "),
+            _vm.title == _vm.trans("components.summer")
+              ? _c("div", { staticClass: "h-16" })
+              : _vm._e()
           ],
           2
         )
@@ -40677,7 +40909,9 @@ var render = function() {
                 { staticClass: "flex justify-center text-red-100 mb-3" },
                 [
                   _vm._v(
-                    "\n                Vyhledej svoje předměty podle svého oboru\n            "
+                    "\n                " +
+                      _vm._s(_vm.trans("components.searchByField")) +
+                      "\n            "
                   )
                 ]
               ),
@@ -40809,24 +41043,19 @@ var render = function() {
                     staticClass:
                       "my-2 p-1 mx-3 flex border bg-red-100 border-red-200 text-red-900 rounded",
                     on: {
-                      change: [
-                        function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.field = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        },
-                        function($event) {
-                          return _vm.findCourses()
-                        }
-                      ]
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.field = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
                     }
                   },
                   [
@@ -40883,7 +41112,7 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "flex flex-col" }, [
+              _c("div", { staticClass: "flex items-center justify-evenly" }, [
                 _c("input", {
                   directives: [
                     {
@@ -40894,7 +41123,7 @@ var render = function() {
                     }
                   ],
                   staticClass:
-                    "my-2 p-1 mx-3 flex border bg-red-100 placeholder-red-900 border-red-200 text-red-900 ounded",
+                    "my-2 p-1 mx-3 flex border bg-red-100 w-full placeholder-red-900 border-red-200 text-red-900 rounded",
                   attrs: {
                     type: "number",
                     min: "1",
@@ -40903,9 +41132,6 @@ var render = function() {
                   },
                   domProps: { value: _vm.grade },
                   on: {
-                    change: function($event) {
-                      return _vm.findCourses()
-                    },
                     input: function($event) {
                       if ($event.target.composing) {
                         return
@@ -40913,12 +41139,88 @@ var render = function() {
                       _vm.grade = $event.target.value
                     }
                   }
-                })
+                }),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  {
+                    staticClass:
+                      "text-red-100 hover:text-red-300 cursor-pointer mx-3",
+                    on: {
+                      click: function($event) {
+                        return _vm.findCourses()
+                      }
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm.trans("components.search")))]
+                )
               ])
             ]
           ),
           _vm._v(" "),
-          _vm._m(0),
+          _c(
+            "div",
+            {
+              staticClass:
+                "flex flex-col justify-center w-3/5 self-center  bg-red-800 px-8 py-6 rounded-2xl"
+            },
+            [
+              _c(
+                "span",
+                { staticClass: "flex justify-center text-red-100 mb-3" },
+                [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(_vm.trans("components.searchByCode")) +
+                      "\n            "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("span", { staticClass: "flex justify-evenly items-center" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.code,
+                      expression: "code"
+                    }
+                  ],
+                  staticClass:
+                    "my-2 p-1 mx-3 flex border bg-red-100 placeholder-red-900  border-red-200 text-red-900 rounded",
+                  attrs: { placeholder: "Zkratka předmětu" },
+                  domProps: { value: _vm.code },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.code = $event.target.value
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "span",
+                  {
+                    staticClass:
+                      "text-red-100 hover:text-red-300 cursor-pointer",
+                    on: {
+                      click: function($event) {
+                        return _vm.fetchCourse()
+                      }
+                    }
+                  },
+                  [_vm._v(_vm._s(_vm.trans("components.search")))]
+                )
+              ]),
+              _vm._v(" "),
+              _c("span", { staticClass: "text-red-300" }, [
+                _vm._v(_vm._s(_vm.error))
+              ])
+            ]
+          ),
           _vm._v(" "),
           _c(
             "div",
@@ -40931,7 +41233,13 @@ var render = function() {
                 }
               }
             },
-            [_vm._v("\n            Vybrat si země výjezdu\n        ")]
+            [
+              _vm._v(
+                "\n            " +
+                  _vm._s(_vm.trans("components.selectCountries")) +
+                  "\n        "
+              )
+            ]
           )
         ]
       ),
@@ -40952,33 +41260,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "flex flex-col justify-center w-3/5 self-center  bg-red-800 px-8 py-6 rounded-2xl"
-      },
-      [
-        _c("span", { staticClass: "flex justify-center text-red-100 mb-3" }, [
-          _vm._v(
-            "\n                Nebo vyhledej samotný předmět\n            "
-          )
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass:
-            "my-2 p-1 mx-3 flex border bg-red-100 placeholder-red-900  border-red-200 text-red-900 rounded",
-          attrs: { placeholder: "Zkratka předmětu" }
-        })
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
