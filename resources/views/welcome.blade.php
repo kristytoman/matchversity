@@ -21,7 +21,7 @@
             </span>
             <a href="/search" 
                role="button" 
-               class="py-3 px-6 bg-red-600 hover:bg-red-800 rounded-full text-white">
+               class="py-3 px-6 bg-red-600 hover:bg-red-800 rounded-full text-white tracking-wider">
                {{ __('Search for universities') }}
             </a>
         </span>

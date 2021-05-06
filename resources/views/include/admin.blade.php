@@ -1,4 +1,4 @@
-<nav class="hidden lg:flex items-center lg:w-auto lg:justify-between w-full shadow-md pt-1 mb-8">
+<nav class="flex items-center lg:w-auto lg:justify-between w-full shadow-md pt-1 mb-8">
     <div class="hidden lg:flex lg:items-center">
         <a class="ml-8 mr-8 pb-1 text-xl lowercase font-bold"
            href="{{ url('/') }}">

@@ -5,15 +5,15 @@
 @section('content')
 
     @include('include.admin')
-
-    <div class="justify-center items-center w-screen">
+    
+    <errors :errors="{{ json_encode($errors->all()) }}"></errors>
+    <div class="flex flex-col justify-center place-items-center w-screen max-w-full">
         <form method="POST"
               enctype="multipart/form-data"
               action="{{ route('admin.mobilities.import') }}"
               class="flex justify-evenly items-center
                      ml-8 px-8 py-6 w-1/3 bg-red-300 rounded-2xl">
             @csrf
-            <errors :errors="{{ json_encode($errors->all()) }}"></errors>
             <div class="overflow-hidden relative
                         w-64 mt-4 mb-4">
                 <span class="bg-red-500 text-white font-semibold
@@ -36,8 +36,8 @@
 
         <h2 class="pl-8 text-xl text-black mt-8 mb-4 font-semibold">{{ __('adminMobilities.title') }}</h2>
 
-        <table class="w-screen max-w-screen">
-            <thead class="justify-between w-screen max-w-screen">
+        <table class="w-full table-auto">
+            <thead class="justify-between">
                 <tr class="bg-red-800 h-12 text-red-100">
                     <th>ID</th>
                     <th>{{ __('adminMobilities.arrival') }}</th>
@@ -47,7 +47,7 @@
                     <th>{{ __('adminMobilities.year') }}</th>
                 </tr>
             </thead>
-            <tbody class="divide-y-4 divide-red-200 w-screen max-w-screen">
+            <tbody class="divide-y-4 divide-red-200">
                 @foreach ($mobilities as $mobility)
                     <tr class="bg-white py-2 h-12">
                         <td>{{ $mobility->id }}</td>
@@ -74,6 +74,6 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="my-8">{{ $mobilities->links()}}</div>
+        <div class="my-8 flex flex-col space-x-8 items-center w-screen-3/4">{{ $mobilities->links()}}</div>
     </div>
 @endsection

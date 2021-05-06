@@ -47,10 +47,16 @@
                                 @csrf
                                 <span class="flex-none w-16">{{ $reason->id }}</span>
                                 <span class="flex-none w-64">
-                                    <input name="description_cz" value="{{ $reason->description_cz }}">
+                                    <input name="description_cz" value="{{ $reason->description_cz }}"
+                                           class="flex-none flex-0
+                                                   mr-2 p-1 bg-red-100 border-red-200 text-red-900 w-60
+                                                   border rounded">
                                 </span>
                                 <span class="flex-none w-64">
-                                    <input name="description_en" value="{{ $reason->description_en }}">
+                                    <input name="description_en" value="{{ $reason->description_en }}"
+                                           class="flex-none flex-0
+                                                   mr-2 p-1 bg-red-100 border-red-200 text-red-900 w-60
+                                                   border rounded">
                                 </span>
                                <select name="connect"
                                        class="flex-none flex-0
