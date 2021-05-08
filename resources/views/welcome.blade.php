@@ -55,4 +55,5 @@
         </li>
     </ul>
 </div>
+@include('include.footer')
 @endsection

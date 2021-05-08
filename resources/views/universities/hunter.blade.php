@@ -58,4 +58,5 @@
             </span>
         </div>
     </div>
+    @include('include.footer')
 @endsection

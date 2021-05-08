@@ -39,8 +39,8 @@
         @csrf
         @method('PUT')
         <div class="flex overflow-x-scroll  hide-scroll-bar
-                    pb-10 px-10  w-screen max-w-screen">
-            <div class="flex flex-nowrap lg:ml-40 md:ml-20 ml-10 space-x-16 ">
+                    pb-10 px-10  w-full">
+            <div class="flex flex-nowrap max-w-screen-3/4 ml-10 space-x-16 ">
                 @foreach ($mobility->pairings as $pair)
                     <rating :pairing="{{ $pair }}" 
                             :reasons="{{ json_encode($reasons) }}">
@@ -53,4 +53,5 @@
                       hover:bg-red-800 rounded-full text-white" 
                value="{{ __('Save my rating') }}">
     </form>
+    @include('include.footer')
 @endsection

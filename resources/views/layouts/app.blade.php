@@ -38,7 +38,6 @@
             <main>
                 @yield('content')
             </main>
-            @yield('include.footer')
         </div>
     </body>
 </html>
