@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class ForeignCourse extends Model
@@ -117,5 +118,56 @@ class ForeignCourse extends Model
             $pairing->save();
         }
         $course->delete();
+    }
+
+    
+    /**
+     * Return all mobilities associated with the university.
+     * 
+     * @param int  $id
+     * @return array
+     */
+    private static function getAllFromUni($id)
+    {
+        return ForeignCourse::where('university_id', $id)
+                            ->with([
+                                'pairings.mobility',
+                                'pairings.homeCourse',
+                                'pairings.reason'
+                            ])->get();
+    }
+
+    /**
+     * Return all mobilities associated with the university
+     * that contains selected courses.
+     * 
+     * @param int  $id
+     * @return Illuminate\Support\Collection
+     */
+    private static function getSelectedFromUni($id)
+    {
+        return ForeignCourse::where('university_id', $id)
+        ->whereHas('pairings',  function (Builder $query) {
+            $query->whereHas('homeCourse', function (Builder $query) {
+                $courses = HomeCourse::getSession();
+                $query->whereIn('group', $courses['groups'])
+                      ->orWhereIn('code', $courses['codes']);
+            });
+        })->with(['pairings.mobility', 'pairings.homeCourse', 'pairings.reason'])
+          ->get();
+    }
+
+    /**
+     * Return mobilities for the university profile.
+     * 
+     * @param int  $id
+     * @return Illuminate\Support\Collection
+     */
+    public static function getUniversityData($id)
+    {
+        $courses = HomeCourse::getSession();
+        $data = ['all' => self::getAllFromUni($id)];
+        $data['searched'] = HomeCourse::getSession() ? self::getSelectedFromUni($id) : null;
+        return $data;
     }
 }

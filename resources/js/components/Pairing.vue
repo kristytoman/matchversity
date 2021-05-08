@@ -1,7 +1,7 @@
 <template>
     <div class="flex-0 bg-red-100 px-8 py-6 mt-8 rounded-2xl">
         <span class="text-2xl text-red-800 mb-3 flex items-center"><span class="mr-2">{{ data.name }}</span><stars :data="rating()"></stars></span>
-        <pairing-course v-for="(course, index) in data.courses" :key="index"
+        <pairing-course v-for="(course, index) in data.pairings" :key="index"
         :course="course">
         </pairing-course>
     </div>
@@ -19,9 +19,9 @@ export default {
         rating() {
             let rating = 0;
             let count = 0;
-            for (let i = 0; i < this.data.courses.length; i++) {
-                if (this.data.courses[i].rating) {
-                    rating += this.data.courses[i].rating;
+            for (let i = 0; i < this.data.pairings.length; i++) {
+                if (this.data.pairings[i].rating) {
+                    rating += this.data.pairings[i].rating;
                     count++;
                 }
             }

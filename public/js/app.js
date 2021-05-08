@@ -2480,9 +2480,9 @@ __webpack_require__.r(__webpack_exports__);
       var rating = 0;
       var count = 0;
 
-      for (var i = 0; i < this.data.courses.length; i++) {
-        if (this.data.courses[i].rating) {
-          rating += this.data.courses[i].rating;
+      for (var i = 0; i < this.data.pairings.length; i++) {
+        if (this.data.pairings[i].rating) {
+          rating += this.data.pairings[i].rating;
           count++;
         }
       }
@@ -2521,13 +2521,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     course: Object
   },
   data: function data() {
     return {
-      courseName: isCzech ? this.course.nameCZ : this.course.nameEN
+      courseName: isCzech ? this.course.home_course.name_cz : this.course.home_course.name_en,
+      style: this.course.reason && this.course.reason_id > 1 && this.course.reason.is_verified ? "flex flex-col mb-2 hover:bg-red-200 cursor-pointer" : "mb-2",
+      open: false
     };
   }
 });
@@ -2543,6 +2548,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2585,6 +2595,9 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _RadioStar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RadioStar.vue */ "./resources/js/components/RadioStar.vue");
+//
+//
+//
 //
 //
 //
@@ -2973,28 +2986,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 if (!(_this.type && _this.faculty)) {
-                  _context.next = 8;
+                  _context.next = 13;
                   break;
                 }
 
                 _this.fields = [];
-                _context.next = 4;
+                _context.prev = 2;
+                _context.next = 5;
                 return fetch(_this.fieldRequest);
 
-              case 4:
+              case 5:
                 response = _context.sent;
-                _context.next = 7;
+                _context.next = 8;
                 return response.json();
 
-              case 7:
-                _this.fields = _context.sent;
-
               case 8:
+                _this.fields = _context.sent;
+                _context.next = 13;
+                break;
+
+              case 11:
+                _context.prev = 11;
+                _context.t0 = _context["catch"](2);
+
+              case 13:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[2, 11]]);
       }))();
     },
     findCourses: function findCourses() {
@@ -3007,11 +3027,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!_this2.field) {
-                  _context2.next = 12;
+                  _context2.next = 18;
                   break;
                 }
 
-                _context2.next = 3;
+                _context2.prev = 1;
+                _context2.next = 4;
                 return fetch(_this2.courseRequest, {
                   headers: {
                     "X-CSRF-TOKEN": _this2.token,
@@ -3021,25 +3042,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   credentials: "same-origin"
                 });
 
-              case 3:
+              case 4:
                 response = _context2.sent;
-                _context2.next = 6;
+                _context2.next = 7;
                 return response.json();
 
-              case 6:
+              case 7:
                 courseList = _context2.sent;
                 _this2.summerList = Object.assign({}, courseList.summer, _this2.summerList);
                 _this2.winterList = Object.assign({}, courseList.winter, _this2.summerList);
                 session = Object.keys(courseList.summer);
-                _context2.next = 12;
+                _context2.next = 13;
                 return _this2.fetchCountries(session.concat(Object.keys(courseList.winter)));
 
-              case 12:
+              case 13:
+                _context2.next = 18;
+                break;
+
+              case 15:
+                _context2.prev = 15;
+                _context2.t0 = _context2["catch"](1);
+                console.log(_context2.t0);
+
+              case 18:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2);
+        }, _callee2, null, [[1, 15]]);
       }))();
     },
     fetchCountries: function fetchCountries(countries) {
@@ -3051,7 +3081,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
+                _context3.prev = 0;
+                _context3.next = 3;
                 return fetch(_this3.countriesRoute, {
                   headers: {
                     "Content-Type": "application/json",
@@ -3064,22 +3095,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   })
                 });
 
-              case 2:
+              case 3:
                 response = _context3.sent;
-                _context3.next = 5;
+                _context3.next = 6;
                 return response.json();
 
-              case 5:
+              case 6:
                 data = _context3.sent;
 
                 _this3.$emit('selected-countries', data);
 
-              case 7:
+                _context3.next = 13;
+                break;
+
+              case 10:
+                _context3.prev = 10;
+                _context3.t0 = _context3["catch"](0);
+                console.log(_context3.t0);
+
+              case 13:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3);
+        }, _callee3, null, [[0, 10]]);
       }))();
     },
     onDeleteCourse: function onDeleteCourse() {
@@ -3111,25 +3150,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context5.prev = _context5.next) {
               case 0:
                 if (!_this5.code) {
-                  _context5.next = 16;
+                  _context5.next = 21;
                   break;
                 }
 
+                _context5.prev = 1;
                 console.log(_this5.courseRoute + '/' + _this5.code);
-                _context5.next = 4;
+                _context5.next = 5;
                 return fetch(_this5.courseRoute + '/' + _this5.code);
 
-              case 4:
+              case 5:
                 response = _context5.sent;
-                _context5.next = 7;
+                _context5.next = 8;
                 return response.json();
 
-              case 7:
+              case 8:
                 courseCode = _context5.sent;
 
                 _this5.$set(_this5.course, courseCode.code, courseCode);
-
-                console.log(_this5.course);
 
                 if (!_this5.course) {
                   _context5.next = 16;
@@ -3152,11 +3190,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this5.code = "";
 
               case 16:
+                _context5.next = 21;
+                break;
+
+              case 18:
+                _context5.prev = 18;
+                _context5.t0 = _context5["catch"](1);
+                console.log(_context5.t0);
+
+              case 21:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5);
+        }, _callee5, null, [[1, 18]]);
       }))();
     }
   },
@@ -40337,7 +40384,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm._l(_vm.data.courses, function(course, index) {
+      _vm._l(_vm.data.pairings, function(course, index) {
         return _c("pairing-course", { key: index, attrs: { course: course } })
       })
     ],
@@ -40366,32 +40413,72 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "mb-2" }, [
-    _c("span", { staticClass: "space-x-6" }, [
-      _c("span", { staticClass: "text-red-800" }, [
-        _c("span", { staticClass: "font-bold" }, [
-          _vm._v(
-            _vm._s(_vm.course.reason ? _vm.trans("components.cancel") : "")
-          )
-        ]),
-        _vm._v(" "),
-        _c("span", [
-          _vm._v(
-            _vm._s(
-              _vm.course.semester
-                ? _vm.trans("components.summer")
-                : _vm.trans("components.winter")
+  return _c("div", { class: _vm.style }, [
+    _c(
+      "span",
+      {
+        staticClass: "space-x-6",
+        on: {
+          click: function($event) {
+            _vm.open = !_vm.open
+          }
+        }
+      },
+      [
+        _c("span", { staticClass: "text-red-800" }, [
+          _c("span", { staticClass: "font-bold" }, [
+            _vm._v(
+              _vm._s(_vm.course.reason ? _vm.trans("components.cancel") : "")
             )
-          )
+          ]),
+          _vm._v(" "),
+          _c("span", [
+            _vm._v(
+              _vm._s(
+                _vm.course.mobility.is_summer
+                  ? _vm.trans("components.summer")
+                  : _vm.trans("components.winter")
+              )
+            )
+          ]),
+          _vm._v(" "),
+          _c("span", [_vm._v(_vm._s(_vm.course.mobility.year))])
         ]),
         _vm._v(" "),
-        _c("span", [_vm._v(_vm._s(_vm.course.year))])
-      ]),
-      _vm._v(" "),
-      _c("span", [_vm._v(_vm._s(_vm.course.code))]),
-      _vm._v(" "),
-      _c("span", [_vm._v(_vm._s(_vm.courseName))])
-    ])
+        _c("span", [_vm._v(_vm._s(_vm.course.home_course.code))]),
+        _vm._v(" "),
+        _c("span", [_vm._v(_vm._s(_vm.courseName))])
+      ]
+    ),
+    _vm._v(" "),
+    _vm.course.reason &&
+    _vm.course.reason_id > 1 &&
+    _vm.course.reason.is_verified
+      ? _c(
+          "span",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.open,
+                expression: "open"
+              }
+            ],
+            staticClass: "mt-1"
+          },
+          [
+            _vm._v(
+              "\n         " +
+                _vm._s(
+                  _vm.isCzech
+                    ? _vm.course.reason.description_cz
+                    : _vm.course.reason.description_en
+                )
+            )
+          ]
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -40437,7 +40524,11 @@ var render = function() {
           })
         ]
       ),
+      _vm._v(" "),
       _c("input", {
+        directives: [
+          { name: "show", rawName: "v-show", value: false, expression: "false" }
+        ],
         attrs: { type: "radio", name: "rate[" + _vm.pairing.id + "]" },
         domProps: {
           value: _vm.index,
@@ -40485,7 +40576,13 @@ var render = function() {
         _c(
           "span",
           { staticClass: "text-lg text-red-900 text-center font-semibold" },
-          [_vm._v(_vm._s(_vm.pairing.foreign_course.name))]
+          [
+            _vm._v(
+              "\n            " +
+                _vm._s(_vm.pairing.foreign_course.name) +
+                "\n        "
+            )
+          ]
         ),
         _vm._v(" "),
         _c("span", { staticClass: "text-red-900" }, [
@@ -40497,33 +40594,14 @@ var render = function() {
         ? _c(
             "fieldset",
             { staticClass: "flex mt-2" },
-            [
-              _c("input", {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: false,
-                    expression: "false"
-                  }
-                ],
-                attrs: {
-                  type: "radio",
-                  name: "rate[" + _vm.pairing.id + "]",
-                  value: "0"
-                },
-                domProps: { checked: _vm.pairing.rating === 0 }
-              }),
-              _vm._v(" "),
-              _vm._l(5, function(star) {
-                return _c("radio-star", {
-                  key: star,
-                  attrs: { pair: _vm.pairing, index: star },
-                  on: { change: _vm.onChange }
-                })
+            _vm._l(5, function(star) {
+              return _c("radio-star", {
+                key: star,
+                attrs: { pair: _vm.pairing, index: star },
+                on: { change: _vm.onChange }
               })
-            ],
-            2
+            }),
+            1
           )
         : _c("div", [
             _c(

@@ -12,16 +12,6 @@ class Mobility extends Model
 {
     const SPRING_SEMESTER = "summer";
     const AUTUMN_SEMESTER = "winter";
-    const EXPORT_COLUMNS = 'foreign_courses.name as name, ' .
-        'foreign_courses.id as foreignCourseID, ' .
-        'home_courses.code as homeCode, ' .
-        'home_courses.name_cz as homeNameCZ, ' .
-        'home_courses.name_en as homeNameEN, ' .
-        'pairings.id as pairingID, ' .
-        'reasons.description_cz as reason, ' .
-        'pairings.rating as rating, ' .
-        'mobilities.is_summer as semester, ' .
-        'mobilities.year as year';
 
     /**
      * The table associated with the model.
@@ -95,7 +85,10 @@ class Mobility extends Model
             $this->saveRatings($data['rate']);
         }
         if (array_key_exists('reason', $data)) {
-            $this->unlinkCourses($data['reason'], array_key_exists('new', $data) ? $data['new'] : null);
+            $this->unlinkCourses(
+                $data['reason'], 
+                array_key_exists('new', $data) ? $data['new'] : null
+            );
         }
         $this->save();
     }
@@ -248,107 +241,4 @@ class Mobility extends Model
         $this->university()->associate(University::find($uniID));
         $this->save();
     }
-
-    /**
-     * Return all mobilities associated with the university.
-     * 
-     * @param int  $id
-     * @return array
-     */
-    private static function getAllFromUni($id)
-    {
-        return DB::table('mobilities')
-            ->where('mobilities.university_id', '=', $id)
-            ->join('pairings', function ($join) {
-                $join->on('pairings.mobility_id', '=', 'mobilities.id')
-                    ->join('home_courses', 'pairings.home_course_id', '=', 'home_courses.id')
-                    ->join('foreign_courses', 'foreign_courses.id', '=', 'pairings.foreign_course_id')
-                    ->leftJoin('reasons', 'pairings.reason_id', '=', 'reasons.id');
-            })        
-            ->select(DB::raw(self::EXPORT_COLUMNS))->get();
-    }
-
-    /**
-     * Return all mobilities associated with the university
-     * that contains selected courses.
-     * 
-     * @param int  $id
-     * @return Illuminate\Support\Collection
-     */
-    private static function getSelectedFromUni($id)
-    {
-        $select =  DB::table('mobilities')
-        ->join('pairings', function ($join) {
-            $join->on('pairings.mobility_id', '=', 'mobilities.id')
-            ->join('home_courses', function ($join2) {
-                $join2->on('home_courses.id', '=', 'pairings.home_course_id');
-            })
-            ->join('foreign_courses', 'foreign_courses.id', '=', 'pairings.foreign_course_id')
-            ->leftJoin('reasons', 'pairings.reason_id', '=', 'reasons.id');
-        })
-        ->where('mobilities.university_id', '=', $id)
-        ->where(function ($query) {
-        $courses = HomeCourse::getSession(session('courses'));
-
-            $query->whereIn('home_courses.group', $courses['groups'])
-                ->orWhereIn('home_courses.code', $courses['codes']);
-        })->select(DB::raw(self::EXPORT_COLUMNS))->get();
-        return $select;
-    }
-
-    /**
-     * Return mobilities for the university profile.
-     * 
-     * @param int  $id
-     * @return Illuminate\Support\Collection
-     */
-    public static function getUniversityData($id)
-    {
-        $courses = HomeCourse::getSession();
-        $data = [ 
-            'all' => self::groupData(self::getAllFromUni($id)), 
-            'searched' => $courses ?  self::groupData(self::getSelectedFromUni($id)): null
-        ];
-        return $data;
-    }
-
-    /**
-     * Return an array from the query collection.
-     * 
-     * @param Illuminate\Support\Collection  $select
-     * @return array
-     */
-    private static function groupData($select)
-    {
-        $result = [];
-        foreach ($select->all() as $row) {
-            if (array_key_exists($row->foreignCourseID, $result)) {
-                    $result[$row->foreignCourseID]['courses'][$row->pairingID] = [
-                        'code' => $row->homeCode,
-                        'nameCZ' => $row->homeNameCZ,
-                        'nameEN' => $row->homeNameEN,
-                        'reason' => $row->reason,
-                        'semester' => $row->semester,
-                        'year' => $row->year,
-                        'rating' => $row->rating
-                    ];
-            }
-            else {
-                $result[$row->foreignCourseID] = [ 
-                    'name' => $row->name,
-                    'courses' => [ $row->pairingID => [
-                        'code' => $row->homeCode,
-                        'nameCZ' => $row->homeNameCZ,
-                        'nameEN' => $row->homeNameEN,
-                        'reason' => $row->reason,
-                        'semester' => $row->semester,
-                        'year' => $row->year,
-                        'rating' => $row->rating
-                    ]]
-                ];
-            }
-            
-        }
-        return $result;
-    } 
 }

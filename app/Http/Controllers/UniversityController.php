@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use App\Models\HomeCourse;
-use App\Models\Mobility;
+use App\Models\ForeignCourse;
 use App\Models\University;
 use App\Http\Requests\SearchRequest;
 use Illuminate\Http\Request;
@@ -41,7 +41,7 @@ class UniversityController extends Controller
     {
         return view('universities.university', [
             'university' => University::getById($id),
-            'mobilities' => Mobility::getUniversityData($id)
+            'courses' => ForeignCourse::getUniversityData($id)
         ]);
     }
 }

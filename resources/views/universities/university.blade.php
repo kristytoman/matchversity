@@ -6,7 +6,7 @@
 
     @include('include.header')
 
-    <div class="flex justify-evenly h-container w-full">
+    <div class="flex justify-evenly h-full w-full">
         <div class="w-screen-3/5 max-w-screen-3/5 ">
             <div class="px-4 py-8">
                 <div class="text-3xl font-semibold text-red-900 uppercase tracking-wide mb-4">
@@ -33,13 +33,13 @@
                     </a>
                 </div>
             </div>
-            @if ($mobilities['searched'])
+            @if ($courses['searched'])
                 <h2 class="mt-8 text-2xl font-semibold">
                     {{ __('Courses for you') }}
                 </h2>
                 <div>
-                    @foreach ($mobilities['searched'] as $mobility)
-                        <pairing :data="{{ json_encode($mobility) }}"></pairing>
+                    @foreach ($courses['searched'] as $course)
+                        <pairing :data="{{ json_encode($course) }}"></pairing>
                     @endforeach
                 </div>
             @endif
@@ -47,8 +47,8 @@
                 {{ __('All courses') }}
             </h2>
             <div>
-                @foreach ($mobilities['all'] as $mobility)
-                    <pairing :data="{{ json_encode($mobility) }}"></pairing>
+                @foreach ($courses['all'] as $course)
+                    <pairing :data="{{ json_encode($course) }}"></pairing>
                 @endforeach
             </div>
         </div>
@@ -68,9 +68,10 @@
                 <span>
                     <p class="my-4">{{ __('When you arrive abroad you will assemble your timetable.') }}</p>
                     <p class="my-4">{{ __('Some of your courses might not fit or there will be some other problem that won\'t allow you to attend the course.') }}</p>
-                    <p class="my-4">{ {__('For this purpose, you can change your learning agreement one month after your arrival and add or remove some courses.') }}</p>
+                    <p class="my-4">{{ __('For this purpose, you can change your learning agreement one month after your arrival and add or remove some courses.') }}</p>
                 </span>
             </div>
         </div>
     </div>
+    @include('include.footer')
 @endsection
