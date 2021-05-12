@@ -1,7 +1,7 @@
 <template>
-    <div class="flex w-screen flex-row h-container justify-evenly">
-        <div class="flex flex-1 h-container flex-col pb-24 justify-evenly">
-            <div class="flex flex-col justify-center w-3/5 self-center bg-red-800 px-8 py-6 rounded-2xl">
+    <div class="flex flex-col w-screen md:flex-row md:h-container justify-evenly">
+        <div class="flex flex-1 h-container w-full flex-col pb-24 justify-evenly">
+            <div class="flex flex-col w-3/4 md:w-3/5 justify-center self-center bg-red-800 px-8 py-6 rounded-2xl">
                 <span class="flex justify-center text-red-100 mb-3">
                     {{ trans('components.searchByField') }}
                 </span>
@@ -52,7 +52,7 @@
                            
                 </div>
             </div>
-            <div class="flex flex-col justify-center w-3/5 self-center  bg-red-800 px-8 py-6 rounded-2xl">
+            <div class="flex flex-col justify-center w-3/4 md:w-3/5 mt-4 self-center bg-red-800 px-8 py-6 rounded-2xl">
                 <span class="flex justify-center text-red-100 mb-3">
                     {{ trans('components.searchByCode') }}
                 </span>
@@ -62,7 +62,7 @@
                 <span class="text-red-100 hover:text-red-300 cursor-pointer" @click="fetchCourse()">{{ trans('components.search')}}</span></span>
                 <span class="text-red-300">{{ error }}</span>
             </div>
-            <div class="text-red-700 self-center font-semibold cursor-pointer tracking-wide"
+            <div class="text-red-700 self-center mt-4 font-semibold cursor-pointer tracking-wide"
                 @click="$emit('change-view')">
                 {{ trans('components.selectCountries')}}
             </div>
@@ -105,28 +105,38 @@ export default {
         async findFields() {
             if (this.type && this.faculty) {
                 this.fields = [];
+                try {
                 const response = await fetch(this.fieldRequest);
                 this.fields = await response.json();
+                }
+                catch (error) {
+
+                }
             }
         },
         async findCourses() {
             if (this.field) {
-                const response = await fetch(this.courseRequest, {        
-                headers: {
-                    "X-CSRF-TOKEN": this.token,
-                    "Access-Control-Allow-Credentials" : true
-                },
-                method: "GET", 
-                credentials: "same-origin"});
-                const courseList = await response.json();
-                this.summerList = Object.assign({}, courseList.summer, this.summerList);
-                this.winterList = Object.assign({}, courseList.winter, this.summerList);
-                const session = Object.keys(courseList.summer);
-                await this.fetchCountries(session.concat(Object.keys(courseList.winter)));
+                try {
+                    const response = await fetch(this.courseRequest, {        
+                    headers: {
+                        "X-CSRF-TOKEN": this.token,
+                        "Access-Control-Allow-Credentials" : true
+                    },
+                    method: "GET", 
+                    credentials: "same-origin"})
+                    const courseList = await response.json();
+                    this.summerList = Object.assign({}, courseList.summer, this.summerList);
+                    this.winterList = Object.assign({}, courseList.winter, this.summerList);
+                    const session = Object.keys(courseList.summer);
+                    await this.fetchCountries(session.concat(Object.keys(courseList.winter)));
+                } catch(error) {
+                    console.log(error);
+                }
             }
         },
         async fetchCountries(countries)
         {
+            try {
             const response = await fetch(this.countriesRoute, {
                 headers: {
                     "Content-Type": "application/json",
@@ -138,6 +148,10 @@ export default {
             });
             const data = await response.json();
             this.$emit('selected-countries', data);
+            }
+            catch(error) {
+                console.log(error);
+            }
         },
         async onDeleteCourse()
         {
@@ -145,11 +159,12 @@ export default {
         },
         async fetchCourse() {
             if (this.code) {
-                console.log(this.courseRoute + '/' + this.code);
-                const response = await fetch(this.courseRoute + '/' + this.code);
-                const courseCode = await response.json();
+                try {
+                    console.log(this.courseRoute + '/' + this.code);
+                    const response = await fetch(this.courseRoute + '/' + this.code);
+                    const courseCode = await response.json();
+                
                 this.$set(this.course, courseCode.code, courseCode);
-                console.log(this.course);
                 if (this.course) {
                     if (courseCode.fields[0].pivot.is_summer) {
                         this.summerList = Object.assign({}, this.course, this.summerList);
@@ -164,6 +179,10 @@ export default {
                     await this.fetchCountries(session.concat(Object.keys(this.winterList)));
                     this.code = ""
                 }
+                }
+                catch (error) {
+                    console.log(error);
+                }
             }
         }
     },
@@ -173,7 +192,7 @@ export default {
         },
         courseRequest() {
             if (this.grade) {
-            return this.coursesRoute + '/' + this.field + '/' + this.grade;
+                return this.coursesRoute + '/' + this.field + '/' + this.grade;
             }
             else {
                 return this.coursesRoute + '/' + this.field + '/' + 1;

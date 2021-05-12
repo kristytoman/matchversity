@@ -1,5 +1,5 @@
 <template>
-    <div class="relative flex-1 flex-col justify-evenly">
+    <div class="relative mx-4 flex-1 flex-col justify-evenly">
         <div class="flex-1 flex-row flex justify-evenly h-screen-3/4" style="">
             <semester :title="trans('components.winter')" 
                       :courses="winterCourses" 

@@ -39834,38 +39834,42 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "relative flex-1 flex-col justify-evenly" }, [
-    _c(
-      "div",
-      { staticClass: "flex-1 flex-row flex justify-evenly h-screen-3/4" },
-      [
-        _c("semester", {
-          attrs: {
-            title: _vm.trans("components.winter"),
-            courses: _vm.winterCourses
-          },
-          on: {
-            "delete-course": function($event) {
-              return _vm.$emit("delete-course")
+  return _c(
+    "div",
+    { staticClass: "relative mx-4 flex-1 flex-col justify-evenly" },
+    [
+      _c(
+        "div",
+        { staticClass: "flex-1 flex-row flex justify-evenly h-screen-3/4" },
+        [
+          _c("semester", {
+            attrs: {
+              title: _vm.trans("components.winter"),
+              courses: _vm.winterCourses
+            },
+            on: {
+              "delete-course": function($event) {
+                return _vm.$emit("delete-course")
+              }
             }
-          }
-        }),
-        _vm._v(" "),
-        _c("semester", {
-          attrs: {
-            title: _vm.trans("components.summer"),
-            courses: _vm.summerCourses
-          },
-          on: {
-            "delete-course": function($event) {
-              return _vm.$emit("delete-course")
+          }),
+          _vm._v(" "),
+          _c("semester", {
+            attrs: {
+              title: _vm.trans("components.summer"),
+              courses: _vm.summerCourses
+            },
+            on: {
+              "delete-course": function($event) {
+                return _vm.$emit("delete-course")
+              }
             }
-          }
-        })
-      ],
-      1
-    )
-  ])
+          })
+        ],
+        1
+      )
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -40967,19 +40971,23 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "flex w-screen flex-row h-container justify-evenly" },
+    {
+      staticClass:
+        "flex flex-col w-screen md:flex-row md:h-container justify-evenly"
+    },
     [
       _c(
         "div",
         {
-          staticClass: "flex flex-1 h-container flex-col pb-24 justify-evenly"
+          staticClass:
+            "flex flex-1 h-container w-full flex-col pb-24 justify-evenly"
         },
         [
           _c(
             "div",
             {
               staticClass:
-                "flex flex-col justify-center w-3/5 self-center bg-red-800 px-8 py-6 rounded-2xl"
+                "flex flex-col w-3/4 md:w-3/5 justify-center self-center bg-red-800 px-8 py-6 rounded-2xl"
             },
             [
               _c(
@@ -41240,7 +41248,7 @@ var render = function() {
             "div",
             {
               staticClass:
-                "flex flex-col justify-center w-3/5 self-center  bg-red-800 px-8 py-6 rounded-2xl"
+                "flex flex-col justify-center w-3/4 md:w-3/5 mt-4 self-center bg-red-800 px-8 py-6 rounded-2xl"
             },
             [
               _c(
@@ -41304,7 +41312,7 @@ var render = function() {
             "div",
             {
               staticClass:
-                "text-red-700 self-center font-semibold cursor-pointer tracking-wide",
+                "text-red-700 self-center mt-4 font-semibold cursor-pointer tracking-wide",
               on: {
                 click: function($event) {
                   return _vm.$emit("change-view")

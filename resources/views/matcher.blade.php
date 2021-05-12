@@ -7,7 +7,7 @@
     @include('include.header')
     
     <errors :errors="{{ json_encode($errors->all()) }}"></errors>
-    <form method="post" action="{{ route('universities.index') }}">
+    <form method="post" action="{{ route('universities.index') }}" class="h-full">
         @csrf
         <search-form :geography="{{ $geography }}" 
                      :token="'{{ csrf_token() }}'" 
@@ -16,8 +16,8 @@
                      :countries-route="'{{ route('api.countries') }}'"
                      :course-route="'{{ route('api.course', ["", ""]) }}'">
         </search-form>
-        <div class="absolute bottom-8 right-12">
-        <label class="sticky  w-20 h-20 rounded-full 
+        <div class="md:absolute flex justify-end mx-12 bottom-8 right-0">
+        <label class="sticky w-20 h-20 rounded-full 
                       focus:outline-none justify-center items-center focus:shadow-outline bg-red-500 
                       hover:bg-red-600 cursor-pointer inline-flex  p-2 shadow">
             <input type="submit" value=""/>

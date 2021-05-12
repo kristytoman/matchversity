@@ -6,8 +6,8 @@
 
     @include('include.header')
 
-    <div class="flex justify-evenly h-full w-full">
-        <div class="w-screen-3/5 max-w-screen-3/5 ">
+    <div class="flex justify-evenly h-full w-full flex-wrap-reverse">
+        <div class="w-screen-full md:w-screen-3/5 md:max-w-screen-3/5 ">
             <div class="px-4 py-8">
                 <div class="text-3xl font-semibold text-red-900 uppercase tracking-wide mb-4">
                     {{ $university->name }}
@@ -33,8 +33,8 @@
                     </a>
                 </div>
             </div>
-            @if ($courses['searched'])
-                <h2 class="mt-8 text-2xl font-semibold">
+            @if ($courses['searched'] && ($courses['all']->currentPage() == 1))
+                <h2 class="mt-8 text-2xl font-semibold ml-4">
                     {{ __('Courses for you') }}
                 </h2>
                 <div>
@@ -43,7 +43,7 @@
                     @endforeach
                 </div>
             @endif
-            <h2 class="mt-8 text-2xl font-semibold">
+            <h2 class="mt-8 text-2xl font-semibold ml-4">
                 {{ __('All courses') }}
             </h2>
             <div>
@@ -51,10 +51,13 @@
                     <pairing :data="{{ json_encode($course) }}"></pairing>
                 @endforeach
             </div>
+            <div class="mt-8">
+            {{ $courses['all']->links() }}
+            </div>
         </div>
 
         <div>
-            <div class="flex-0 bg-red-100 px-8 py-6 mb-12 text-red-900 h-112 t-8 w-screen-1/4 max-w-screen-1/4 rounded-2xl">
+            <div class="flex-0 bg-red-100 px-8 py-6 mb-12 text-red-900 h-112 t-8 w-screen-3/4 md:w-screen-1/4 md:max-w-screen-1/4 rounded-2xl">
                 <h2 class="text-xl my-4 font-bold">{{ __('Hint for you') }}</h2>
                 <span>
                     <p class="my-4">{{ __('Universities share recent courses half a semester before mobilities.') }}</p>
@@ -63,7 +66,7 @@
                 </span>
             </div>
 
-            <div class="flex-0 bg-red-100 px-8 py-6 text-red-900 h-max-96 h-96 t-8 w-screen-1/4 max-w-screen-1/4 rounded-2xl">
+            <div class="flex-0 bg-red-100 px-8 py-6 text-red-900 h-max-96 h-96 t-8 w-screen-3/4 md:w-screen-1/4 md:max-w-screen-1/4 rounded-2xl">
                 <h2 class="text-xl my-4 font-bold">{{ __('Hint for you') }}</h2>
                 <span>
                     <p class="my-4">{{ __('When you arrive abroad you will assemble your timetable.') }}</p>
@@ -72,6 +75,7 @@
                 </span>
             </div>
         </div>
+        
     </div>
     @include('include.footer')
 @endsection

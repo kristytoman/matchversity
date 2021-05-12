@@ -4,11 +4,11 @@
 
 @include('include.header')
 
-    <div class="flex h-container flex-col justify-evenly" >
-        <div class="flex justify-center">
-        <span class="max-w-md flex content-between flex-wrap">
-            <h1 class="text-4xl font-bold">
-                {{ __('Find the right course for you ') }}<br>
+    <div class="flex md:h-container mx-4 h-full flex-col justify-evenly" >
+        <div class="flex justify-evenly flex-wrap-reverse md:flex-nowrap lf:flex-nowrap">
+        <span class="md:max-w-md h-full max-w-screen flex content-between flex-wrap">
+            <h1 class="pb-8 break-words text-4xl font-bold">
+                {{ __('Find the right course for you ') }}
                 {{ __('and go study abroad') }}
             </h1>
             <span class="text-2xl">
@@ -21,14 +21,14 @@
             </span>
             <a href="/search" 
                role="button" 
-               class="py-3 px-6 bg-red-600 hover:bg-red-800 rounded-full text-white tracking-wider">
+               class="py-3 px-6 mt-4 bg-red-600 hover:bg-red-800 rounded-full justify-self-center text-white tracking-wider">
                {{ __('Search for universities') }}
             </a>
         </span>
-        <img class="max-w-lg ml-16 -mt-8" src="{{ asset('img/default.png') }}">
+        <img class="max-w-screen md:max-w-md pb-8 md:ml-16 md:-mt-8" src="{{ asset('img/default.png') }}">
     </div>
 
-    <ul class="flex justify-around mx-20">
+    <ul class="flex justify-around mt-6 mx-20 space-x-4">
         <li class="text-center">
             <div class="text-3xl font-bold mb-1">
                  {{ $countUni }}
