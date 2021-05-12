@@ -6,12 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\VerifyReasonRequest;
 use App\Http\Requests\AddNewReasonRequest;
 use App\Models\Reason;
-use Illuminate\Http\Request;
 
 class ReasonController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of reasons.
      *
      * @return \Illuminate\Http\Response
      */
@@ -23,7 +22,7 @@ class ReasonController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created reason in storage.
      *
      * @param  App\Http\Requests\AddNewReasonRequest  $request
      * @return \Illuminate\Http\Response
@@ -45,24 +44,26 @@ class ReasonController extends Controller
     public function update(VerifyReasonRequest $request, Reason $reason)
     {
         $validated = $request->validated();
+
+        // Try connect reason with an existing one.
         if ($validated['connect']) {
             Reason::change($reason->id, $validated['connect']);
         }
         else {
             Reason::verify($reason->id, $validated);
         }
+
         return redirect()->route('admin.reasons.index');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified reason from storage.
      *
-     * @param  \App\Models\Reason $reason
+     * @param  \App\Models\Reason  $reason
      * @return \Illuminate\Http\Response
      */
     public function destroy(Reason $reason)
     {
-        // authorize
         Reason::deleteSafely($reason->id);
         return redirect()->route('admin.reasons.index');
     }

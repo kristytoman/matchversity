@@ -7,13 +7,11 @@ use App\Http\Requests\ImportMobilitiesRequest;
 use App\Http\Requests\StoreMobilitiesRequest;
 use App\Models\Mobility;
 use App\Models\Validation\FileValidator;
-use App\Models\Validation\MobilityValidator;
-use Illuminate\Http\Request;
 
 class MobilityController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of mobilities.
      *
      * @return \Illuminate\Http\Response
      */
@@ -35,12 +33,18 @@ class MobilityController extends Controller
     {
         $fileValidator = new FileValidator;
         $validated = $request->validated();
+
+        // Try to parse and validate the file data.
         if (!($mobilities = ($fileValidator->getData($validated['file'])))) {
-            return back()->withErrors(['Wrong file', 'The file has too many errors to be parsed.']);
+            return back()->withErrors([
+                'Wrong file' => 'The file has too many errors to be parsed.'
+            ]);
         }
 
+        // Import correct mobilities.
         Mobility::import($mobilities);
         
+        // Try to return the incorrect data to admin.
         if ($fileValidator->toCheck) {
             return view('admin.data_check', [
                 'count' => $fileValidator->getCount(),
@@ -53,7 +57,7 @@ class MobilityController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store validated mobilities.
      *
      * @param  App\Http\Requests\StoreMobilitiesRequest  $request
      * @return \Illuminate\Http\Response
@@ -61,39 +65,18 @@ class MobilityController extends Controller
     public function store(StoreMobilitiesRequest $request)
     {
         $fileValidator = new FileValidator;
+
+        // Validate data from the request.
         Mobility::import($fileValidator->revalidate($request->validated()));
+
+        // Try return incorect data.
         if ($fileValidator->toCheck) {
             return view('admin.data_check', [
                 'count' => $fileValidator->getCount(),
                 'mobilities' => $fileValidator->toCheck
             ]);
         }
-        else {
-            return redirect()->route('admin.mobilities.index');
-        }
+
         return redirect()->route('admin.mobilities.index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Mobility  $mobility
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Mobility $mobility)
-    {
-        // 
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Mobility  $mobility
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Mobility $mobility)
-    {
-        //
     }
 }

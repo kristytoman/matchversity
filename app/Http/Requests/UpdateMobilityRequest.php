@@ -26,9 +26,6 @@ class UpdateMobilityRequest extends FormRequest
      */
     public function rules()
     {
-        // TODO: save reasons to unlink into db
-        // TODO: new connected to unlinked
-        // TODO: keys are associated with mobility
         return [
             'rate' => ['array', 'nullable', 'required_without:unlinked'],
             'rate.*' => ['integer', 'between:0,5'],

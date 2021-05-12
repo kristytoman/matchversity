@@ -6,14 +6,11 @@ use App\Http\Requests\UpdateMobilityRequest;
 use App\Models\Mobility;
 use App\Models\Reason;
 use App\Models\User;
-use Illuminate\Http\Request;
-
 
 class MobilityController extends Controller
 {
-    
     /**
-     * Display a listing of the resource.
+     * Display a listing of user's mobilities.
      *
      * @return \Illuminate\Http\Response
      */
@@ -25,21 +22,7 @@ class MobilityController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id) 
-    {
-        return view('mobilities.show_mobility', [
-            'mobility' => Mobility::findById($id),
-            'reasons' => Reason::getAll()
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the user's mobility.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -53,7 +36,7 @@ class MobilityController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified mobility in storage.
      *
      * @param  App\Http\Requests\UpdateMobilityRequest  $request
      * @param  int  $id

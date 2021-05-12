@@ -25,9 +25,9 @@ class SearchRequest extends FormRequest
     {
         return [
             'countries' => ['nullable', 'array'],
-            'countires.*' => ['alpha', 'size:2', 'string'],
+            'countires.*' => ['alpha', 'size:2', 'string', 'exists:countries,id'],
             'courses' => ['nullable', 'array'],
-            'courses.*' => ['string']
+            'courses.*' => ['string', 'exists:home_courses,code']
         ];
     }
 }

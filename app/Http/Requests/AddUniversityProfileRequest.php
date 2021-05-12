@@ -27,12 +27,12 @@ class AddUniversityProfileRequest extends FormRequest
         return [
             'name' => ['required_without:connect_university', 'nullable', 'string'],
             'native_name' => ['required_without:connect_university', 'nullable', 'string'],
-            'country' => ['required_without:connect_university', 'nullable', 'string'],
+            'country' => ['required_without:connect_university', 'nullable', 'string', 'exists:countries,id'],
             'city' => ['required_without:connect_university', 'nullable', 'string'],
-            'web' => ['required_without:connect_university', 'nullable', 'string'],
+            'web' => ['required_without:connect_university', 'nullable', 'string', 'url'],
             'xchange' => ['required_without:connect_university', 'nullable', 'numeric'],
             'xchange_link' => ['required_without:connect_university', 'nullable', 'string'],
-            'connect_university' => ['required_without:name', 'nullable', 'numeric']
+            'connect_university' => ['required_without:name', 'nullable', 'numeric', 'exists:universities,id' ]
         ];
     }
 }

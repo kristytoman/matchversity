@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateForeignCourseRequest;
-use App\Models\ForeignCourse;
 use App\Models\University;
 
 class ForeignCourseController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of foreign courses grouped by university.
      *
      * @return \Illuminate\Http\Response
      */
@@ -22,10 +21,10 @@ class ForeignCourseController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update courses of the university.
      *
      * @param  UpdateForeignCourseRequest  $request
-     * @param  \App\Models\ForeignCourse  $foreignCourse
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateForeignCourseRequest $request, int $id)

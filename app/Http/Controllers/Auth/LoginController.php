@@ -9,7 +9,6 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
-
 class LoginController extends Controller
 {
     /*
@@ -43,11 +42,22 @@ class LoginController extends Controller
         $this->middleware('guest:admin')->except('logout');
     }
 
+    /**
+     * Return the form for admin login.
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function showAdmin()
     {
         return view('auth.login');
     }
 
+    /**
+     * Handle an authentication attempt.
+     * 
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function adminLogin(Request $request)
     {
         $this->validate($request, [
@@ -55,13 +65,20 @@ class LoginController extends Controller
             'password' => 'required|min:6'
         ]);
 
-        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
-
-            return redirect()->route('admin.mobilities.index');
+        if (Auth::guard('admin')->attempt([
+                'email' => $request->email, 
+                'password' => $request->password
+            ], $request->get('remember'))) {
+                return redirect()->route('admin.mobilities.index');
         }
         return back()->withInput($request->only('email', 'remember'));
     }
 
+    /**
+     * Return the form for user login.
+     * 
+     * @return \Illuminate\Http\Response
+     */
     public function showLoginForm()
     {
         return view('auth.login');
@@ -77,8 +94,9 @@ class LoginController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
+        // Fake authentication
         if ($credentials['email'] == 'test@utb.cz' && $credentials['password'] == '1234') {
-            Auth::login(User::find(353));
+            Auth::login(User::find(353)); // Login of the author.
             return redirect()->intended('/');
         }
 
