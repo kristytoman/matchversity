@@ -24,5 +24,6 @@ return [
     'delete' => 'Delete',
     'undo' => 'Undo',
     'pairings' => 'Pairings',
-    'search' => 'Search'
+    'search' => 'Search',
+    'error' => 'Please fix the following mistakes'
 ];

@@ -118,7 +118,6 @@ class FileValidator
             if (count($this->toCheck) < 20) {
                 return $this->validated;
             }
-            return null;
         }
         return null;
     }
@@ -152,7 +151,8 @@ class FileValidator
         $this->toCheck = [];
         $this->validated = [];
         foreach($mobilities as $mobility) {
-            if ($mobility->validate() || ($mobility->student->message == StudentValidator::REWRITE && $revalidate)) {
+            if ($mobility->validate() || 
+               ($mobility->student->message == StudentValidator::REWRITE && $revalidate)) {
                 array_push($this->validated, $mobility);
             }
             else {

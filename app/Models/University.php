@@ -206,7 +206,7 @@ class University extends Model
      */
     public static function findResults()
     {
-        $select = University::when($request = HomeCourse::getSession(), function($query, $request) {
+        return University::when($request = HomeCourse::getSession(), function($query, $request) {
             $query->whereHas('mobilities', function (Builder $query) use ($request) {
             $query->whereHas('pairings', function (Builder $query) use ($request) {
                 $query->whereHas('homeCourse', function (Builder $query) use($request) {
@@ -219,43 +219,7 @@ class University extends Model
             $query->whereHas('city', function (Builder $query) use ($request) {
                 $query->whereIn('country_id', $request);
             });
-        })->withCount('mobilities')->orderBy('mobilities_count', 'desc')->get();
-        return $select;
-        // $select =  DB::table('universities')
-        //     ->join('cities', function($join) {
-        //         $join->on('universities.city_id', '=', 'cities.id')
-        //              ->when($request = Country::getSession(), function($query, $request) {
-        //                     $query->whereIn('cities.country_id', $request);
-        //                });
-        //     })
-        //     ->join('mobilities', function($join2) {
-        //         $join2->on('mobilities.university_id', '=', 'universities.id')
-        //               ->join('pairings', function($join3) {
-        //                     $join3->on('mobilities.id', '=', 'pairings.mobility_id')
-        //                           ->join('foreign_courses', 'foreign_courses.id', '=', 'pairings.foreign_course_id')
-        //                           ->join('home_courses', function ($join4) {
-        //                                 $join4->on('home_courses.id', '=', 'pairings.home_course_id')
-        //                                       ->when($request = HomeCourse::getSession(), function($query, $request) {
-        //                                             return $query->whereIn('home_courses.code', $request['codes'])
-        //                                                          ->orWhereIn('home_courses.group', $request['groups']);
-        //                                         });
-        //                             });
-        //                 });
-        //         })
-        //     ->select(DB::raw('universities.id as universityID, ' .
-        //                 'universities.name as universityName, ' .
-        //                 'universities.native_name as universityNativeName, ' .
-        //                 'cities.name as cityName, ' .
-        //                 'cities.country_id as countryID, ' .
-        //                 'pairings.reason_id as reasonID, ' .
-        //                 'foreign_courses.id as foreignCourseID, ' .
-        //                 'foreign_courses.name as foreignCourseName, ' .
-        //                 '(SELECT count(*) FROM mobilities ' .
-        //                 'WHERE mobilities.university_id = universities.id) ' .
-        //                 'as count'))
-        //     ->orderBy('count', 'desc')
-        //     ->get();
-        // return self::groupData($select);
+        })->withCount('mobilities')->orderBy('mobilities_count', 'desc')->paginate(15);
     }
 
     /**

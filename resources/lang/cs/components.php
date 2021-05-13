@@ -24,5 +24,6 @@ return [
     'delete' => 'Smazat',
     'undo' => 'Zpět',
     'pairings' => 'Párování',
-    'search' => 'Vyhledat'
+    'search' => 'Vyhledat',
+    'error' => 'Opravte prosím následující chyby'
 ];

@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use ImportColumns;
-
 
 class HomeCourse extends Model
 {
@@ -29,7 +27,13 @@ class HomeCourse extends Model
      */
     protected $guarded = [];
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
     protected $with = ['fields'];
+
     /**
      * Get pairings associated with the course.
      */
@@ -43,7 +47,8 @@ class HomeCourse extends Model
      */
     public function fields()
     {
-        return $this->belongsToMany(Field::class, 'field_courses')->withPivot('is_summer', 'compulsory', 'grade');
+        return $this->belongsToMany(Field::class, 'field_courses')
+                    ->withPivot('is_summer', 'compulsory', 'grade');
     }
 
     /**
@@ -117,13 +122,18 @@ class HomeCourse extends Model
     {
         if (array_key_exists('courses', $request)) {
             session(['courses' => json_encode(self::getGroupsAndCourses($request['courses']))]);
-            //session(['courses' => json_encode(['codes'=> $request['courses'], 'groups' => []])]);
         }
         else {
             session(['courses' => "" ]);
         }
     }
     
+    /**
+     * Set the courses session.
+     *
+     * @param array  $request
+     * @return array
+     */
     public static function getGroupsAndCourses($request)
     {
         $courses = [ 'groups' => [], 'codes' => []];

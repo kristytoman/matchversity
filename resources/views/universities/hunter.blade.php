@@ -6,7 +6,7 @@
 
     @include('include.header')
     
-    <div class="flex w-full md:flex-row justify-center flex-wrap-reverse">
+    <div class="flex w-full md:flex-row justify-center md:justify-start flex-wrap-reverse md:flex-wrap">
         <div class="flex-col md:mx-4 md:mx-16 w-screen md:w-screen-3/5 md:max-w-screen-3/5">
             @if($top3 && ($universities->currentPage() == 1))
                 <div class="mb-8">
@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <div class="flex-0 bg-red-200 text-red-900 px-8 py-6 mt-16 mb-8
+        <div class="flex-0 bg-red-200 text-red-900 px-8 py-6 mt-16 md:mt-0 mb-8
                     h-full w-screen-3/4 md:w-screen-1/4 md:max-w-screen-1/4 rounded-2xl">
             <h2 class="text-xl my-4 font-bold">{{ __('Hint for you') }}</h2>
             <span>
@@ -57,7 +57,6 @@
                 <p class="my-4">{{ __('It\'s for the best to match as many courses as you would have studied at your home university.') }}</p>
                 <p class="my-4">{{ __('You\'ll avoid complications and possible study extensions.') }}</p>
             </span>
-            
         </div>
     </div>
     @include('include.footer')

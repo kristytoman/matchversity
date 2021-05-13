@@ -4,13 +4,21 @@ namespace App\Models;
 
 use DB;
 use Illuminate\Database\Eloquent\Model;
-use ImportColumns;
-
-
 
 class Mobility extends Model
 {
+    /**
+     * Name for spring semester.
+     * 
+     * @var string
+     */
     const SPRING_SEMESTER = "summer";
+
+    /**
+     * Name for autumn semester.
+     * 
+     * @var string
+     */
     const AUTUMN_SEMESTER = "winter";
 
     /**

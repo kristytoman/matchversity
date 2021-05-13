@@ -14,7 +14,6 @@ class SemesterValidator extends DataValidator
      */
     public $arrival;
 
-
     /**
      * Create new instance for DataValidator.
      *

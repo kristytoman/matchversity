@@ -119,13 +119,12 @@ class ForeignCourse extends Model
         }
         $course->delete();
     }
-
     
     /**
      * Return all mobilities associated with the university.
      * 
      * @param int  $id
-     * @return array
+     * @return Illuminate\Support\Collection
      */
     private static function getAllFromUni($id)
     {
@@ -134,7 +133,7 @@ class ForeignCourse extends Model
                                 'pairings.mobility',
                                 'pairings.homeCourse',
                                 'pairings.reason'
-                            ])->get();
+                            ])->paginate(15);
     }
 
     /**

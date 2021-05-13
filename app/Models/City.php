@@ -50,7 +50,6 @@ class City extends Model
         return $this->belongsTo(Country::class);
     }
 
-
     /**
      * Create or find an instance of University location in the database.
      *

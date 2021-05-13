@@ -6,8 +6,6 @@ use App\Models\ForeignCourse;
 use App\Models\HomeCourse;
 use DB;
 use Illuminate\Database\Eloquent\Model;
-use ImportColumns;
-
 
 class Pairing extends Model
 {

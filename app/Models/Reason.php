@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reason extends Model
 {
-
     /**
      * The table associated with the model.
      *
@@ -114,6 +113,11 @@ class Reason extends Model
         $reason->delete();
     }
 
+    /**
+     * Reutrn all reasons from database.
+     * 
+     * @return Illuminate\Support\Collection
+     */
     public static function getAll()
     {
         return Reason::all();

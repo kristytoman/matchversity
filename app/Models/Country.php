@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use DB;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-
+use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
@@ -23,6 +22,11 @@ class Country extends Model
      */
     public $timestamps = false;
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
     protected $casts = ['id' => 'string'];
     
     /**
@@ -57,6 +61,11 @@ class Country extends Model
         return json_decode(session('countries'));
     }
 
+    /**
+     * Get available countries for courses set in session.
+     *
+     * @return Illuminate\Support\Collection
+     */
     public static function getAvailable()
     {
         return Country::whereHas('cities', function (Builder $query) {
@@ -72,23 +81,5 @@ class Country extends Model
                 });
             });
         })->get();
-        // return DB::table('countries')->join('cities', function($join1) {
-        //     $join1->on('cities.country_id', '=', 'countries.id')
-        //         ->join('universities', function($join2) {
-        //             $join2->on('universities.city_id', '=', 'cities.id')
-        //                 ->join('mobilities', function($join3) {
-        //                     $join3->on('mobilities.university_id', '=', 'universities.id')
-        //                         ->join('pairings', function($join4) {
-        //                             $join4->on('pairings.mobility_id', '=', 'mobilities.id')
-        //                                 ->join('home_courses', function($join5) {
-        //                                     $courses = HomeCourse::getSession(session('courses'));
-        //                                     $join5->on('home_courses.id', '=', 'pairings.home_course_id')
-        //                                         ->whereIn('home_courses.group', $courses['groups'])
-        //                                         ->orWhereIn('home_courses.code', $courses['codes']);
-        //                                 });
-        //                         });
-        //                 });
-        //         });
-        // })->select('countries.id')->distinct()->get();
     }
 }

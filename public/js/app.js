@@ -2147,6 +2147,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     errors: Array
@@ -39893,14 +39908,58 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.errors
-    ? _c(
-        "ul",
-        _vm._l(_vm.errors, function(error, index) {
-          return _c("li", { key: index }, [_vm._v(_vm._s(error))])
-        }),
-        0
-      )
+  return _vm.errors.length > 0
+    ? _c("div", { staticClass: "flex flex-col items-center" }, [
+        _c("div", { staticClass: "flex items-center" }, [
+          _c("div", { staticClass: "ml-2" }, [
+            _c(
+              "svg",
+              {
+                staticClass: "h-8 w-8 text-red-900 mr-2 cursor-pointer",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  stroke: "currentColor"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-width": "2",
+                    d:
+                      "M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  }
+                })
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "span",
+            { staticClass: "px-6 py-4 text-red-900 font-semibold text-lg" },
+            [_vm._v(_vm._s(_vm.trans("components.error")))]
+          )
+        ]),
+        _vm._v(" "),
+        _c(
+          "ul",
+          { staticClass: "px-16 mb-4" },
+          _vm._l(_vm.errors, function(error, index) {
+            return _c(
+              "li",
+              {
+                key: index,
+                staticClass: "text-md font-bold text-red-500 text-sm"
+              },
+              [_vm._v(_vm._s(error))]
+            )
+          }),
+          0
+        )
+      ])
     : _vm._e()
 }
 var staticRenderFns = []
