@@ -25,12 +25,21 @@
                        target="_blank">
                         {{ __('Check the website') }}
                     </a>
+                    @if($university->xchange_link)
                     <a class="py-3 px-6 bg-red-600 
                               hover:bg-red-700 rounded-full text-white" 
-                       href="{{ $university->xchangeLink }}"
+                       href="{{ 'https://xchange.utb.cz/instituce/' . $university->xchange_link }}"
                        target="_blank">
                         {{ __('University rating') }}
                     </a>
+                    @else
+                    <a class="py-3 px-6 bg-red-300 
+                        rounded-full text-white" 
+                        href=""
+                        target="_blank">
+                        {{ __('University rating') }}
+                    </a>
+                    @endif
                 </div>
             </div>
             @if ($courses['searched'] && ($courses['all']->currentPage() == 1))
