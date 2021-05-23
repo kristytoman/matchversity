@@ -39,7 +39,7 @@
         </ul>
     </div>
 <span class="mr-8">                
-    <a href="{{ route('logout') }}"
+    <a id="logout" href="{{ route('logout') }}"
                    onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
                    {{ __('Logout') }}

@@ -15,7 +15,7 @@
                     </h3>
                     <div class="flex flex-col md:flex-row justify-evenly">
                         @foreach ($top3 as $key => $uni)
-                            <a class="flex flex-col justify-end flex-none self-center
+                            <a name="top3" class="flex flex-col justify-end flex-none self-center
                                       md:my-4 my-2 md:mx-2 px-8 py-6 min-h-full w-full md:w-1/3 bg-red-600 md:h-72
                                       hover:bg-red-800 rounded-2xl"
                                 href="{{ route('universities.show', $uni->id) }}">

@@ -2,7 +2,7 @@
 
 return [
     'title' => 'Kontrola dat',
-    'import' => 'Importovuji',
+    'import' => 'Importuji',
     'mobilities' => 'mobilit',
     'check' => 'Zkontrolujte prosím následující',
     'confirm' => 'Potvrdit'

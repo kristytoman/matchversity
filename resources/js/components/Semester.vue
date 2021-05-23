@@ -10,8 +10,8 @@
                 </button>
             </span>
         </div>
-        <div v-if="courses" class="overflow-y-auto pb-10 hide-scroll-bar h-screen-3/4">
-            <div v-for="(course, index) in data" :key="index"
+        <div name="course-list" v-if="courses" class="overflow-y-auto pb-10 hide-scroll-bar h-screen-3/4">
+            <div name="course" v-for="(course, index) in data" :key="index"
                 @click="remove(index)"
                 :class="disabled">
                 {{ course.name_cz }}
@@ -44,7 +44,7 @@ export default {
     },
     data() {
         return {
-            selected: null,
+            selected: true,
             enabled: 'flex-1 opacity-100 mr-3',
             data: this.courses
         }

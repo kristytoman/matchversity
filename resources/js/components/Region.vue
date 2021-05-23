@@ -1,5 +1,5 @@
 <template>
-    <div class="my-6 min-w-continent w-full w-continent max-h-screen-1/2 flex-grow-0">
+    <div class="my-6 min-w-continent w-full  w-continent flex-grow-0">
         <div class="grid grid-cols-3 w-full items-center">
         <span :class="'text-lg cursor-pointer col-span-2 ' + color" @click="showCountries = !showCountries">{{ trans('regions.' + id) }}</span>
         <input type="checkbox" class="form-checkbox h-5 w-5 justify-self-end text-red-600 border-red-300 border-2 rounded-full"

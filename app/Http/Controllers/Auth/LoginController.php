@@ -71,7 +71,9 @@ class LoginController extends Controller
             ], $request->get('remember'))) {
                 return redirect()->route('admin.mobilities.index');
         }
-        return back()->withInput($request->only('email', 'remember'));
+        return back()->withInput($request->only('email', 'remember'))->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);;
     }
 
     /**

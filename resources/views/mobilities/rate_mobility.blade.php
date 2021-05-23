@@ -8,7 +8,7 @@
     
     <errors :errors="{{ json_encode($errors->all()) }}"></errors>
     <div class="ml-10 flex flex-col">
-        <span class="text-3xl font-semibold text-red-900 uppercase tracking-wide mb-4">
+        <span name="university-name" class="text-3xl font-semibold text-red-900 uppercase tracking-wide mb-4">
             {{ $mobility->university->name }}
         </span>
         <span class="text-2xl text-red-800 mb-3">

@@ -6,7 +6,7 @@
                     {{ trans('components.searchByField') }}
                 </span>
                 <div class="flex flex-row">
-                    <select v-model="faculty" 
+                    <select id="faculty" v-model="faculty" 
                             class="my-2 p-1 mx-3 flex-1  flex border bg-red-100 border-red-200 text-red-900 rounded"
                             @change="findFields()">
                         <option value="" disabled selected>{{ trans('components.faculty') }}</option>
@@ -17,7 +17,7 @@
                         <option value="FMK">FMK</option>
                         <option value="FT">FT</option>
                     </select>
-                    <select v-model="type"
+                    <select id="degree" v-model="type"
                             class="my-2 p-1 flex-1  bg-red-100 border-red-200 text-red-900  mx-3 
                                    flex border rounded"
                             @change="findFields()">
@@ -28,7 +28,7 @@
                     </select>
                 </div>
                 <div class="flex flex-col">
-                    <select v-model="field"
+                    <select id="fields" v-model="field"
                             class="my-2 p-1 mx-3 flex border bg-red-100 border-red-200 text-red-900 rounded">
                         <optgroup :label="trans('components.fulltime')" v-if="fields">
                             <option v-for="(field, index) in fields.full" :key="index" 
@@ -45,24 +45,24 @@
                     </select>
                 </div>
                 <div class="flex items-center justify-evenly">
-                    <input type="number" min="1" max="4" v-model="grade" 
+                    <input id="grade" type="number" min="1" max="4" v-model="grade" 
                            :placeholder="trans('components.grade')"
                            class="my-2 p-1 mx-3 flex border bg-red-100 w-full placeholder-red-900 border-red-200 text-red-900 rounded">
-                <span class="text-red-100 hover:text-red-300 cursor-pointer mx-3" @click="findCourses()">{{ trans('components.search') }}</span>
+                <span id="find-courses" class="text-red-100 hover:text-red-300 cursor-pointer mx-3" @click="findCourses()">{{ trans('components.search') }}</span>
                            
                 </div>
             </div>
-            <div class="flex flex-col justify-center w-3/4 md:w-3/5 mt-4 self-center bg-red-800 px-8 py-6 rounded-2xl">
+            <div  class="flex flex-col justify-center w-3/4 md:w-3/5 mt-4 self-center bg-red-800 px-8 py-6 rounded-2xl">
                 <span class="flex justify-center text-red-100 mb-3">
                     {{ trans('components.searchByCode') }}
                 </span>
                 <span class="flex justify-evenly items-center">
-                <input placeholder="Zkratka předmětu" v-model="code" 
+                <input id="course" placeholder="Zkratka předmětu" v-model="code" 
                        class="my-2 p-1 mx-3 flex border bg-red-100 placeholder-red-900  border-red-200 text-red-900 rounded">
-                <span class="text-red-100 hover:text-red-300 cursor-pointer" @click="fetchCourse()">{{ trans('components.search')}}</span></span>
+                <span id="find-course" class="text-red-100 hover:text-red-300 cursor-pointer" @click="fetchCourse()">{{ trans('components.search')}}</span></span>
                 <span class="text-red-300">{{ error }}</span>
             </div>
-            <div class="text-red-700 self-center mt-4 font-semibold cursor-pointer tracking-wide"
+            <div id="select-countries" class="text-red-700 self-center mt-4 font-semibold cursor-pointer tracking-wide"
                 @click="$emit('change-view')">
                 {{ trans('components.selectCountries')}}
             </div>
@@ -155,12 +155,12 @@ export default {
         },
         async onDeleteCourse()
         {
-            await this.fetchCountries(Object.assign({}, this.summerList, this.winterList));
+            const session = Object.keys(this.summerList);
+            await this.fetchCountries(session.concat(Object.keys(this.winterList)));
         },
         async fetchCourse() {
             if (this.code) {
                 try {
-                    console.log(this.courseRoute + '/' + this.code);
                     const response = await fetch(this.courseRoute + '/' + this.code);
                     const courseCode = await response.json();
                 
@@ -168,11 +168,9 @@ export default {
                 if (this.course) {
                     if (courseCode.fields[0].pivot.is_summer) {
                         this.summerList = Object.assign({}, this.course, this.summerList);
-                        console.log(this.summerList);
                     }
                     else {
                         this.winterList[courseCode.code] =  Object.assign({}, this.course, this.winterList);
-                        console.log(this.winterList);
 
                     }
                     const session = Object.keys(this.summerList);

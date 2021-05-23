@@ -55,7 +55,7 @@ class ForeignCourseValidator extends DataValidator
      */
     private function toFirstUpperCase()
     {
-        $this->data = Str::lower($this->data, 'UTF-8');
+        $this->data =  mb_strtolower($this->data, 'UTF-8');
         $this->data = ucwords($this->data, " \t\r\n\f\v(\"'.-\/&");
     }
 
@@ -70,7 +70,7 @@ class ForeignCourseValidator extends DataValidator
         $regex = '/\b(' . implode( '|', $words) . ')\b/i';
         if ($first = strstr($this->data, " ", true)) {
             $this->data = $first . preg_replace_callback($regex, function($matches) {
-                return Str::lower($matches[1]);
+                return  mb_strtolower($matches[1], 'UTF-8');
             }, strstr($this->data, " "));
         }
         return $this->data;
@@ -85,7 +85,7 @@ class ForeignCourseValidator extends DataValidator
         $words = array('Ii', 'Iii', 'Iv', 'Vi', 'Vii', 'Viii', 'Ix', 'Xi', '3d', 'Net', 'Eu');
         $regex = '/\b(' . implode( '|', $words) . ')\b/i';
         $this->data = preg_replace_callback($regex, function($matches) {
-            return Str::upper($matches[1]);
+            return mb_strtoupper($matches[1], 'UTF-8');
         }, $this->data);
         return $this->data;
     }

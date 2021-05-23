@@ -45,7 +45,7 @@
                                   class="flex">
                                 @method('PUT')
                                 @csrf
-                                <span class="flex-none w-16">{{ $reason->id }}</span>
+                                <span name="id" class="flex-none w-16">{{ $reason->id }}</span>
                                 <span class="flex-none w-64">
                                     <input name="description_cz" value="{{ $reason->description_cz }}"
                                            class="flex-none flex-0
@@ -71,7 +71,7 @@
                                         @endif
                                     @endforeach
                                 </select>
-                                <input type="submit" value="{{ __('reasons.save') }}"
+                                <input name="verify" type="submit" value="{{ __('reasons.save') }}"
                                        class="flex-none max-w-32
                                               mr-2 px-4 py-2 bg-red-500 text-white border rounded-md
                                               hover:bg-red-300 hover:border-red-500 hover:text-red-900">
@@ -81,7 +81,7 @@
                                   class="flex-none max-w-32">
                                 @method('DELETE')
                                 @csrf
-                                <input type="submit" value="{{ __('reasons.delete') }}"
+                                <input name="delete" type="submit" value="{{ __('reasons.delete') }}"
                                        class="bg-red-900 max-w-32 text-white
                                               px-4 py-2 border rounded-md
                                               hover:bg-red-300 hover:border-red-500 hover:text-red-900">

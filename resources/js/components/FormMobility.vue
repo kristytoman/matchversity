@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-col w-screen-3/5
-                ml-8 mb-16 px-8 py-6 bg-red-300 rounded-2xl">
-        <span v-if="!isdelete" class="flex flex-col justify-evenly">
-            <div>Student</div>
+                ml-8 mb-16 px-8 py-6 bg-red-300 rounded-2xl mobility">
+        <span name="mobility-info" v-if="!isdelete" class="flex flex-col justify-evenly">
+            <div name="student">Student</div>
             <input :name="inputName + '[student]'" :value="mobility.student.data"
                    class="flex flex-1 w-full
                           my-2 py-2 px-2 bg-red-100
@@ -50,10 +50,10 @@
             :pairing="pairing" :inputName="inputName + '[pairing][' + index + ']'"></form-pairing>
         <span class="text-red-600">{{ mobility.message }}</span><br>
         </span>
-        <span @click="isdelete = !isdelete" 
+        <span name="delete" @click="isdelete = !isdelete" 
               class="bg-red-900 max-w-max text-white
                      px-4 py-2 border rounded-md
-                     hover:bg-red-700 hover:border-red-200">
+                     hover:bg-red-700 hover:border-red-200 ">
                      {{ trans('components.' + buttonName) }}
         </span>
     </div>

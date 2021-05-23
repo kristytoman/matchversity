@@ -25,11 +25,11 @@
                         <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
                     </svg>
                     <span class="ml-2">{{ __('adminMobilities.new') }}</span>
-                    <input class="cursor-pointer opacity-0 w-full h-full absolute block"
+                    <input id="file-import" class="cursor-pointer opacity-0 w-full h-full absolute block"
                            type="file" name="file" accept=".xlsx">
                 </span>
             </div>
-            <input type="submit"
+            <input id="file-submit" type="submit"
                    value="{{ __('adminMobilities.import') }}"
                    class="text-white bg-transparent cursor-pointer"/>
         </form>

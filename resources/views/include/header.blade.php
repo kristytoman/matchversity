@@ -30,7 +30,7 @@
         </div>
         @auth
             <div class="hidden lg:flex mr-8">
-                <a href="{{ route('logout') }}"
+                <a id="logout" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
                     {{ __('Logout') }}

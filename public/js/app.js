@@ -2799,7 +2799,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      selected: null,
+      selected: true,
       enabled: 'flex-1 opacity-100 mr-3',
       data: this.courses
     };
@@ -3140,14 +3140,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var session;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
-                return _this4.fetchCountries(Object.assign({}, _this4.summerList, _this4.winterList));
+                session = Object.keys(_this4.summerList);
+                _context4.next = 3;
+                return _this4.fetchCountries(session.concat(Object.keys(_this4.winterList)));
 
-              case 2:
+              case 3:
               case "end":
                 return _context4.stop();
             }
@@ -3165,60 +3167,57 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context5.prev = _context5.next) {
               case 0:
                 if (!_this5.code) {
-                  _context5.next = 21;
+                  _context5.next = 20;
                   break;
                 }
 
                 _context5.prev = 1;
-                console.log(_this5.courseRoute + '/' + _this5.code);
-                _context5.next = 5;
+                _context5.next = 4;
                 return fetch(_this5.courseRoute + '/' + _this5.code);
 
-              case 5:
+              case 4:
                 response = _context5.sent;
-                _context5.next = 8;
+                _context5.next = 7;
                 return response.json();
 
-              case 8:
+              case 7:
                 courseCode = _context5.sent;
 
                 _this5.$set(_this5.course, courseCode.code, courseCode);
 
                 if (!_this5.course) {
-                  _context5.next = 16;
+                  _context5.next = 15;
                   break;
                 }
 
                 if (courseCode.fields[0].pivot.is_summer) {
                   _this5.summerList = Object.assign({}, _this5.course, _this5.summerList);
-                  console.log(_this5.summerList);
                 } else {
                   _this5.winterList[courseCode.code] = Object.assign({}, _this5.course, _this5.winterList);
-                  console.log(_this5.winterList);
                 }
 
                 session = Object.keys(_this5.summerList);
-                _context5.next = 15;
+                _context5.next = 14;
                 return _this5.fetchCountries(session.concat(Object.keys(_this5.winterList)));
 
-              case 15:
+              case 14:
                 _this5.code = "";
 
-              case 16:
-                _context5.next = 21;
+              case 15:
+                _context5.next = 20;
                 break;
 
-              case 18:
-                _context5.prev = 18;
+              case 17:
+                _context5.prev = 17;
                 _context5.t0 = _context5["catch"](1);
                 console.log(_context5.t0);
 
-              case 21:
+              case 20:
               case "end":
                 return _context5.stop();
             }
           }
-        }, _callee5, null, [[1, 18]]);
+        }, _callee5, null, [[1, 17]]);
       }))();
     }
   },
@@ -39645,7 +39644,7 @@ var render = function() {
     "div",
     {
       staticClass:
-        "flex flex-col flex-none items-center justify-start\n            h-screen-1/2 min-w-continent w-continent max-w-continent"
+        "flex flex-col flex-none items-center justify-start\n            h-screen-3/4 min-w-continent w-continent max-w-continent"
     },
     [
       _c("h3", { staticClass: "text-2xl mb-8" }, [
@@ -39656,7 +39655,7 @@ var render = function() {
         "div",
         {
           staticClass:
-            "flex flex-col  min-w-continent w-continent max-w-continent flex-1 items-start"
+            "flex flex-col  min-w-continent w-continent max-w-continent overflow-auto overscroll-y-contain hide-scroll-bar flex-1 items-start"
         },
         _vm._l(_vm.cont.regions, function(region, index) {
           return _c("region", {
@@ -39794,6 +39793,7 @@ var render = function() {
           {
             staticClass:
               "text-red-700 font-semibold cursor-pointer tracking-wide",
+            attrs: { id: "return-to-courses" },
             on: {
               click: function($event) {
                 return _vm.$emit("change-view")
@@ -39814,7 +39814,8 @@ var render = function() {
         "div",
         {
           staticClass:
-            "flex w-full h-screen-1/2 flex-grow-0 justify-evenly content-center items-start"
+            "flex w-full h-screen-1/2 flex-grow-0 justify-evenly content-center items-start",
+          attrs: { id: "country-select" }
         },
         _vm._l(_vm.geo.continents, function(continent, index) {
           return _c("continent", {
@@ -39946,7 +39947,7 @@ var render = function() {
         _vm._v(" "),
         _c(
           "ul",
-          { staticClass: "px-16 mb-4" },
+          { staticClass: "px-16 mb-4", attrs: { id: "errors" } },
           _vm._l(_vm.errors, function(error, index) {
             return _c(
               "li",
@@ -40058,13 +40059,16 @@ var render = function() {
     "div",
     {
       staticClass:
-        "flex flex-col w-screen-3/5\n            ml-8 mb-16 px-8 py-6 bg-red-300 rounded-2xl"
+        "flex flex-col w-screen-3/5\n            ml-8 mb-16 px-8 py-6 bg-red-300 rounded-2xl mobility"
     },
     [
       !_vm.isdelete
         ? _c(
             "span",
-            { staticClass: "flex flex-col justify-evenly" },
+            {
+              staticClass: "flex flex-col justify-evenly",
+              attrs: { name: "mobility-info" }
+            },
             [
               _c("div", [_vm._v("Student")]),
               _vm._v(" "),
@@ -40185,7 +40189,8 @@ var render = function() {
         "span",
         {
           staticClass:
-            "bg-red-900 max-w-max text-white\n                 px-4 py-2 border rounded-md\n                 hover:bg-red-700 hover:border-red-200",
+            "bg-red-900 max-w-max text-white\n                 px-4 py-2 border rounded-md\n                 hover:bg-red-700 hover:border-red-200 ",
+          attrs: { name: "delete" },
           on: {
             click: function($event) {
               _vm.isdelete = !_vm.isdelete
@@ -40362,7 +40367,7 @@ var render = function() {
     {
       staticClass:
         "flex justify-between w-full self-center bg-red-200 hover:bg-red-400 px-8 py-6 my-4 rounded-2xl",
-      attrs: { href: _vm.showRoute }
+      attrs: { name: "mobility", href: _vm.showRoute }
     },
     [
       _c("div", [
@@ -40632,7 +40637,8 @@ var render = function() {
     "div",
     {
       staticClass:
-        "flex flex-col justify-center items-center w-48 h-64 bg-red-200 py-6 my-4 rounded-2xl"
+        "flex flex-col justify-center items-center w-48 h-64 bg-red-200 py-6 my-4 rounded-2xl",
+      attrs: { id: _vm.pairing.id, name: "rating" }
     },
     [
       _c("div", { staticClass: "flex flex-col space-y-4 items-center" }, [
@@ -40656,7 +40662,7 @@ var render = function() {
       !_vm.pairing.reason_id
         ? _c(
             "fieldset",
-            { staticClass: "flex mt-2" },
+            { staticClass: "flex mt-2", attrs: { name: "stars" } },
             _vm._l(5, function(star) {
               return _c("radio-star", {
                 key: star,
@@ -40765,10 +40771,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass:
-        "my-6 min-w-continent w-full w-continent max-h-screen-1/2 flex-grow-0"
-    },
+    { staticClass: "my-6 min-w-continent w-full  w-continent flex-grow-0" },
     [
       _c("div", { staticClass: "grid grid-cols-3 w-full items-center" }, [
         _c(
@@ -40882,7 +40885,10 @@ var render = function() {
     _vm.courses
       ? _c(
           "div",
-          { staticClass: "overflow-y-auto pb-10 hide-scroll-bar h-screen-3/4" },
+          {
+            staticClass: "overflow-y-auto pb-10 hide-scroll-bar h-screen-3/4",
+            attrs: { name: "course-list" }
+          },
           [
             _vm._l(_vm.data, function(course, index) {
               return _c(
@@ -40890,6 +40896,7 @@ var render = function() {
                 {
                   key: index,
                   class: _vm.disabled,
+                  attrs: { name: "course" },
                   on: {
                     click: function($event) {
                       return _vm.remove(index)
@@ -41075,6 +41082,7 @@ var render = function() {
                     ],
                     staticClass:
                       "my-2 p-1 mx-3 flex-1  flex border bg-red-100 border-red-200 text-red-900 rounded",
+                    attrs: { id: "faculty" },
                     on: {
                       change: [
                         function($event) {
@@ -41130,6 +41138,7 @@ var render = function() {
                     ],
                     staticClass:
                       "my-2 p-1 flex-1  bg-red-100 border-red-200 text-red-900  mx-3 \n                               flex border rounded",
+                    attrs: { id: "degree" },
                     on: {
                       change: [
                         function($event) {
@@ -41187,6 +41196,7 @@ var render = function() {
                     ],
                     staticClass:
                       "my-2 p-1 mx-3 flex border bg-red-100 border-red-200 text-red-900 rounded",
+                    attrs: { id: "fields" },
                     on: {
                       change: function($event) {
                         var $$selectedVal = Array.prototype.filter
@@ -41270,6 +41280,7 @@ var render = function() {
                   staticClass:
                     "my-2 p-1 mx-3 flex border bg-red-100 w-full placeholder-red-900 border-red-200 text-red-900 rounded",
                   attrs: {
+                    id: "grade",
                     type: "number",
                     min: "1",
                     max: "4",
@@ -41291,6 +41302,7 @@ var render = function() {
                   {
                     staticClass:
                       "text-red-100 hover:text-red-300 cursor-pointer mx-3",
+                    attrs: { id: "find-courses" },
                     on: {
                       click: function($event) {
                         return _vm.findCourses()
@@ -41334,7 +41346,7 @@ var render = function() {
                   ],
                   staticClass:
                     "my-2 p-1 mx-3 flex border bg-red-100 placeholder-red-900  border-red-200 text-red-900 rounded",
-                  attrs: { placeholder: "Zkratka předmětu" },
+                  attrs: { id: "course", placeholder: "Zkratka předmětu" },
                   domProps: { value: _vm.code },
                   on: {
                     input: function($event) {
@@ -41351,6 +41363,7 @@ var render = function() {
                   {
                     staticClass:
                       "text-red-100 hover:text-red-300 cursor-pointer",
+                    attrs: { id: "find-course" },
                     on: {
                       click: function($event) {
                         return _vm.fetchCourse()
@@ -41372,6 +41385,7 @@ var render = function() {
             {
               staticClass:
                 "text-red-700 self-center mt-4 font-semibold cursor-pointer tracking-wide",
+              attrs: { id: "select-countries" },
               on: {
                 click: function($event) {
                   return _vm.$emit("change-view")
@@ -41432,7 +41446,7 @@ var render = function() {
     {
       staticClass:
         "flex flex-col justify-center w-full self-center bg-red-200 hover:bg-red-400 px-8 py-6 my-4 rounded-2xl",
-      attrs: { href: _vm.route }
+      attrs: { name: "other", href: _vm.route }
     },
     [
       _c(

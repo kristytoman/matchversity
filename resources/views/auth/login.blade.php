@@ -22,7 +22,7 @@
                                    required>
                             @error('email')
                                 <span>
-                                    <strong class="text-red-100">{{ $message }}</strong>
+                                    <strong id="error-email" class="text-red-100">{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -35,7 +35,7 @@
                                           my-6 border w-full border-red-400 rounded"
                                    required>
                             @error('password')
-                                <strong class="text-red-100">{{ $message }}</strong>
+                                <strong id="error-password" class="text-red-100">{{ $message }}</strong>
                             @enderror
                         </div>
                   </div>
@@ -46,7 +46,7 @@
                                    {{ old('remember') ? 'checked' : '' }}>
                                    {{ __('Remember Me') }}
                         </label>
-                        <button type="submit">
+                        <button id="submit" type="submit">
                             {{ __('Login') }}
                         </button>
                     </div>

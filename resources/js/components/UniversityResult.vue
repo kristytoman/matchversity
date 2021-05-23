@@ -1,5 +1,5 @@
 <template>
-    <a class="flex flex-col justify-center w-full self-center bg-red-200 hover:bg-red-400 px-8 py-6 my-4 rounded-2xl"
+    <a name="other" class="flex flex-col justify-center w-full self-center bg-red-200 hover:bg-red-400 px-8 py-6 my-4 rounded-2xl"
         :href="route">
         <span class="text-2xl text-red-900 font-semibold uppercase tracking-wide mb-2">{{ university.name }}</span>
         <span class="text-lg text-red-900 mb-1">{{ university.native_name }}</span>

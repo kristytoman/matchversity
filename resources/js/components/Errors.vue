@@ -12,7 +12,7 @@
         </div>
         <span  class="px-6 py-4 text-red-900 font-semibold text-lg">{{ trans("components.error")}}</span>
     </div>
-        <ul class="px-16 mb-4">
+        <ul id="errors" class="px-16 mb-4">
             <li v-for="(error, index) in errors" :key="index" 
             class="text-md font-bold text-red-500 text-sm">{{ error }}</li>
         </ul>

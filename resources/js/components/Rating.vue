@@ -1,12 +1,12 @@
 <template>
-    <div class="flex flex-col justify-center items-center w-48 h-64 bg-red-200 py-6 my-4 rounded-2xl">
+    <div :id="pairing.id" name="rating" class="flex flex-col justify-center items-center w-48 h-64 bg-red-200 py-6 my-4 rounded-2xl">
         <div class="flex flex-col space-y-4 items-center">
             <span class="text-lg text-red-900 text-center font-semibold">
                 {{ pairing.foreign_course.name }}
             </span>
             <span class="text-red-900">{{ pairing.home_course.code }}</span>
         </div>
-            <fieldset v-if="!pairing.reason_id" class="flex mt-2">
+            <fieldset name="stars" v-if="!pairing.reason_id" class="flex mt-2">
                 <radio-star v-for="star in 5" :key="star" 
                             :pair="pairing" :index="star" @change="onChange">
                 </radio-star>
