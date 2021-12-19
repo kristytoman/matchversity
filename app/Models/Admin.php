@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User;
-use Illuminate\Database\Eloquent\Model;
 
 class Admin extends User
 {
@@ -17,7 +16,7 @@ class Admin extends User
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = [
         'name',

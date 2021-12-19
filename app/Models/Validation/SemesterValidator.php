@@ -2,8 +2,6 @@
 
 namespace App\Models\Validation;
 
-use App\Models\Validation\DataValidator;
-
 class SemesterValidator extends DataValidator
 {
     /**
@@ -17,11 +15,12 @@ class SemesterValidator extends DataValidator
     /**
      * Create new instance for DataValidator.
      *
-     * @param string  $data
-     * @param ArrivalValidator  $arrival
+     * @param string $data
+     * @param ArrivalValidator $arrival
      */
     public function __construct($data, $arrival)
     {
+        parent::__construct($data);
         $this->data = $data;
         $this->arrival = $arrival;
     }
@@ -55,8 +54,7 @@ class SemesterValidator extends DataValidator
                 return $this->correctWinter($month);
             }
             return $this->correctSummer($month);
-        }
-        else {
+        } else {
             return $this->result("");
         }
     }
@@ -64,7 +62,7 @@ class SemesterValidator extends DataValidator
     /**
      * Corrects data to summer semester.
      *
-     * @param int  $month
+     * @param int $month
      * @return bool
      */
     private function correctWinter($month)
@@ -73,15 +71,13 @@ class SemesterValidator extends DataValidator
             $this->data = "LS";
             return $this->result("Semester was changed to fit the arrival");
         }
-        else {
-             return $this->result("");
-        }
+        return $this->result("");
     }
 
     /**
      * Corrects data to winter semester.
      *
-     * @param int  $month
+     * @param int $month
      * @return bool
      */
     private function correctSummer($month)
@@ -89,9 +85,8 @@ class SemesterValidator extends DataValidator
         if (($month > 7) && ($month < 12)) {
             $this->data = "ZS";
             return $this->result("Semester was changed to fit the arrival");
-        }
-        else {
+        } else {
             return $this->result("");
-       }
+        }
     }
 }

@@ -1,0 +1,11 @@
+includes:
+    - ./vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+    paths:
+        - app
+        - tests
+    level: 9
+    checkMissingIterableValueType: false
+    ignoreErrors:
+        - '#Cannot call method when\(\) on mixed#'

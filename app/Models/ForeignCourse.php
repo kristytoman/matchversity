@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ForeignCourse extends Model
 {
@@ -24,22 +28,24 @@ class ForeignCourse extends Model
     /**
      * The attributes that aren't mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $guarded = [];
 
     /**
      * Get university of the course.
+     * @return BelongsTo
      */
-    public function university()
+    public function university(): BelongsTo
     {
         return $this->belongsTo(University::class);
     }
 
     /**
      * Get pairings associated with the course.
+     * @return HasMany
      */
-    public function pairings()
+    public function pairings(): HasMany
     {
         return $this->hasMany(Pairing::class);
     }
@@ -47,11 +53,11 @@ class ForeignCourse extends Model
     /**
      * Get the instance of the model.
      *
-     * @param int  $uniID
-     * @param string  $name
+     * @param int $uniId
+     * @param string $name
      * @return ForeignCourse
      */
-    public static function get($uniId, $name)
+    public static function get(int $uniId, string $name): ForeignCourse
     {
         return self::firstOrCreate([
             'name' => $name,
@@ -73,9 +79,10 @@ class ForeignCourse extends Model
     /**
      * Update the university column of the course.
      *
-     * @param int  $uniID
+     * @param int $uniID
+     * @return void
      */
-    public function changeUniversity($uniID)
+    public function changeUniversity(int $uniID)
     {
         $this->university()->associate(University::find($uniID));
         $this->save();
@@ -84,9 +91,11 @@ class ForeignCourse extends Model
     /**
      * Update the name of the course.
      *
-     * @param int  $university
+     * @param int $university
+     * @param string $name
+     * @return void
      */
-    public function changeName($university, $name)
+    public function changeName(int $university, string $name)
     {
         if ($this->university_id == $university && $name != $this->name) {
             $this->name = $name;
@@ -96,73 +105,77 @@ class ForeignCourse extends Model
 
     /**
      * Return pairings associated with this course.
-     * 
-     * @return Illuminate\Support\Collection
+     * @return Collection
      */
-    public function getPairings()
+    public function getPairings(): Collection
     {
         return Pairing::where('foreign_course_id', '=', $this->id)->get();
     }
 
     /**
      * Merge courses together.
-     * 
-     * @param int  $from
-     * @param int  $to
+     *
+     * @param int $from
+     * @param int $to
+     * @return void
      */
-    public static function repair($from, $to)
+    public static function repair(int $from, int $to)
     {
         $course = ForeignCourse::find($from);
-        foreach ($course->getPairings() as $pairing) {
-            $pairing->foreign_course_id = $to;
-            $pairing->save();
+        if ($course instanceof ForeignCourse) {
+            foreach ($course->getPairings() as $pairing) {
+                $pairing->foreign_course_id = $to;
+                $pairing->save();
+            }
+            $course->delete();
         }
-        $course->delete();
     }
-    
+
     /**
      * Return all mobilities associated with the university.
-     * 
-     * @param int  $id
-     * @return Illuminate\Support\Collection
+     *
+     * @param int $id
+     * @return LengthAwarePaginator
      */
-    private static function getAllFromUni($id)
+    private static function getAllFromUni($id): LengthAwarePaginator
     {
         return ForeignCourse::where('university_id', $id)
-                            ->with([
-                                'pairings.mobility',
-                                'pairings.homeCourse',
-                                'pairings.reason'
-                            ])->paginate(15);
+            ->with([
+                'pairings.mobility',
+                'pairings.homeCourse',
+                'pairings.reason'
+            ])->paginate(15);
     }
 
     /**
      * Return all mobilities associated with the university
      * that contains selected courses.
-     * 
-     * @param int  $id
-     * @return Illuminate\Support\Collection
+     *
+     * @param int $id
+     * @return Collection
      */
-    private static function getSelectedFromUni($id)
+    private static function getSelectedFromUni(int $id): Collection
     {
         return ForeignCourse::where('university_id', $id)
-        ->whereHas('pairings',  function (Builder $query) {
-            $query->whereHas('homeCourse', function (Builder $query) {
-                $courses = HomeCourse::getSession();
-                $query->whereIn('group', $courses['groups'])
-                      ->orWhereIn('code', $courses['codes']);
-            });
-        })->with(['pairings.mobility', 'pairings.homeCourse', 'pairings.reason'])
-          ->get();
+            ->whereHas('pairings', function (Builder $query) {
+                $query->whereHas('homeCourse', function (Builder $query) {
+                    $courses = HomeCourse::getSession();
+                    if (is_array($courses)) {
+                        $query->whereIn('group', $courses['groups'])
+                            ->orWhereIn('code', $courses['codes']);
+                    }
+                });
+            })->with(['pairings.mobility', 'pairings.homeCourse', 'pairings.reason'])
+            ->get();
     }
 
     /**
      * Return mobilities for the university profile.
-     * 
-     * @param int  $id
-     * @return Illuminate\Support\Collection
+     *
+     * @param int $id
+     * @return array
      */
-    public static function getUniversityData($id)
+    public static function getUniversityData(int $id): array
     {
         $courses = HomeCourse::getSession();
         $data = ['all' => self::getAllFromUni($id)];

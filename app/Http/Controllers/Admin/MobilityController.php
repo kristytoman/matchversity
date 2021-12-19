@@ -7,15 +7,17 @@ use App\Http\Requests\ImportMobilitiesRequest;
 use App\Http\Requests\StoreMobilitiesRequest;
 use App\Models\Mobility;
 use App\Models\Validation\FileValidator;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class MobilityController extends Controller
 {
     /**
      * Display a listing of mobilities.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         return view('admin.mobilities', [
                 'mobilities' => Mobility::paginate(30)
@@ -26,10 +28,10 @@ class MobilityController extends Controller
     /**
      * Import data from the resource file.
      *
-     * @param  App\Http\Requests\ImportMobilitiesRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param ImportMobilitiesRequest $request
+     * @return View|RedirectResponse
      */
-    public function import(ImportMobilitiesRequest $request)
+    public function import(ImportMobilitiesRequest $request): View|RedirectResponse
     {
         $fileValidator = new FileValidator;
         $validated = $request->validated();
@@ -43,15 +45,14 @@ class MobilityController extends Controller
 
         // Import correct mobilities.
         Mobility::import($mobilities);
-        
+
         // Try to return the incorrect data to admin.
         if ($fileValidator->toCheck) {
             return view('admin.data_check', [
                 'count' => $fileValidator->getCount(),
                 'mobilities' => $fileValidator->toCheck
             ]);
-        }
-        else {
+        } else {
             return redirect()->route('admin.mobilities.index');
         }
     }
@@ -59,10 +60,9 @@ class MobilityController extends Controller
     /**
      * Store validated mobilities.
      *
-     * @param  App\Http\Requests\StoreMobilitiesRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreMobilitiesRequest $request
      */
-    public function store(StoreMobilitiesRequest $request)
+    public function store(StoreMobilitiesRequest $request): View|RedirectResponse
     {
         $fileValidator = new FileValidator;
 

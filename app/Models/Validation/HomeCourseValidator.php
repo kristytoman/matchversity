@@ -2,7 +2,6 @@
 
 namespace App\Models\Validation;
 
-use App\Models\Validation\DataValidator;
 use App\Models\HomeCourse;
 
 class HomeCourseValidator extends DataValidator
@@ -10,14 +9,14 @@ class HomeCourseValidator extends DataValidator
     /**
      * The Czech name of the course from STAG.
      *
-     * @var string
+     * @var string|null
      */
     public $nameCZ;
 
     /**
      * The English name of the course from STAG.
      *
-     * @var string
+     * @var string|null
      */
     public $nameEN;
 
@@ -31,7 +30,7 @@ class HomeCourseValidator extends DataValidator
     /**
      * The course names of the previous input data.
      *
-     * @var string
+     * @var string[][]
      */
     private static $courses;
 
@@ -39,13 +38,16 @@ class HomeCourseValidator extends DataValidator
      * Create instance of HomeCourseValidator.
      *
      */
-    public function __construct() { }
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * Initialize validator from file input.
      *
-     * @param string  $course
-     * @param YearValidator  $year
+     * @param string $course
+     * @param YearValidator $year
      * @return HomeCourseValidator
      */
     public static function fromFile($course, $year)
@@ -59,7 +61,7 @@ class HomeCourseValidator extends DataValidator
     /**
      * Initialize validator from file input.
      *
-     * @param string  $homeCourse
+     * @param array $homeCourse
      * @return HomeCourseValidator
      */
     public static function fromForm($homeCourse)
@@ -84,8 +86,9 @@ class HomeCourseValidator extends DataValidator
         if (!preg_match("/^[A-Z0-9]*\/[A-Z0-9]*$/", $this->data)) {
             return $this->result("Wrong home course code format.");
         }
+        $yearNumber = (int)$this->year->data;
         if (!($this->nameCZ && $this->nameEN)) {
-            if (!$this->getNames($this->year->data) && !$this->getNames($this->year->data - 1)) {
+            if (!$this->getNames($yearNumber) && !$this->getNames($yearNumber - 1)) {
                 return $this->result("Name import not succesful.");
             }
         }
@@ -94,7 +97,7 @@ class HomeCourseValidator extends DataValidator
 
     /**
      * Set the course field empty.
-     *
+     * @return void
      */
     public static function refreshField()
     {
@@ -111,7 +114,8 @@ class HomeCourseValidator extends DataValidator
         if ($this->nameCZ && $this->nameEN) {
             return true;
         }
-        if ($course = HomeCourse::findByCode($this->data)) {
+        $course = HomeCourse::findByCode($this->data);
+        if ($course instanceof HomeCourse) {
             $this->nameCZ = $course->name_cz;
             $this->nameEN = $course->name_en;
             return true;
@@ -122,13 +126,13 @@ class HomeCourseValidator extends DataValidator
     /**
      * Try to find the name in the previous data.
      *
-     * @param int  $year
+     * @param int $year
      * @return bool
      */
     private function findInPrevious($year)
     {
         if (!empty(self::$courses) && key_exists($index = $this->data . $year, self::$courses)) {
-            if(key_exists('cz', self::$courses[$index]) && key_exists('en', self::$courses[$index])) {
+            if (key_exists('cz', self::$courses[$index]) && key_exists('en', self::$courses[$index])) {
                 $this->nameCZ = self::$courses[$index]['cz'];
                 $this->nameEN = self::$courses[$index]['en'];
                 return true;
@@ -140,7 +144,7 @@ class HomeCourseValidator extends DataValidator
     /**
      * Get the names of the course.
      *
-     * @param int  $year
+     * @param int $year
      * @return bool
      */
     private function getNames($year)
@@ -159,8 +163,8 @@ class HomeCourseValidator extends DataValidator
     /**
      * Get the Czech name of the course.
      *
-     * @param array  $code
-     * @param int  $year
+     * @param array $code
+     * @param int $year
      * @return bool
      */
     public function getCzechName($code, $year)
@@ -175,8 +179,8 @@ class HomeCourseValidator extends DataValidator
     /**
      * Get the English name of the course.
      *
-     * @param array  $code
-     * @param int  $year
+     * @param array $code
+     * @param int $year
      * @return bool
      */
     public function getEnglishName($code, $year)
@@ -192,11 +196,11 @@ class HomeCourseValidator extends DataValidator
     /**
      * Fetch the name from STAG.
      *
-     * @param string  $unit
-     * @param string  $course
-     * @param int  $year
-     * @param string  $lang
-     * @return string
+     * @param string $unit
+     * @param string $course
+     * @param int $year
+     * @param string $lang
+     * @return string|null
      */
     public function fetchName($unit, $course, $year, $lang)
     {
@@ -208,12 +212,16 @@ class HomeCourseValidator extends DataValidator
             '&lang=' . $lang .
             '&outputFormat=JSON'
         );
-        if ($res !== false && (strpos($res, "faultstring") !== false || substr($res, 0, 6) == '<html>')) {
+        if ($res !== false && (str_contains($res, "faultstring") || str_starts_with($res, "<html"))) {
             return null;
         }
         if ($res === false || strlen($res) == 0) {
             return null;
         }
-        return json_decode($res)->nazevDlouhy;
+        $data = json_decode($res);
+        if (is_array($data)) {
+            return $data['nazevDlouhy'];
+        }
+        return null;
     }
 }

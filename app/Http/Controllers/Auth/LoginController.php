@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class LoginController extends Controller
 {
@@ -44,44 +47,10 @@ class LoginController extends Controller
 
     /**
      * Return the form for admin login.
-     * 
-     * @return \Illuminate\Http\Response
+     *
+     * @return View
      */
-    public function showAdmin()
-    {
-        return view('auth.login');
-    }
-
-    /**
-     * Handle an authentication attempt.
-     * 
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function adminLogin(Request $request)
-    {
-        $this->validate($request, [
-            'email'   => 'required|email',
-            'password' => 'required|min:6'
-        ]);
-
-        if (Auth::guard('admin')->attempt([
-                'email' => $request->email, 
-                'password' => $request->password
-            ], $request->get('remember'))) {
-                return redirect()->route('admin.mobilities.index');
-        }
-        return back()->withInput($request->only('email', 'remember'))->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);;
-    }
-
-    /**
-     * Return the form for user login.
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function showLoginForm()
+    public function showAdmin(): View
     {
         return view('auth.login');
     }
@@ -89,17 +58,55 @@ class LoginController extends Controller
     /**
      * Handle an authentication attempt.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function login(Request $request)
+    public function adminLogin(Request $request): RedirectResponse
+    {
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ]);
+
+        if (Auth::guard('admin')->attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ], (boolean)$request->get('remember'))) {
+            return redirect()->route('admin.mobilities.index');
+        }
+        return back()->withInput($request->only('email', 'remember'))->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
+    }
+
+    /**
+     * Return the form for user login.
+     *
+     * @return View
+     */
+    public function showLoginForm(): View
+    {
+        return view('auth.login');
+    }
+
+    /**
+     * Handle an authentication attempt.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function login(Request $request): RedirectResponse
     {
         $credentials = $request->only('email', 'password');
 
         // Fake authentication
         if ($credentials['email'] == 'test@utb.cz' && $credentials['password'] == '1234') {
-            Auth::login(User::find(353)); // Login of the author.
-            return redirect()->intended('/');
+            $user = User::find(353);// TODO:change
+            if ($user instanceof User) {
+                Auth::login($user);
+                return redirect()->intended();
+            }
         }
 
         return back()->withErrors([

@@ -2,8 +2,7 @@
 
 namespace App\Models\Validation;
 
-use App\Models\Validation\HomeCourseValidator;
-use ImportColumns;
+use App\Constants\ImportColumns;
 use SimpleXLSX;
 
 class FileValidator
@@ -11,7 +10,7 @@ class FileValidator
     /**
      * The input data of the file to validate.
      *
-     * @var array
+     * @var array|null
      */
     public $data;
 
@@ -36,7 +35,7 @@ class FileValidator
      */
     public $toCheck;
 
-     /**
+    /**
      * Returns the number of mobilities in the file.
      *
      * @return int
@@ -49,7 +48,7 @@ class FileValidator
     /**
      * Checks if the file has all needed rows.
      *
-     * @param array  $row
+     * @param array $row
      * @return bool
      */
     private function isRightHeader($row)
@@ -71,7 +70,7 @@ class FileValidator
 
     /**
      * Parse the file content into array
-     *
+     * @return void
      */
     private function parseData()
     {
@@ -82,7 +81,7 @@ class FileValidator
                 if ($index === 0) {
                     if (!$this->isRightHeader($row)) {
                         $this->data = null;
-                        return null;
+                        return;
                     }
                     $header = $row;
                     continue;
@@ -96,10 +95,10 @@ class FileValidator
     /**
      * Returns validated data of the file.
      *
-     * @param object  $file
-     * @return array
+     * @param object $file
+     * @return array|null
      */
-    public function getData($file)
+    public function getData(object $file): ?array
     {
         $this->file = $file;
         HomeCourseValidator::refreshField();
@@ -109,8 +108,8 @@ class FileValidator
             foreach ($this->data as $row) {
                 if (($row[ImportColumns::DEGREE] !== 'doktorský') &&
                     (!empty($row[ImportColumns::HOME_COURSE])) &&
-                        !empty($row[ImportColumns::STUDENT_ID])) {
-                            $this->addMobility($mobilities, $row);
+                    !empty($row[ImportColumns::STUDENT_ID])) {
+                    $this->addMobility($mobilities, $row);
                 }
             }
             $this->validateMobilities($mobilities, false);
@@ -125,17 +124,18 @@ class FileValidator
     /**
      * Add input row of the file to the array of mobilities.
      *
-     * @param array  $mobilities
-     * @param array  $data
+     * @param array $mobilities
+     * @param array $data
+     * @return void
      */
-    private function addMobility(&$mobilities, $data)
+    private function addMobility(array &$mobilities, array $data)
     {
         foreach ($mobilities as $mobility) {
             if ($mobility->student->data === $data[ImportColumns::STUDENT_ID] &&
                 $mobility->arrival->data === $data[ImportColumns::START] &&
                 $mobility->departure->data === $data[ImportColumns::END]) {
-                    $mobility->addPairing($data);
-                    return;
+                $mobility->addPairing($data);
+                return;
             }
         }
         array_push($mobilities, MobilityValidator::fromFile($data));
@@ -144,18 +144,19 @@ class FileValidator
     /**
      * Validate the data of the file.
      *
-     * @param array  $mobilities
+     * @param array $mobilities
+     * @param bool $revalidate
+     * @return void
      */
-    private function validateMobilities(&$mobilities, $revalidate)
+    private function validateMobilities(array &$mobilities, bool $revalidate)
     {
         $this->toCheck = [];
         $this->validated = [];
-        foreach($mobilities as $mobility) {
-            if ($mobility->validate() || 
-               ($mobility->student->message == StudentValidator::REWRITE && $revalidate)) {
+        foreach ($mobilities as $mobility) {
+            if ($mobility->validate() ||
+                ($mobility->student->message == StudentValidator::REWRITE && $revalidate)) {
                 array_push($this->validated, $mobility);
-            }
-            else {
+            } else {
                 array_push($this->toCheck, $mobility);
             }
         }
@@ -163,8 +164,8 @@ class FileValidator
 
     /**
      * Revalidate data from form.
-     * 
-     * @param array  $request
+     *
+     * @param array $request
      * @return array
      */
     public function revalidate($request)

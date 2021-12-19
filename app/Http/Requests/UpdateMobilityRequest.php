@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Mobility;
 
@@ -12,11 +13,13 @@ class UpdateMobilityRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         $mobility = Mobility::find($this->route('mobility'));
-         return $mobility->user_id === $this->user()->id;
-        
+        if (!($mobility instanceof Mobility) || !($this->user() instanceof User)) {
+            return false;
+        }
+        return $mobility->user_id === $this->user()->id;
     }
 
     /**

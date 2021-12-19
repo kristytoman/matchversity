@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class City extends Model
 {
@@ -23,7 +25,7 @@ class City extends Model
     /**
      * The attributes that aren't mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $guarded = [];
 
@@ -36,16 +38,18 @@ class City extends Model
 
     /**
      * Get the universities of the location.
+     * @return HasMany
      */
-    public function universities()
+    public function universities(): HasMany
     {
         return $this->hasMany(University::class);
     }
 
     /**
      * Get the country associated with the city.
+     * @return BelongsTo
      */
-    public function country()
+    public function country(): BelongsTo
     {
         return $this->belongsTo(Country::class);
     }
@@ -53,7 +57,7 @@ class City extends Model
     /**
      * Create or find an instance of University location in the database.
      *
-     * @param string  $city
+     * @param string $city
      * @return City
      */
     public static function getCity(string $city)
@@ -66,8 +70,8 @@ class City extends Model
     /**
      * Create or find an instance of University location in the database.
      *
-     * @param string  $city
-     * @param string  $country
+     * @param string $city
+     * @param string $country
      * @return City
      */
     public static function add(string $city, string $country)

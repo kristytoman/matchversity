@@ -2,12 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Location;
-use App\Models\Country;
-use App\Models\HomeCourse;
-use DB;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class University extends Model
 {
@@ -28,37 +27,40 @@ class University extends Model
     /**
      * The relationships that should always be loaded.
      *
-     * @var array
+     * @var string[]
      */
     protected $with = ['city', 'foreignCourses'];
 
     /**
      * The attributes that aren't mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $guarded = [];
 
     /**
      * Get mobilities of the university.
+     * @return HasMany
      */
-    public function mobilities()
+    public function mobilities(): HasMany
     {
         return $this->hasMany(Mobility::class);
     }
 
     /**
      * Get courses of the university.
+     * @return HasMany
      */
-    public function foreignCourses()
+    public function foreignCourses(): HasMany
     {
         return $this->hasMany(ForeignCourse::class);
     }
 
     /**
      * Get university of the mobility.
+     * @return BelongsTo
      */
-    public function city()
+    public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
     }
@@ -66,46 +68,49 @@ class University extends Model
     /**
      * Store data about university into the database.
      *
-     * @param array  $data
+     * @param array $data
      * @return University
      */
     public static function createProfile($data)
     {
         $uni = new University;
-            $uni->name = $data['nameEN'];
-            $uni->original_name = $data['nameDB'];
-            $uni->native_name = $data['nameORG'];
-            $uni->web = $data['web'];
-            $uni->xchange_link = $data['xchangeLink'];
-            $uni->xchange_id = $data['xchangeID'];
-            $uni->city()->associate($data['city']);
+        $uni->name = $data['nameEN'];
+        $uni->original_name = $data['nameDB'];
+        $uni->native_name = $data['nameORG'];
+        $uni->web = $data['web'];
+        $uni->xchange_link = $data['xchangeLink'];
+        $uni->xchange_id = $data['xchangeID'];
+        $uni->city()->associate($data['city']);
         $uni->save();
         return $uni;
     }
 
     /**
      * Update data in the database.
-     * 
-     * @param int  $uniID
-     * @param array  $data
+     *
+     * @param int $uniID
+     * @param array $data
+     * @return void
      */
     public static function updateProfile($uniID, $data)
     {
         $uni = University::find($uniID);
+        if ($uni instanceof University) {
             $uni->name = $data['name'];
             $uni->native_name = $data['native_name'];
             $uni->web = $data['web'];
             $uni->xchange_id = $data['xchange'];
             $uni->xchange_link = $data['xchange_link'];
             $uni->associateCity($data);
-        $uni->save();
+            $uni->save();
+        }
     }
 
     /**
      * Return foreign courses assigned to the university.
-     * 
-     * @param int  $id
-     * @return Illuminate\Support\Collection
+     *
+     * @param int $id
+     * @return Collection
      */
     public static function getForeignCourses($id)
     {
@@ -114,9 +119,9 @@ class University extends Model
 
     /**
      * Return mobilities assigned to the university.
-     * 
-     * @param int  $id
-     * @return Illuminate\Support\Collection
+     *
+     * @param int $id
+     * @return Collection
      */
     public static function getMobilities($id)
     {
@@ -125,9 +130,10 @@ class University extends Model
 
     /**
      * Merge universities.
-     * 
-     * @param int  $connect
-     * @param int  $connectTo
+     *
+     * @param int $connect
+     * @param int $connectTo
+     * @return void
      */
     public static function connectProfiles($connect, $connectTo)
     {
@@ -142,8 +148,9 @@ class University extends Model
 
     /**
      * Associate city with the university.
-     * 
-     * @param array  $data
+     *
+     * @param array $data
+     * @return void
      */
     public function associateCity($data)
     {
@@ -152,9 +159,9 @@ class University extends Model
 
     /**
      * Return university by it's original name.
-     * 
-     * @param string  $name
-     * @param City  $city
+     *
+     * @param string $name
+     * @param string $city
      * @return University
      */
     public static function get($name, $city)
@@ -162,7 +169,7 @@ class University extends Model
         $uni = self::firstOrCreate([
             'original_name' => $name
         ]);
-        if(!$uni->city()) {
+        if (!$uni->city) {
             $uni->city()->associate(City::getCity($city));
         }
         return $uni;
@@ -170,8 +177,8 @@ class University extends Model
 
     /**
      * Return list of all universities.
-     * 
-     * @return Illuminate\Support\Collection
+     *
+     * @return Collection
      */
     public static function getAll()
     {
@@ -180,7 +187,7 @@ class University extends Model
 
     /**
      * Return number of all stored universities.
-     * 
+     *
      * @return int
      */
     public static function getCount()
@@ -190,8 +197,8 @@ class University extends Model
 
     /**
      * Return university instance.
-     * 
-     * @param int  $id
+     *
+     * @param int $id
      * @return University|null
      */
     public static function getById($id)
@@ -201,79 +208,48 @@ class University extends Model
 
     /**
      * Return list of universities based on search request.
-     * 
-     * @return array
+     *
+     * @return Collection
      */
     public static function findResults()
     {
-        return University::when($request = HomeCourse::getSession(), function($query, $request) {
+        return University::when($request = HomeCourse::getSession(), function ($query, $request) {
             $query->whereHas('mobilities', function (Builder $query) use ($request) {
-            $query->whereHas('pairings', function (Builder $query) use ($request) {
-                $query->whereHas('homeCourse', function (Builder $query) use($request) {
-                    $query->whereIn('code', $request['codes'])
-                          ->orWhereIn('group', $request['groups']);
+                $query->whereHas('pairings', function (Builder $query) use ($request) {
+                    $query->whereHas('homeCourse', function (Builder $query) use ($request) {
+                        if (is_array($request)) {
+                            $query->whereIn('code', $request['codes'])
+                                ->orWhereIn('group', $request['groups']);
+                        }
+                    });
                 });
             });
-        });
-        })->when($request = Country::getSession(), function($query, $request) {
+        })->when($request = Country::getSession(), function ($query, $request) {
             $query->whereHas('city', function (Builder $query) use ($request) {
                 $query->whereIn('country_id', $request);
             });
         })->withCount('mobilities')->orderBy('mobilities_count', 'desc')->paginate(15);
     }
 
-    /**
-     * Return an array from the query collection.
-     * 
-     * @param Illuminate\Support\Collection  $select
-     * @return array
-     */
-    private static function groupData($select)
-    {
-        $result = [];
-        foreach ($select->all() as $row) {
-            if (array_key_exists($row->universityID, $result)) {
-                if ((count($result[$row->universityID]['courses']) < 5) && empty($row->reasonID)) {
-                    $result[$row->universityID]['courses'][$row->foreignCourseID] = [
-                        'name' => $row->foreignCourseName,
-                        'reason' => $row->reasonID
-                    ];
-                }
-            }
-            else {
-                $result[$row->universityID] = [
-                    'id' => $row->universityID,
-                    'name' => $row->universityName,
-                    'native' => $row->universityNativeName,
-                    'city' => $row->cityName,
-                    'countryID' => $row->countryID,
-                    'count' => $row->count,
-                    'courses' => empty($row->reasonID) ? array(
-                        $row->foreignCourseID => [
-                            'name' => $row->foreignCourseName,
-                            'reason' => $row->reasonID
-                        ]
-                    ) : []
-                ];
-            }
-        }
-        return $result;
-    }
 
     /**
      * Update courses of the university.
-     * 
-     * @param array  $data
-     * @param int  $id
+     *
+     * @param array $data
+     * @param int $id
+     * @return void
      */
     public static function updateForeignCourses($data, int $id)
     {
-        if ($university = University::find($id) && array_key_exists($id, $data['courses'])) {
-            foreach($data['courses'][$id] as $courseID => $name) {
-                if ($course = ForeignCourse::find($courseID)) {
+        $university = University::find($id);
+        if ($university instanceof University && array_key_exists($id, $data['courses'])) {
+            foreach ($data['courses'][$id] as $courseID => $name) {
+                $course = ForeignCourse::find($courseID);
+                if ($course instanceof ForeignCourse) {
                     if ($course->name != $name) {
-                        if ($secondCourse = ForeignCourse::where('name', $name)->where('university_id', $id)->first()) {
-                            if ($secondCourse->name == $name ) {
+                        $secondCourse = ForeignCourse::where('name', $name)->where('university_id', $id)->first();
+                        if ($secondCourse instanceof ForeignCourse) {
+                            if ($secondCourse->name == $name) {
                                 ForeignCourse::repair($courseID, $secondCourse->id);
                             } else {
                                 $course->changeName($id, $name);

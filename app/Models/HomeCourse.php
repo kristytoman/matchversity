@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Validation\HomeCourseValidator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class HomeCourse extends Model
 {
@@ -23,32 +27,34 @@ class HomeCourse extends Model
     /**
      * The attributes that aren't mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $guarded = [];
 
     /**
      * The relationships that should always be loaded.
      *
-     * @var array
+     * @var string[]
      */
     protected $with = ['fields'];
 
     /**
      * Get pairings associated with the course.
+     * @return HasMany
      */
-    public function pairings()
+    public function pairings(): HasMany
     {
         return $this->hasMany(Pairing::class);
     }
 
     /**
      * The users that belong to the role.
+     * @return BelongsToMany
      */
-    public function fields()
+    public function fields(): BelongsToMany
     {
         return $this->belongsToMany(Field::class, 'field_courses')
-                    ->withPivot('is_summer', 'compulsory', 'grade');
+            ->withPivot('is_summer', 'compulsory', 'grade');
     }
 
     /**
@@ -65,7 +71,7 @@ class HomeCourse extends Model
     /**
      * Get the course instance.
      *
-     * @param array $homeCourse
+     * @param HomeCourseValidator $homeCourse
      * @return HomeCourse
      */
     public static function get($homeCourse)
@@ -80,10 +86,9 @@ class HomeCourse extends Model
     /**
      * Get all data from the database
      * ordered by the czech name.
-     *
-     * @return Illuminate\Support\Collection
+     * @return Paginator
      */
-    public static function allOrderedByName()
+    public static function allOrderedByName(): Paginator
     {
         return self::select()->orderBy('name_cz')->simplePaginate(15);
     }
@@ -91,7 +96,8 @@ class HomeCourse extends Model
     /**
      * Change the group associated with the course.
      *
-     * @param array  $data
+     * @param array $data
+     * @return void
      */
     public static function changeGroups($data)
     {
@@ -103,50 +109,53 @@ class HomeCourse extends Model
     /**
      * Add the course to the group.
      *
-     * @param int  $id
-     * @param int  $group
+     * @param int $id
+     * @param int $group
+     * @return void
      */
     public static function addToGroup($id, $group)
     {
         $course = HomeCourse::find($id);
-        $course->group = $group;
-        $course->save();
+        if ($course instanceof HomeCourse) {
+            $course->group = $group;
+            $course->save();
+        }
     }
 
     /**
      * Set the courses session.
      *
-     * @param array  $request
+     * @param array $request
+     * @return void
      */
     public static function setSession($request)
     {
         if (array_key_exists('courses', $request)) {
             session(['courses' => json_encode(self::getGroupsAndCourses($request['courses']))]);
-        }
-        else {
-            session(['courses' => "" ]);
+        } else {
+            session(['courses' => ""]);
         }
     }
-    
+
     /**
      * Set the courses session.
      *
-     * @param array  $request
+     * @param array $request
      * @return array
      */
     public static function getGroupsAndCourses($request)
     {
-        $courses = [ 'groups' => [], 'codes' => []];
-        foreach($request as $code) {
+        $courses = ['groups' => [], 'codes' => []];
+        foreach ($request as $code) {
             if ($course = self::findByCode($code)) {
                 $courses['codes'][] = $code;
                 if ($course->group) {
-                   $courses['groups'][] = $course->group;
-               }
+                    $courses['groups'][] = $course->group;
+                }
             }
         }
         return $courses;
-    } 
+    }
 
     /**
      * Get the courses session.
@@ -155,6 +164,11 @@ class HomeCourse extends Model
      */
     public static function getSession()
     {
-        return json_decode(session('courses'), true);
+        $courses = session('courses');
+        if (is_string($courses)) {
+            $decodedCourses = json_decode($courses, true);
+            return is_array($decodedCourses) ? $decodedCourses : [];
+        }
+        return [];
     }
 }

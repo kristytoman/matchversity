@@ -2,8 +2,6 @@
 
 namespace App\Models\Validation;
 
-use App\Models\Validation\DataValidator;
-
 class YearValidator extends DataValidator
 {
     /**
@@ -23,12 +21,13 @@ class YearValidator extends DataValidator
     /**
      * Create new instance for year input validation.
      *
-     * @param string  $data
-     * @param ArrivalValidator  $arrival
-     * @param SemesterValidator  $semester
+     * @param string $data
+     * @param ArrivalValidator $arrival
+     * @param SemesterValidator $semester
      */
     public function __construct($data, $arrival, $semester)
     {
+        parent::__construct($data);
         $this->data = $data;
         $this->arrival = $arrival;
         $this->semester = $semester;
@@ -46,10 +45,10 @@ class YearValidator extends DataValidator
         }
         if ($this->arrival->isValid && $this->semester->isValid) {
             $year = $this->arrival->getYear();
-            if (($this->semester === "ZS") && ($year != $this->data)) {
+            if (($this->semester->data === "ZS") && ($year != $this->data)) {
                 return $this->result("The year doesn't correspond to arrival.");
             }
-            if ($this->semester === "LS")  {
+            if ($this->semester->data === "LS") {
                 if ($year != $this->data) {
                     return $this->result("The year doesn't correspond to arrival.");
                 }

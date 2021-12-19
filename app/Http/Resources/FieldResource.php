@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources;
 
-class FieldResource 
+class FieldResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  array  $request
+     * @param array $request
      * @return array
      */
     public static function toArray($request)
@@ -17,7 +17,7 @@ class FieldResource
             'title' => $request['nazev'],
             'lang' => $request['jazyk'],
             'from' => $request['platnyOd'],
-            'type' =>  self::getType($request['typ']),
+            'type' => self::getType($request['typ']),
             'form' => $request['forma'] == 'Prezenční'
         ];
     }
@@ -25,7 +25,7 @@ class FieldResource
     /**
      * Transform the resource into an array.
      *
-     * @param  array  $request
+     * @param array $request
      * @return array
      */
     public static function fromCourseToArray($request)
@@ -41,20 +41,16 @@ class FieldResource
     /**
      * Get the type of degree of the field.
      *
-     * @param  string  $type
-     * @return array
+     * @param string $type
+     * @return int
      */
-    public static function getType($type)
+    public static function getType($type): int
     {
-        switch ($type) {
-            case 'Bakalářský':
-                return 1;
-            case 'Magisterský':
-                return 2;
-            case 'Navazující':
-                return 3;
-            default:
-                return 0;
-        }
+        return match ($type) {
+            'Bakalářský' => 1,
+            'Magisterský' => 2,
+            'Navazující' => 3,
+            default => 0,
+        };
     }
 }

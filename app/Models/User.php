@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use DateTime;
@@ -15,21 +17,22 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var string[]
      */
     protected $fillable = ['utbID'];
 
     /**
      * The relationships that should always be loaded.
      *
-     * @var array
+     * @var string[]
      */
     protected $with = ['mobilities'];
 
     /**
      * Get mobilities of the university.
+     * @return HasMany
      */
-    public function mobilities()
+    public function mobilities(): HasMany
     {
         return $this->hasMany(Mobility::class);
     }
@@ -37,10 +40,10 @@ class User extends Authenticatable
     /**
      * Return student's mobilities.
      *
-     * @param string  $id
-     * @return array
+     * @param string $id
+     * @return Collection
      */
-    public static function getStudentsMobilities($id)
+    public static function getStudentsMobilities(string $id)
     {
         return Mobility::where('user_id', 353)->get(); //TODO
     }
@@ -48,7 +51,7 @@ class User extends Authenticatable
     /**
      * Create or find an instance of University location in the database.
      *
-     * @param string  $utbID
+     * @param string $utbID
      * @return User
      */
     public static function getByUtbID($utbID)
@@ -60,29 +63,30 @@ class User extends Authenticatable
 
     /**
      * Check if there's another mobility at the same time.
-     * 
-     * @param string  $id
-     * @param string  $from
-     * @param string  $to
-     * 
+     *
+     * @param string $id
+     * @param string $arrival
+     * @param string $to
+     *
      * @return bool
      */
     public static function hasUniqueMobility($id, $arrival, $to)
     {
         if (self::getPreviousMobility($id, $arrival, $to)) {
             return false;
-        } 
+        }
         return true;
     }
 
     /**
      * Return student's mobility at the same time.
-     * 
-     * @param string  $id
-     * @param string  $from
-     * @param string  $to
-     * 
+     *
+     * @param string $id
+     * @param string $arrival
+     * @param string $to
+     *
      * @return Mobility|null
+     * @throws \Exception
      */
     public static function getPreviousMobility($id, $arrival, $to)
     {
@@ -93,11 +97,11 @@ class User extends Authenticatable
             $to->add(new DateInterval('P6M'));
         }
         foreach ($user->mobilities as $mobility) {
-            
+
             if (($mobility->arrival <= $from && $mobility->departure >= $from) ||
                 ($mobility->arrival <= $to && $mobility->departure >= $to)) {
-                    return $mobility;
-                }
+                return $mobility;
+            }
         }
         return null;
     }

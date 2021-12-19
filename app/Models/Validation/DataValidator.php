@@ -2,14 +2,12 @@
 
 namespace App\Models\Validation;
 
-use Illuminate\Database\Eloquent\Model;
-
 abstract class DataValidator
 {
     /**
      * The input data to validate.
      *
-     * @var string
+     * @var string|null
      */
     public $data;
 
@@ -30,23 +28,25 @@ abstract class DataValidator
     /**
      * Create new instance for DataValidator.
      *
-     * @param string  $data
+     * @param string|null $data
      */
-    public function __construct($data)
+    public function __construct($data = null)
     {
-        $this->data = $data;
+        if (isset($data)) {
+            $this->data = $data;
+        }
     }
 
     /**
      * Abstract method to validate the data.
-     *
+     * @return bool
      */
     abstract public function validate();
 
     /**
      * Set the error message of the input data.
      *
-     * @param string  $message
+     * @param string $message
      * @return bool
      */
     public function result($message)

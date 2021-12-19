@@ -2,8 +2,7 @@
 
 namespace App\Models\Validation;
 
-use App\Models\Validation\DataValidator;
-use ImportColumns;
+use App\Constants\ImportColumns;
 
 class PairingValidator extends DataValidator
 {
@@ -21,42 +20,34 @@ class PairingValidator extends DataValidator
      */
     public $foreignCourse;
 
-    /**
-     * Create instance of PairingValidator.
-     *
-     * @return PairingValidator
-     */
-    public function __construct() { }
 
     /**
      * Initialize validator from file input.
      *
-     * @param string  $data
-     * @param array  $data
-     * @param YearValidator  $year
+     * @param string $course
+     * @param array $data
+     * @param YearValidator $year
      * @return PairingValidator
      */
-    public static function fromFile($course, $data, $year)
+    public static function fromFile(string $course, array $data, YearValidator $year): PairingValidator
     {
-        $toSave = new PairingValidator;
+        $toSave = new PairingValidator($data[ImportColumns::PAIRING_TYPE]);
         $toSave->homeCourse = HomeCourseValidator::fromFile($course, $year);
         $toSave->foreignCourse = new ForeignCourseValidator($data[ImportColumns::FOREIGN_COURSE]);
-        $toSave->data = $data[ImportColumns::PAIRING_TYPE];
         return $toSave;
     }
 
     /**
      * Initialize validator from form input.
      *
-     * @param array  $pairing
+     * @param array $pairing
      * @return PairingValidator
      */
     public static function fromForm($pairing)
     {
-        $toSave = new PairingValidator;
+        $toSave = new PairingValidator($pairing['type']);
         $toSave->homeCourse = HomeCourseValidator::fromForm($pairing['homeCourse']);
         $toSave->foreignCourse = new ForeignCourseValidator($pairing['foreignCourse']);
-        $toSave->data = $pairing['type'];
         return $toSave;
     }
 
@@ -76,12 +67,11 @@ class PairingValidator extends DataValidator
      *
      * @return bool
      */
-     private function validateType()
+    private function validateType()
     {
         if (($this->data === "Přidaný") || ($this->data === "Normální") || ($this->data === "Smazaný")) {
             return $this->result("");
-        }
-        else {
+        } else {
             return $this->result("Wrong pairing type. Accepting 'Přidaný' or 'Normální' or 'Smazaný'.");
         }
     }

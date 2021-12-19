@@ -2,10 +2,9 @@
 
 namespace App\Models\Validation;
 
-use Illuminate\Database\Eloquent\Model;
-use ImportColumns;
+use App\Constants\ImportColumns;
 
-class MobilityValidator
+class MobilityValidator extends DataValidator
 {
     /**
      * The validator for the student ID input.
@@ -52,14 +51,14 @@ class MobilityValidator
     /**
      * The validator for the university city input.
      *
-     * @var CityValidator
+     * @var string
      */
     public $city;
 
     /**
      * The validator for the mobility pairings input.
      *
-     * @var PairingsValidator
+     * @var array
      */
     public $pairings;
 
@@ -73,28 +72,28 @@ class MobilityValidator
     /**
      * Initialize validator from file input.
      *
-     * @param array  $data
+     * @param array $data
      * @return MobilityValidator
      */
     public static function fromFile($data)
     {
-        $new = new MobilityValidator;
+        $new = new MobilityValidator("");
         $new->arrival = new ArrivalValidator($data[ImportColumns::START]);
         $new->departure = new DepartureValidator($data[ImportColumns::END], $new->arrival->data);
         $new->student = new StudentValidator($data[ImportColumns::STUDENT_ID], $new->arrival, $new->departure);
-            $new->semester = new SemesterValidator($data[ImportColumns::SEMESTER], $new->arrival);
-            $new->year = new YearValidator($data[ImportColumns::YEAR], $new->arrival, $new->semester);
-            $new->university = new UniversityValidator($data[ImportColumns::UNIVERSITY]);
-            $new->city = $data[ImportColumns::CITY];
-            $new->pairings = [];
-            $new->addPairing($data);
+        $new->semester = new SemesterValidator($data[ImportColumns::SEMESTER], $new->arrival);
+        $new->year = new YearValidator($data[ImportColumns::YEAR], $new->arrival, $new->semester);
+        $new->university = new UniversityValidator($data[ImportColumns::UNIVERSITY]);
+        $new->city = $data[ImportColumns::CITY];
+        $new->pairings = [];
+        $new->addPairing($data);
         return $new;
     }
 
     /**
      * Return courses from the input data.
      *
-     * @param string  $courses
+     * @param string $courses
      * @return array
      */
     public static function getCourses($courses)
@@ -105,7 +104,8 @@ class MobilityValidator
     /**
      * Add pairing data to the mobility.
      *
-     * @param array  $data
+     * @param array $data
+     * @return void
      */
     public function addPairing($data)
     {
@@ -130,7 +130,7 @@ class MobilityValidator
     /**
      * Returns results of validated mobility data.
      *
-     * @return bool
+     * @return array
      */
     private function getValidatedData()
     {
@@ -151,7 +151,7 @@ class MobilityValidator
     /**
      * Initialize validator from form input.
      *
-     * @param array  $form
+     * @param array $form
      * @return array
      */
     public static function fromForm($form)
@@ -166,12 +166,12 @@ class MobilityValidator
     /**
      * Initialize validator from form input.
      *
-     * @param array  $mobility
+     * @param array $mobility
      * @return MobilityValidator
      */
     public static function createFromForm($mobility)
     {
-        $toSave = new MobilityValidator;
+        $toSave = new MobilityValidator("");
         $toSave->arrival = new ArrivalValidator($mobility['arrival']);
         $toSave->departure = new DepartureValidator($mobility['departure'], $toSave->arrival->data);
         $toSave->student = new StudentValidator($mobility['student'], $toSave->arrival, $toSave->departure);
@@ -186,9 +186,10 @@ class MobilityValidator
     /**
      * Add form pairings to the validator.
      *
-     * @param array  $pairings
+     * @param array $pairings
+     * @return void
      */
-    public function addFormPairings($pairings)
+    public function addFormPairings(array $pairings)
     {
         $this->pairings = [];
         foreach ($pairings as $pairing) {

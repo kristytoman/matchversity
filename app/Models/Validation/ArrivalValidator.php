@@ -2,8 +2,8 @@
 
 namespace App\Models\Validation;
 
-use App\Models\Validation\DataValidator;
 use DateTime;
+use Exception;
 
 class ArrivalValidator extends DataValidator
 {
@@ -11,17 +11,19 @@ class ArrivalValidator extends DataValidator
      * Get the month of the arrival.
      *
      * @return int
+     * @throws Exception
      */
     public function getMonth()
     {
         $date = new DateTime($this->data);
-        return $date->format('n');
+        return (int)$date->format('n');
     }
 
     /**
      * Get the year of the arrival.
      *
-     * @return int
+     * @return string
+     * @throws Exception
      */
     public function getYear()
     {
